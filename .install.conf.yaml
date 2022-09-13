@@ -1,0 +1,47 @@
+- defaults:
+    link:
+      create: true
+      relink: true
+
+- clean: ['~', '~/.config']
+
+- link:
+    ~/.bash:
+    ~/.bash_profile:
+    ~/.bashrc:
+    ~/.config/nvim:
+      path: nvim
+      force: true
+    ~/.config/alacritty:
+      path: alacritty      
+      force: true
+    ~/.config/karabiner:
+      path: karabiner
+      force: true
+    ~/.config/starship.toml: starship.toml 
+    ~/.emacs.d:
+    ~/.emacs:
+    ~/.gitconfig:
+    ~/.gitignore_global:
+    ~/.gnupg/gpg.conf:
+    ~/.shell:
+    ~/.tmux.conf:
+    ~/.vim:
+    ~/.vimrc:
+    ~/.zsh:
+    ~/.zshrc:
+    ~/.zprofile:
+
+- create:
+
+
+- shell:
+  - git submodule sync --recursive
+  # the following have to run after linking ~/.gitconfig
+  - git update-submodules
+  - >
+    git cleanall -f
+    emacs.d/
+    shell/plugins/
+    vim/pack/vendor/start/
+    zsh/plugins/
