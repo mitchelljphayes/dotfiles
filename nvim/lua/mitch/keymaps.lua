@@ -44,7 +44,7 @@ keymap("n", "<A-j>", "<Esc>:m .+1<CR>=gi", opts)
 keymap("n", "<leader>e", ":Lex 30<cr>", opts)
 
 -- Comment
-keymap("n", "<leader>/", "<cmd>lua require('Comment').toggle()<CR>", opts)
+keymap("n", "<leader>/", "<cmd>lua require('Comment.api').toggle.linewise.current()<CR>", opts)
 keymap("v", "<leader>/", ":lua require(\"Comment.api\").gc(vim.fn.visualmode())<cr>", opts)
 
 
