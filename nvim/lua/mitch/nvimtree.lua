@@ -16,7 +16,7 @@ local tree_cb = nvim_tree_config.nvim_tree_callback
 nvim_tree.setup {
   auto_reload_on_write = true,
   create_in_closed_folder = false,
-  disable_netrw = true,
+  disable_netrw = false,
   hijack_netrw = true,
   hijack_cursor = false,
   hijack_unnamed_buffer_when_opening = false,
@@ -97,13 +97,16 @@ nvim_tree.setup {
       glyphs = {
         default = "",
         symlink = "",
-        bookmark = "b",
+        bookmark = "",
         folder = {
+          arrow_closed = "",
+          arrow_open = "",
           default = "",
           open = "",
           empty = "",
           empty_open = "",
           symlink = "",
+          symlink_open = "",
         },
         git = {
           unstaged = "",
@@ -124,7 +127,7 @@ nvim_tree.setup {
     auto_open = true,
   },
   update_focused_file = {
-    enable = true,
+    enable = false,
     update_root = false,
     update_cwd = true,
     ignore_list = {},
@@ -149,11 +152,11 @@ nvim_tree.setup {
       error = "",
     },
   },
-  filters = {
-    dotfiles = false,
-    custom = {},
-    exclude = {},
-  },
+  --[[ filters = { ]]
+  --[[   dotfiles = false, ]]
+  --[[   custom = {}, ]]
+  --[[   exclude = {}, ]]
+  --[[ }, ]]
   filesystem_watchers = {
     enable = true,
     debounce_delay = 50,
@@ -186,7 +189,7 @@ nvim_tree.setup {
     },
     open_file = {
       quit_on_open = false,
-      resize_window = false,
+      resize_window = true,
       window_picker = {
         enable = true,
         chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
@@ -204,10 +207,10 @@ nvim_tree.setup {
     cmd = "gio trash",
     require_confirm = true,
   },
-  live_filter = {
-    prefix = '[FILTER]: ',
-    always_show_folders = true,
-  },
+  --[[ live_filter = { ]]
+    --[[ prefix = '[FILTER]: ', ]]
+    --[[ always_show_folders = true, ]]
+  --[[ }, ]]
   log = {
     enable = false,
     truncate = false,
