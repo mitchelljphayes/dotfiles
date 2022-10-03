@@ -6,7 +6,6 @@
 *.o
 *.so
 *.pyc
-*.rs
 
 # Editing tools and IDEs #
 ##########################

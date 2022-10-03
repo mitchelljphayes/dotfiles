@@ -13,7 +13,7 @@ end
 
 local tree_cb = nvim_tree_config.nvim_tree_callback
 
-nvim_tree.setup {
+nvim_tree.setup  {
   auto_reload_on_write = true,
   create_in_closed_folder = false,
   disable_netrw = false,
@@ -152,11 +152,11 @@ nvim_tree.setup {
       error = "",
     },
   },
-  --[[ filters = { ]]
-  --[[   dotfiles = false, ]]
-  --[[   custom = {}, ]]
-  --[[   exclude = {}, ]]
-  --[[ }, ]]
+  filters = {
+    dotfiles = false,
+    custom = {},
+    exclude = {},
+  },
   filesystem_watchers = {
     enable = true,
     debounce_delay = 50,
@@ -207,10 +207,10 @@ nvim_tree.setup {
     cmd = "gio trash",
     require_confirm = true,
   },
-  --[[ live_filter = { ]]
-    --[[ prefix = '[FILTER]: ', ]]
-    --[[ always_show_folders = true, ]]
-  --[[ }, ]]
+  live_filter = {
+    prefix = '[FILTER]: ',
+    always_show_folders = true,
+  },
   log = {
     enable = false,
     truncate = false,

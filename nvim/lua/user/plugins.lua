@@ -44,7 +44,7 @@ return packer.startup(function(use)
     use "windwp/nvim-autopairs" -- Autopairs, integrates with both cmp and treesitter
     use "numToStr/Comment.nvim" -- Easily comment stuff
     use 'kyazdani42/nvim-web-devicons'
-    use 'kyazdani42/nvim-tree.lua'
+    use {'kyazdani42/nvim-tree.lua', tag = 'nightly', requires = {'kyazdani42/nvim-web-devicons'}}
     use {"akinsho/bufferline.nvim", tag = "v2.*", requires = 'kyazdani42/nvim-web-devicons'}
     use {"akinsho/toggleterm.nvim", tag = "*"}
     use "moll/vim-bbye"
@@ -64,6 +64,9 @@ return packer.startup(function(use)
     use "lunarvim/colorschemes"
     use {"ellisonleao/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}}
 
+    -- Note Taking
+    use "mickael-menu/zk-nvim"
+
     -- cmp plugins
     use "hrsh7th/nvim-cmp" -- The completion plugin
     use "hrsh7th/cmp-buffer" -- buffer completions
@@ -71,15 +74,37 @@ return packer.startup(function(use)
     use "hrsh7th/cmp-cmdline" -- cmdline completions
     use "saadparwaiz1/cmp_luasnip" -- snippet completions
     use "hrsh7th/cmp-nvim-lsp"
+    use "zbirenbaum/copilot-cmp"
 
     -- snippets
     use "L3MON4D3/LuaSnip" --snippet engine
     use "rafamadriz/friendly-snippets" -- a bunch of snippets to use
 
     -- LSP
+    use "williamboman/mason.nvim"
+    use "williamboman/mason-lspconfig.nvim"
     use "neovim/nvim-lspconfig" -- enable LSP
-    use "williamboman/nvim-lsp-installer" -- language server installer
     use "jose-elias-alvarez/null-ls.nvim" -- for formatters and linters
+
+    use "ray-x/lsp_signature.nvim"
+    use "SmiteshP/nvim-navic"
+    use "simrat39/symbols-outline.nvim"
+    use "b0o/SchemaStore.nvim"
+    -- use "github/copilot.vim"
+    use {
+      "zbirenbaum/copilot.lua",
+      event = { "VimEnter" },
+      config = function()
+        vim.defer_fn(function()
+          require "user.copilot"
+        end, 100)
+      end,
+    }
+    use 'simrat39/rust-tools.nvim'
+    use "RRethy/vim-illuminate"
+    use "j-hui/fidget.nvim"
+    use "simrat39/inlay-hints.nvim"
+    use "https://git.sr.ht/~whynothugo/lsp_lines.nvim"
 
     -- Treesitter
     use {
