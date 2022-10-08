@@ -90,21 +90,21 @@ return packer.startup(function(use)
     use "SmiteshP/nvim-navic"
     use "simrat39/symbols-outline.nvim"
     use "b0o/SchemaStore.nvim"
-    -- use "github/copilot.vim"
-    use {
-      "zbirenbaum/copilot.lua",
-      event = { "VimEnter" },
-      config = function()
-        vim.defer_fn(function()
-          require "user.copilot"
-        end, 100)
-      end,
-    }
     use 'simrat39/rust-tools.nvim'
     use "RRethy/vim-illuminate"
     use "j-hui/fidget.nvim"
     use "simrat39/inlay-hints.nvim"
     use "https://git.sr.ht/~whynothugo/lsp_lines.nvim"
+
+    -- copilot config
+    use "github/copilot.vim"
+    use {
+      "zbirenbaum/copilot-cmp",
+      after = { "user.copilot" },
+      config = function ()
+        require("copilot_cmp").setup()
+      end
+    }
 
     -- Treesitter
     use {

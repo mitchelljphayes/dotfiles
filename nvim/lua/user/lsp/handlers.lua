@@ -24,19 +24,18 @@ M.setup = function()
   end
 
   local config = {
-    -- disable virtual text
-    virtual_lines = true,
-    virtual_text = false,
-    --[[ virtual_text = { ]]
-    --[[   spacing = 7, ]]
-    --[[   update_in_insert = false, ]]
-    --[[   severity_sort = true, ]]
-    --[[   prefix = "●", ]]
-    --[[   source = "if_many", -- Or "always" ]]
-    --[[   format = function(diag) ]]
-    --[[     return diag.message ]]
-    --[[   end, ]]
-    --[[ }, ]]
+    virtual_lines = false,
+    virtual_text = true,
+    virtual_text = {
+      spacing = 7,
+      update_in_insert = false,
+      severity_sort = true,
+      prefix = "<<",
+      source = "if_many", -- Or "always"
+      format = function(diag)
+        return diag.message
+      end,
+    },
 
     -- show signs
     signs = {
@@ -61,13 +60,13 @@ M.setup = function()
 
   vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
     border = "rounded",
-    -- width = 60,
+     width = 60,
     -- height = 30,
   })
 
   vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
     border = "rounded",
-    -- width = 60,
+     width = 60,
     -- height = 30,
   })
 end
