@@ -62,6 +62,8 @@ return packer.startup(function(use)
 
     -- Colorschemes
     use "lunarvim/colorschemes"
+    use "sainnhe/everforest"
+    use "Shatur/neovim-ayu"
     use {"ellisonleao/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}}
 
     -- Note Taking
