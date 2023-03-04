@@ -89,6 +89,7 @@
 	keepBackup = false
 
 [push]
+  autoSetupRemote = true
 	default = upstream
 
 [credential]

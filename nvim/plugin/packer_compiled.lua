@@ -179,6 +179,11 @@ _G.packer_plugins = {
     path = "/Users/mjp/.local/share/nvim/site/pack/packer/start/gitsigns.nvim",
     url = "https://github.com/lewis6991/gitsigns.nvim"
   },
+  ["goyo.vim"] = {
+    loaded = true,
+    path = "/Users/mjp/.local/share/nvim/site/pack/packer/start/goyo.vim",
+    url = "https://github.com/junegunn/goyo.vim"
+  },
   ["gruvbox.nvim"] = {
     loaded = true,
     path = "/Users/mjp/.local/share/nvim/site/pack/packer/start/gruvbox.nvim",
@@ -198,6 +203,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/mjp/.local/share/nvim/site/pack/packer/start/inlay-hints.nvim",
     url = "https://github.com/simrat39/inlay-hints.nvim"
+  },
+  ["limelight.vim"] = {
+    loaded = true,
+    path = "/Users/mjp/.local/share/nvim/site/pack/packer/start/limelight.vim",
+    url = "https://github.com/junegunn/limelight.vim"
   },
   ["lsp_lines.nvim"] = {
     loaded = true,

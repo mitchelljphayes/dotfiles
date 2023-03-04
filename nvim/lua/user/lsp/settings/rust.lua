@@ -160,6 +160,18 @@ return {
         "x11",
       },
     },
+    server = {
+      settings = {
+        ["rust-analyzer"] = {
+          checkOnSave = {
+            command = "clippy",
+          },
+          procMacro = {
+            enable = false,
+          },
+        },
+      },
+    }
   },
   -- all the opts to send to nvim-lspconfig
   -- these override the defaults set by rust-tools.nvim
