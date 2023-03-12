@@ -1,0 +1,82 @@
+{
+  "editor.suggestSelection": "first",
+  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+  "files.exclude": {
+    "**/.classpath": true,
+    "**/.project": true,
+    "**/.settings": true,
+    "**/.factorypath": true
+  },
+  "git.autofetch": true,
+  "sonarlint.rules": {
+    "java:S107": {
+      "level": "off"
+    },
+    "python:S125": {
+      "level": "off"
+    }
+  },
+  "terminal.integrated.tabs.enabled": true,
+  "redhat.telemetry.enabled": true,
+  "java.configuration.runtimes": [
+    {
+      "name": "JavaSE-1.8",
+      "path": "/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home"
+    },
+    {
+      "name": "JavaSE-16",
+      "path": "/Library/Java/JavaVirtualMachines/adoptopenjdk-16.jdk/Contents/Home",
+      "default": true
+    }
+  ],
+  "java.home": "/Library/Java/JavaVirtualMachines/adoptopenjdk-16.jdk/Contents/Home",
+  "editor.fontFamily": "Fira Code, Menlo, Monaco, 'Courier New', monospace",
+  "editor.fontLigatures": true,
+  "editor.fontSize": 14,
+  "git.confirmSync": false,
+  "workbench.editorAssociations": {
+    "*.ipynb": "jupyter-notebook",
+    "*.pdf": "latex-workshop-pdf-hook"
+  },
+  "notebook.cellToolbarLocation": {
+    "default": "right",
+    "jupyter-notebook": "right"
+  },
+  "terminal.integrated.defaultProfile.osx": "zsh",
+  "[sql]": {
+    "editor.defaultFormatter": "mtxr.sqltools"
+  },
+  "workbench.colorTheme": "Ayu Mirage Bordered",
+  "diffEditor.codeLens": true,
+  "workbench.preferredDarkColorTheme": "Gruvbox Dark Hard",
+  "workbench.preferredHighContrastColorTheme": "Gruvbox Dark Hard",
+  "workbench.editor.closeOnFileDelete": true,
+  "zenMode.hideLineNumbers": false,
+  "liveServer.settings.donotShowInfoMsg": true,
+  "files.autoSave": "onFocusChange",
+  "bracketPairColorizer.depreciation-notice": false,
+  "files.associations": {
+    "*.pl": "prolog"
+  },
+  "tabnine.experimentalAutoImports": true,
+  "notebook.lineNumbers": "on",
+  "breadcrumbs.enabled": false,
+  "editor.inlineSuggest.enabled": true,
+  "github.copilot.enable": {
+    "*": true,
+    "yaml": false,
+    "plaintext": false,
+    "markdown": true,
+    "rust": true
+  },
+  "gruvboxMaterial.darkContrast": "hard",
+  "gruvboxMaterial.darkWorkbench": "flat",
+  "gruvboxMaterial.highContrast": true,
+  "editor.mouseWheelScrollSensitivity": 0.1,
+  "editor.guides.bracketPairs": true,
+  "workbench.startupEditor": "none",
+  "[python]": {
+    "editor.formatOnType": true
+  },
+  "git.openRepositoryInParentFolders": "always"
+}
