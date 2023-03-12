@@ -6,12 +6,6 @@ source ~/.shell/functions.sh
 if [ -f ~/.shell_local_before ]; then
     source ~/.shell_local_before
 fi
-
-# Allow local customizations in the ~/.zshrc_local_before file
-if [ -f ~/.zshrc_local_before ]; then
-    source ~/.zshrc_local_before
-fi
-
 # External plugins (initialized before)
 source ~/.zsh/plugins_before.zsh
 
@@ -28,7 +22,11 @@ source ~/.shell/external.sh
 source ~/.shell/aliases.sh
 
 # Custom prompt
-source ~/.zsh/prompt.zsh
+if [ -f ~/.config/starship.toml ]; then
+    eval "$(starship init zsh)"
+else
+    source ~/.zsh/prompt.zsh
+fi
 
 # External plugins (initialized after)
 source ~/.zsh/plugins_after.zsh
@@ -43,6 +41,4 @@ if [ -f ~/.zshrc_local_after ]; then
     source ~/.zshrc_local_after
 fi
 
-fpath+=~/.zfunc
-autoload -Uz compinit && compinit
-source /Users/mjp/.config/op/plugins.sh
+

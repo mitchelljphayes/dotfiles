@@ -3,6 +3,15 @@
 alias grep='grep --color'
 
 # ls aliases
+if [ -f exa ]; then
+    alias ls='exa'
+    alias ll='exa -l'
+    alias la='exa -la'
+else
+    alias ls='ls --color=auto'
+    alias ll='ls -l'
+    alias la='ls -la'
+fi
 alias ls='exa'
 alias ll='exa -lah'
 alias la='exa -a'
@@ -149,3 +158,5 @@ alias mirrorsite='wget -m -k -K -E -e robots=off'
 
 # Mirror stdout to stderr, useful for seeing data going through a pipe
 alias peek='tee >(cat 1>&2)'
+
+alias dc='docker-compose'
