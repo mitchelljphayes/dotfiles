@@ -12,6 +12,10 @@
     ~/.config/nvim:
       path: nvim
       force: true
+    ~/Library/Application\ Support/Code/User: 
+      if: '[ `uname` = Darwin ]'
+      path: vscode
+      force: true
     ~/.config/alacritty:
       path: alacritty      
       force: true
@@ -19,21 +23,21 @@
       path: karabiner
       force: true
     ~/.config/starship.toml: starship.toml 
-    ~/.emacs.d:
-    ~/.emacs:
     ~/.gitconfig:
     ~/.gitignore_global:
     ~/.gnupg/gpg.conf:
     ~/.shell:
     ~/.tmux.conf:
-    ~/.vim:
+    ~/.terminfo.src:
+    ~/.tmux-256color.src:
     ~/.vimrc:
     ~/.zsh:
     ~/.zshrc:
     ~/.zprofile:
-
-- create:
-
+    ~/.ssh/config: 
+      path: ssh/config
+    ~/.ssh/known_hosts:
+      path: ssh/known_hosts
 
 - shell:
   - git submodule sync --recursive
