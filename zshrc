@@ -1,3 +1,4 @@
+
 # Functions
 source ~/.shell/functions.sh
 
@@ -42,4 +43,6 @@ if [ -f ~/.zshrc_local_after ]; then
     source ~/.zshrc_local_after
 fi
 
-
+fpath+=~/.zfunc
+autoload -Uz compinit && compinit
+source /Users/mjp/.config/op/plugins.sh

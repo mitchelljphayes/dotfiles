@@ -1,0 +1,28 @@
+#!/bin/bash
+
+AWS_MFA_SERIAL_NUM="arn:aws:iam::123564074355:mfa/mitchell.hayes@ordermentum.com"
+
+aws-login () {
+  echo Enter MFA Token
+  read MFA_TOKEN
+
+  AWS_PROFILE=default
+
+  VALUE=$(aws sts get-session-token \
+    --duration-seconds 129600 \
+    --serial-number $AWS_MFA_SERIAL_NUM \
+    --token-code $MFA_TOKEN \
+    --output json) || return
+  
+  ACCESS_KEY=$(python3 -c "import sys, json; print(json.loads(''.join(sys.argv[1:]))['Credentials']['AccessKeyId'])" $VALUE)
+  SECRET_ACCESS_KEY=$(python3 -c "import sys, json; print(json.loads(''.join(sys.argv[1:]))['Credentials']['SecretAccessKey'])" $VALUE)
+  SESSION_TOKEN=$(python3 -c "import sys, json; print(json.loads(''.join(sys.argv[1:]))['Credentials']['SessionToken'])" $VALUE)
+
+  aws configure set aws_access_key_id $ACCESS_KEY --profile token
+  aws configure set aws_secret_access_key $SECRET_ACCESS_KEY --profile token
+  aws configure set aws_session_token $SESSION_TOKEN --profile token
+
+  export AWS_PROFILE=token
+}
+
+aws-login
