@@ -41,7 +41,6 @@
   - git update-submodules
   - >
     git cleanall -f
-    emacs.d/
     shell/plugins/
     vim/pack/vendor/start/
     zsh/plugins/
