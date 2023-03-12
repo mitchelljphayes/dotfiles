@@ -24,7 +24,13 @@ source ~/.shell/external.sh
 source ~/.shell/aliases.sh
 
 # Custom prompt
-source ~/.bash/prompt.bash
+if [ -f ~/.config/starship.toml ]; then
+  eval "$(starship init bash)"
+else
+  source ~/.bash/prompt.bash
+fi
+
+
 
 # Plugins
 source ~/.bash/plugins.bash
