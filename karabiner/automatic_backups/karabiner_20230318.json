@@ -335,7 +335,7 @@
                     "ignore": false,
                     "manipulate_caps_lock_led": true,
                     "simple_modifications": [],
-                    "treat_as_built_in_keyboard": false
+                    "treat_as_built_in_keyboard": true
                 }
             ],
             "fn_function_keys": [
