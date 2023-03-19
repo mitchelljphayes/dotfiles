@@ -9,13 +9,9 @@ if [ -f exa ]; then
     alias la='exa -la'
 else
     alias ls='ls --color=auto'
-    alias ll='ls -l'
+    alias ll='ls -lah'
     alias la='ls -la'
 fi
-alias ls='exa'
-alias ll='exa -lah'
-alias la='exa -a'
-alias l='exa'
 
 # Aliases to protect against overwriting
 alias cp='cp -i'
