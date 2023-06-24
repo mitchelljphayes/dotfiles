@@ -5,7 +5,6 @@ tap "homebrew/cask"
 tap "homebrew/cask-fonts"
 tap "homebrew/core"
 tap "homebrew/services"
-tap "stripe/stripe-cli"
 tap "surrealdb/tap"
 brew "python@3.11"
 brew "awscli"
@@ -26,7 +25,6 @@ brew "gdk-pixbuf"
 brew "gh"
 brew "little-cms2"
 brew "gnupg"
-brew "python@3.10"
 brew "gobject-introspection"
 brew "gradle"
 brew "guile"
@@ -54,7 +52,6 @@ brew "tmux"
 brew "overmind"
 brew "pandoc"
 brew "pipx"
-brew "postgresql@13"
 brew "postgresql@14"
 brew "starship"
 brew "swi-prolog"
@@ -70,7 +67,6 @@ brew "zsh-syntax-highlighting"
 brew "stripe/stripe-cli/stripe"
 brew "surrealdb/tap/surreal"
 cask "1password-cli"
-cask "adoptopenjdk8"
 cask "dbeaver-community"
 cask "dozer"
 cask "font-fira-code"
@@ -83,13 +79,10 @@ cask "postico"
 cask "postman"
 cask "vlc"
 cask "vscodium"
-mas "Calendars", id: 608834326
+cask "visual-studio-code"
 mas "ColorSlurp", id: 1287239339
-mas "Craft", id: 1487937127
 mas "Dropzone 4", id: 1485052491
-mas "GarageBand", id: 682658836
 mas "Grammarly for Safari", id: 1462114288
-mas "iMovie", id: 408981434
 mas "Messenger", id: 1480068668
 mas "Microsoft Excel", id: 462058435
 mas "Microsoft PowerPoint", id: 462062816
