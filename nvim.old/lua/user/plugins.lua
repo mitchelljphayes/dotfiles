@@ -57,8 +57,8 @@ return packer.startup(function(use)
     use "folke/which-key.nvim"
 
     -- markdown
-  use "junegunn/goyo.vim"
-  use "junegunn/limelight.vim"
+    use "junegunn/goyo.vim"
+    use "junegunn/limelight.vim"
 
     -- Telescope
     use "nvim-telescope/telescope.nvim"
