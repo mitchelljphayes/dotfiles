@@ -84,7 +84,7 @@ require('lazy').setup({
 
       -- Useful status updates for LSP
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-      { 'j-hui/fidget.nvim', tag = 'legacy', opts = {} },
+      { 'j-hui/fidget.nvim',       tag = 'legacy', opts = {} },
 
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
@@ -108,7 +108,7 @@ require('lazy').setup({
   },
 
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim', opts = {} },
+  { 'folke/which-key.nvim',          opts = {} },
   {
     -- Adds git releated signs to the gutter, as well as utilities for managing changes
     'lewis6991/gitsigns.nvim',
@@ -122,7 +122,8 @@ require('lazy').setup({
         changedelete = { text = '~' },
       },
       on_attach = function(bufnr)
-        vim.keymap.set('n', '<leader>gp', require('gitsigns').prev_hunk, { buffer = bufnr, desc = '[G]o to [P]revious Hunk' })
+        vim.keymap.set('n', '<leader>gp', require('gitsigns').prev_hunk,
+          { buffer = bufnr, desc = '[G]o to [P]revious Hunk' })
         vim.keymap.set('n', '<leader>gn', require('gitsigns').next_hunk, { buffer = bufnr, desc = '[G]o to [N]ext Hunk' })
         vim.keymap.set('n', '<leader>ph', require('gitsigns').preview_hunk, { buffer = bufnr, desc = '[P]review [H]unk' })
       end,
@@ -130,11 +131,10 @@ require('lazy').setup({
   },
 
   {
-    -- Theme inspired by Atom
-    'navarasu/onedark.nvim',
+    'Shatur/neovim-ayu',
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme 'onedark'
+      vim.cmd.colorscheme 'ayu-mirage'
     end,
   },
 
@@ -145,7 +145,7 @@ require('lazy').setup({
     opts = {
       options = {
         icons_enabled = false,
-        theme = 'onedark',
+        theme = 'ayu',
         component_separators = '|',
         section_separators = '',
       },
@@ -164,7 +164,7 @@ require('lazy').setup({
   },
 
   -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim', opts = {} },
+  { 'numToStr/Comment.nvim',         opts = {} },
 
   -- Fuzzy Finder (files, lsp, etc)
   { 'nvim-telescope/telescope.nvim', branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim' } },
@@ -214,6 +214,7 @@ vim.o.hlsearch = false
 
 -- Make line numbers default
 vim.wo.number = true
+vim.o.relativenumber = true
 
 -- Enable mouse mode
 vim.o.mouse = 'a'
@@ -236,16 +237,38 @@ vim.o.smartcase = true
 -- Keep signcolumn on by default
 vim.wo.signcolumn = 'yes'
 
+vim.o.smartindent = true
+vim.o.expandtab = true
+vim.o.shiftwidth = 2
+vim.o.tabstop = 2
+
+vim.o.wrap = false
+
+-- srolloff
+vim.o.scrolloff = 8
+vim.o.sidescrolloff = 8
+
+-- window management
+vim.o.splitbelow = true
+vim.o.splitright = true
+
 -- Decrease update time
 vim.o.updatetime = 250
 vim.o.timeout = true
 vim.o.timeoutlen = 300
+
+vim.o.undofile = true
+vim.o.swapfile = false
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
 
 -- NOTE: You should make sure your terminal supports this
 vim.o.termguicolors = true
+vim.o.fileencoding = 'utf-8'
+
+-- nerdicons
+vim.g.use_nerd_icons = true
 
 -- [[ Basic Keymaps ]]
 
@@ -268,6 +291,51 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   pattern = '*',
 })
 
+-- Comment
+vim.keymap.set("n", "<leader>/", "<Plug>(comment_toggle_linewise_current)",
+  { noremap = true, silent = true })
+vim.keymap.set("v", "<leader>/", "<Plug>(comment_toggle_linewise_visual)",
+  { noremap = true, silent = true })
+
+-- Normal --
+-- Better window navigation
+vim.keymap.set("n", "<C-h>", "<C-w>h", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-j>", "<C-w>j", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-k>", "<C-w>k", { noremap = true, silent = true })
+vim.keymap.set("n", "<C-l>", "<C-w>l", { noremap = true, silent = true })
+
+-- Navigate buffers
+vim.keymap.set("n", "<S-l>", ":bnext<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<S-h>", ":bprevious<CR>", { noremap = true, silent = true })
+
+-- Move text up and down
+vim.keymap.set("n", "<A-j>", "<Esc>:m .+1<CR>=g<Esc>", { noremap = true, silent = true })
+vim.keymap.set("n", "<A-k>", "<Esc>:m .-2<CR>==g<Esc>", { noremap = true, silent = true })
+
+-- file explorer
+vim.keymap.set("n", "<leader>\\", "<cmd>Neotree toggle<cr>", { noremap = true, silent = true })
+
+-- Insert --
+-- Press jk fast to enter
+vim.keymap.set("i", "jk", "<ESC>", { noremap = true, silent = true })
+
+-- Visual --
+-- Stay in indent mode
+vim.keymap.set("v", "<", "<gv", { noremap = true, silent = true })
+vim.keymap.set("v", ">", ">gv", { noremap = true, silent = true })
+
+-- Move text up and down
+vim.keymap.set("v", "<A-j>", ":m .+1<CR>==", { noremap = true, silent = true })
+vim.keymap.set("v", "<A-k>", ":m .-2<CR>==", { noremap = true, silent = true })
+vim.keymap.set("v", "p", '"_dP', { noremap = true, silent = true })
+
+-- Visual Block --
+-- Move text up and down
+vim.keymap.set("x", "J", ":move '>+1<CR>gv-gv", { noremap = true, silent = true })
+vim.keymap.set("x", "K", ":move '<-2<CR>gv-gv", { noremap = true, silent = true })
+vim.keymap.set("x", "<A-j>", ":move '>+1<CR>gv-gv", { noremap = true, silent = true })
+vim.keymap.set("x", "<A-k>", ":move '<-2<CR>gv-gv", { noremap = true, silent = true })
+
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
 require('telescope').setup {
@@ -287,13 +355,13 @@ pcall(require('telescope').load_extension, 'fzf')
 -- See `:help telescope.builtin`
 vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
 vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
-vim.keymap.set('n', '<leader>/', function()
+vim.keymap.set('n', '<leader>.', function()
   -- You can pass additional configuration to telescope to change theme, layout, etc.
   require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
     winblend = 10,
     previewer = false,
   })
-end, { desc = '[/] Fuzzily search in current buffer' })
+end, { desc = '[.] Fuzzily search in current buffer' })
 
 vim.keymap.set('n', '<leader>gf', require('telescope.builtin').git_files, { desc = 'Search [G]it [F]iles' })
 vim.keymap.set('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
@@ -477,8 +545,8 @@ cmp.setup {
     end,
   },
   mapping = cmp.mapping.preset.insert {
-    ['<C-n>'] = cmp.mapping.select_next_item(),
-    ['<C-p>'] = cmp.mapping.select_prev_item(),
+    ['<C-j>'] = cmp.mapping.select_next_item(),
+    ['<C-k>'] = cmp.mapping.select_prev_item(),
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete {},
