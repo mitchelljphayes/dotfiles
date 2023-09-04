@@ -376,9 +376,11 @@ require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
   ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'vimdoc', 'vim' },
 
+  sync_install = false,
+  ignore_install = { "javascript" },
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
   auto_install = false,
-
+  modules = {},
   highlight = { enable = true },
   indent = { enable = true },
   incremental_selection = {
@@ -507,6 +509,10 @@ local servers = {
   },
 }
 
+-- Enable Astro support
+require('nvim-treesitter.configs')
+
+
 -- Setup neovim lua configuration
 require('neodev').setup()
 
@@ -557,8 +563,6 @@ cmp.setup {
     ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
-      elseif luasnip.expand_or_locally_jumpable() then
-        luasnip.expand_or_jump()
       else
         fallback()
       end
@@ -566,8 +570,6 @@ cmp.setup {
     ['<S-Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
-      elseif luasnip.locally_jumpable(-1) then
-        luasnip.jump(-1)
       else
         fallback()
       end
