@@ -1,7 +1,13 @@
 [[ssh-keys]]
-vault = "Private"
-
+account = "my.1password.com"
 
 [[ssh-keys]]
-vault = "Dev"
 item = "Personal SSH Key"
+vault = "Dev"
+account = "Team Zebra"
+
+[[ssh-keys]]
+vault = "Private"
+account = "Team Zebra"
+
+
