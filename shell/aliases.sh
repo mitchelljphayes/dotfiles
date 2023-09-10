@@ -51,8 +51,8 @@ syspip3() {
 }
 
 #python only calls python3
-alias python='python3'
-alias pip='pip3'
+# alias python='python3'
+# alias pip='pip3'
 
 # cd to git root directory
 alias cdgr='cd "$(git root)"'
