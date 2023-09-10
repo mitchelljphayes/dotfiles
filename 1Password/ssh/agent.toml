@@ -1,0 +1,7 @@
+[[ssh-keys]]
+vault = "Private"
+
+
+[[ssh-keys]]
+vault = "Dev"
+key = "Personal SSH Key"
