@@ -4,4 +4,4 @@ vault = "Private"
 
 [[ssh-keys]]
 vault = "Dev"
-key = "Personal SSH Key"
+item = "Personal SSH Key"
