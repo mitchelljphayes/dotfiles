@@ -37,7 +37,10 @@
     ~/.zshrc:
     ~/.zprofile:
     ~/.ssh/config: 
-      path: ssh/
+      path: ssh/config
+      force: true
+    ~/.ssh/known_hosts: 
+      path: ssh/known_hosts
       force: true
 
 - shell:
