@@ -12,10 +12,6 @@
     ~/.config/nvim:
       path: nvim
       force: true
-    ~/Library/Application\ Support/Code/User: 
-      if: '[ `uname` = Darwin ]'
-      path: vscode
-      force: true
     ~/.config/alacritty:
       path: alacritty      
       force: true
@@ -41,6 +37,18 @@
       force: true
     ~/.ssh/known_hosts: 
       path: ssh/known_hosts
+      force: true
+    ~/Library/Application Support/Code/User: 
+      if: '[ `uname` = Darwin ]'
+      path: vscode
+      force: true
+    ~/Library/Application Support/nushell/config.nu:
+      if: '[ `uname` = Darwin ]'
+      path: nu/config.nu
+      force: true
+    ~/Library/Application Support/nushell/env.nu:
+      if: '[ `uname` = Darwin ]'
+      path: nu/env.nu
       force: true
 
 - shell:
