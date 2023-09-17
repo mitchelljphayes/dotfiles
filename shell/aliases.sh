@@ -3,19 +3,27 @@
 alias grep='grep --color'
 
 # ls aliases
-if [ -f exa ]; then
-    alias ls='exa'
-    alias ll='exa -l'
-    alias la='exa -la'
-else
-    alias ls='ls --color=auto'
-    alias ll='ls -lah'
-    alias la='ls -la'
+alias ls='ls --color=auto'
+alias ll='ls -lah'
+alias la='ls -la'
+
+if [ "$(command -v exa)" ]; then
+    unalias -m 'll'
+    unalias -m 'l'
+    unalias -m 'la'
+    unalias -m 'ls'
+    alias ls='exa -G  --color auto --icons -a -s type'
+    alias ll='exa -l --color always --icons -a -s type'
 fi
 
 if [ -f rg ]; 
     then
         alias grep='rg'
+fi
+
+if [ "$(command -v bat)" ]; then
+  unalias -m 'cat'
+  alias cat='bat -pp --theme="OneHalfDark"'
 fi
 
 # Aliases to protect against overwriting

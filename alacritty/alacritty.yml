@@ -69,7 +69,7 @@ window:
   #
   # Window opacity as a floating point number from `0.0` to `1.0`.
   # The value `0.0` is completely transparent and `1.0` is opaque.
-  opacity: 0.95
+  opacity: 0.90
 #
   # Startup Mode (changes require restart)
   #
@@ -443,7 +443,7 @@ cursor:
     #   - Off: Disable blinking by default
     #   - On: Enable blinking by default
     #   - Always: Force the cursor to always blink
-    blinking: Off
+    blinking: On
 
   # Vi mode cursor style
   #
@@ -451,7 +451,9 @@ cursor:
   # the style of the active value of the normal cursor.
   #
   # See `cursor.style` for available options.
-  vi_mode_style: Block
+  vi_mode_style: 
+    shape: Block
+    blinking: Off
 
   # Cursor blinking interval in milliseconds.
   #blink_interval: 750
@@ -477,8 +479,8 @@ live_config_reload: true
 #   - (macOS) /bin/bash --login
 #   - (Linux/BSD) user login shell
 #   - (Windows) powershell
-#shell:
-#  program: /bin/bash
+shell:
+ program: /opt/homebrew/bin/nu
 #  args:
 #    - --login
 
@@ -792,7 +794,8 @@ key_bindings:
   - { key: Paste,                                       action: Paste          }
   - { key: Copy,                                        action: Copy           }
   - { key: L,         mods: Control,                    action: ClearLogNotice }
-  - { key: L,         mods: Control, mode: ~Vi|~Search, chars: "\x0c"          }
+  - { key: L,         mods: Control, mode: ~Vi,         chars: "\x0c"          }
+  - { key: L,         mods: Control, mode: ~Search,     chars: "\x0c"          }
   - { key: PageUp,    mods: Shift,   mode: ~Alt,        action: ScrollPageUp,  }
   - { key: PageDown,  mods: Shift,   mode: ~Alt,        action: ScrollPageDown }
   - { key: Home,      mods: Shift,   mode: ~Alt,        action: ScrollToTop,   }
@@ -878,8 +881,10 @@ key_bindings:
   #- { key: Return,   mods: Alt,           action: ToggleFullscreen }
 
   #(macOS only)
-  - { key: K,              mods: Command, mode: ~Vi|~Search, chars: "\x0c"                 }
-  - { key: K,              mods: Command, mode: ~Vi|~Search, action: ClearHistory          }
+  - { key: K,              mods: Command, mode: ~Vi,         chars: "\x0c"                 }
+  - { key: K,              mods: Command, mode: ~Search,     chars: "\x0c"                 }
+  - { key: K,              mods: Command, mode: ~Vi,         action: ClearHistory          }
+  - { key: K,              mods: Command, mode: ~Search,     action: ClearHistory          }
   - { key: Key0,           mods: Command,                    action: ResetFontSize         }
   - { key: Equals,         mods: Command,                    action: IncreaseFontSize      }
   - { key: Plus,           mods: Command,                    action: IncreaseFontSize      }
@@ -888,7 +893,8 @@ key_bindings:
   - { key: NumpadSubtract, mods: Command,                    action: DecreaseFontSize      }
   - { key: V,              mods: Command,                    action: Paste                 }
   - { key: C,              mods: Command,                    action: Copy                  }
-  - { key: C,              mods: Command, mode: Vi|~Search,  action: ClearSelection        }
+  - { key: C,              mods: Command, mode: Vi,          action: ClearSelection        }
+  - { key: C,              mods: Command, mode: ~Search,     action: ClearSelection        }
   - { key: H,              mods: Command,                    action: Hide                  }
   - { key: H,              mods: Command|Alt,                action: HideOtherApplications }
   - { key: M,              mods: Command,                    action: Minimize              }
