@@ -3,7 +3,8 @@
 # zsh-completions
 fpath=(~/.zsh/plugins/zsh-completions/src $fpath)
 
-source /opt/homebrew/opt/asdf/libexec/asdf.sh
+eval "$(zoxide init zsh)"
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 # . /opt/homebrew/opt/asdf/libexec/asdf.sh
 
