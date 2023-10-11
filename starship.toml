@@ -80,10 +80,41 @@ $battery\
 $time\
 $status\
 $os\
-$container\
 $shell\
+$container\
 $character"""
 
 
 # removed AWS
 #$aws\
+
+continuation_prompt = '▶▶ '
+
+# Wait 10 milliseconds for starship to check files under the current directory.
+scan_timeout = 10
+
+# Disable the blank line at the start of the prompt
+add_newline = false
+
+# Set 'foo' as custom color palette
+palette = 'foo'
+
+[character]
+success_symbol = '[❯](bold green)'
+error_symbol = '[❯](bold red)'
+vimcmd_symbol = '[❮](bold green)'
+
+# Define custom colors
+[palettes.foo]
+# Overwrite existing color
+blue = '21'
+# Define new color
+mustard = '#af8700'
+
+[shell]
+fish_indicator = '󰈺 '
+powershell_indicator = '_'
+nu_indicator = ''
+unknown_indicator = 'mystery shell'
+style = 'cyan bold'
+disabled = true
