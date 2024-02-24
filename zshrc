@@ -46,6 +46,7 @@ fi
 
 # pnpm
 export PNPM_HOME="/Users/mjp/Library/pnpm"
+export JAVA_HOME="$(/usr/libexec/java_home )"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
