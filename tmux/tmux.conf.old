@@ -140,3 +140,5 @@ setw -g clock-mode-colour $border_active_fg
 
 # Allow local customization in ~/.tmux_local.conf
 if-shell "[ -f ~/.tmux_local.conf ]" 'source ~/.tmux_local.conf'
+
+

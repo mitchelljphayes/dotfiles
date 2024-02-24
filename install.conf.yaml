@@ -19,12 +19,17 @@
       path: 1Password
       force: true
     ~/.config/starship.toml: starship.toml 
+    ~/.config/wezterm:
+      path: wezterm
+      force: true
+    ~/.config/tmux:
+    ~/.tmux.conf:
+      path: tmux/tmux.conf
     ~/.gitconfig:
     ~/.gitignore_global:
     ~/.gnupg/gpg.conf:
     ~/.kaggle:
     ~/.shell:
-    ~/.tmux.conf:
     ~/.terminfo.src:
     ~/.vimrc:
     ~/.zsh:

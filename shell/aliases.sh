@@ -39,8 +39,8 @@ alias gca='git commit -am'
 alias ibrew='arch -x86_64 /usr/local/bin/brew'
 
 # mount cse
-alias mntcse='sshfs -o idmap=user -C z5384479@login9.cse.unsw.edu.au: ~/CSE'
-alias umntcse='umount -f ~/CSE'
+alias cse='sshfs -o idmap=user -C z5384479@login9.cse.unsw.edu.au: ~/CSE'
+alias xcse='umount -f ~/CSE'
 
 
 # Update dotfiles
