@@ -24,11 +24,7 @@ source ~/.shell/external.sh
 source ~/.shell/aliases.sh
 
 # Custom prompt
-if command -v starship &> /dev/null && [ -f ~/.config/starship.toml ]; then
-  eval "$(starship init bash)"
-else
-  source ~/.bash/prompt.bash
-fi
+source ~/.bash/prompt.bash
 
 # Plugins
 source ~/.bash/plugins.bash
@@ -44,4 +40,9 @@ if [ -f ~/.bashrc_local_after ]; then
 fi
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+source "$HOME/.cargo/env"
 
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+. "$HOME/.cargo/env"
