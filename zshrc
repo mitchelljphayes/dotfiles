@@ -22,7 +22,7 @@ source ~/.shell/external.sh
 source ~/.shell/aliases.sh
 
 # Custom prompt
-if [ -f ~/.config/starship.toml ]; then
+if command -v starship &> /dev/null && [ -f ~/.config/starship.toml ]; then
     eval "$(starship init zsh)"
 else
     source ~/.zsh/prompt.zsh
