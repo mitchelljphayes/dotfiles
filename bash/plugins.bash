@@ -1,7 +1,7 @@
 # dircolors
-if [[ "$(tput colors)" == "256" ]]; then
-    eval "$(dircolors ~/.shell/plugins/dircolors-solarized/dircolors.256dark)"
-fi
+# if [[ "$(tput colors)" == "256" ]]; then
+#     eval "$(dircolors ~/.shell/plugins/dircolors-solarized/dircolors.256dark)"
+# fi
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
