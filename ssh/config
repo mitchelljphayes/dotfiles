@@ -61,6 +61,14 @@ Host cse
   ServerAliveInterval 60
   ServerAliveCountMax 10
 
+Host vxdb 
+  User z5384479
+  HostName d.cse.unsw.edu.au
+  # IdentityFile ~/.ssh/id_ed25519
+  IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+  ServerAliveInterval 60
+  ServerAliveCountMax 10
+
 Host williams 
   User z5384479
   HostName williams.cse.unsw.edu.au

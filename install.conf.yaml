@@ -12,6 +12,9 @@
     ~/.config/nvim:
       path: nvim
       force: true
+    ~/.vim:
+      # path: vim
+      # force: true
     ~/.config/alacritty:
       path: alacritty      
       force: true
@@ -27,6 +30,10 @@
       path: tmux/tmux.conf
     ~/.gitconfig:
     ~/.gitignore_global:
+    ~/.gitconfig_local:
+      if: '[ `uname` = Darwin ]'
+      path: gitconfig_local.macos
+      force: true
     ~/.gnupg/gpg.conf:
     ~/.kaggle:
     ~/.shell:
