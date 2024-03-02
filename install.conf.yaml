@@ -8,7 +8,9 @@
 - link:
     ~/.bash:
     ~/.bash_profile:
+      path: bash_profile.sh
     ~/.bashrc:
+      path: bashrc.sh
     ~/.config/nvim:
       path: nvim
       force: true
@@ -31,14 +33,15 @@
     #   path: tmux/tmux.conf
     ~/.config/tmux:
       path: tmux
-      exclude: tmux/plugins
     ~/.tmux.conf:
       path: tmux/tmux.conf
     ~/.gitconfig:
+      path: gitconfig.toml
     ~/.gitignore_global:
+      path: gitignore_global.conf
     ~/.gitconfig_local:
       if: '[ `uname` = Darwin ]'
-      path: gitconfig_local.macos
+      path: gitconfig_local_macos.conf
       force: true
     ~/.gnupg/gpg.conf:
     ~/.kaggle:
