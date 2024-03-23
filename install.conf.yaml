@@ -41,7 +41,7 @@
       path: gitignore_global.conf
     ~/.gitconfig_local:
       if: '[ `uname` = Darwin ]'
-      path: gitconfig_local_macos.conf
+      path: gitconfig_local_macos.toml
       force: true
     ~/.gnupg/gpg.conf:
     ~/.kaggle:

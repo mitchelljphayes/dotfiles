@@ -1,4 +1,3 @@
-
 return {
     "windwp/nvim-autopairs",
     -- Optional dependency

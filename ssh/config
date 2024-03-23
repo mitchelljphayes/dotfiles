@@ -55,7 +55,7 @@ Host grieg
 
 Host cse 
   User z5384479
-  HostName login9.cse.unsw.edu.au
+  HostName login.cse.unsw.edu.au
   # IdentityFile ~/.ssh/id_ed25519
   IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
   ServerAliveInterval 60
