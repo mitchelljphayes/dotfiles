@@ -5,10 +5,25 @@ return {
       config = function()
         require('telescope').setup {
           defaults = {
-            mappings = {
-              i = {
-                ['<C-u>'] = false,
-                ['<C-d>'] = false,
+            extensions = {
+              file_browser = {
+                theme = "ivy",
+                -- disables netrw and use telescope-file-browser in its place
+                hijack_netrw = true,
+                -- mappings = {
+                --   ["i"] = {
+                --     -- your custom insert mode mappings
+                --   },
+                --   ["n"] = {
+                --     -- your custom normal mode mappings
+                --   },
+                -- },
+              },
+              mappings = {
+                i = {
+                  ['<C-u>'] = false,
+                  ['<C-d>'] = false,
+                },
               },
             },
           },
@@ -16,6 +31,7 @@ return {
 
         -- Enable telescope fzf native, if installed
         pcall(require('telescope').load_extension, 'fzf')
+        pcall(require("telescope").load_extension, "file_browser")
 
         -- See `:help telescope.builtin`
         vim.keymap.set('n', '<leader>?', require('telescope.builtin').oldfiles,
@@ -38,11 +54,11 @@ return {
         vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
         vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
       end
-    },
+},
     -- Fuzzy Finder Algorithm which requires local dependencies to be built.
     -- Only load if `make` is available. Make sure you have the system
     -- requirements installed.
-    {
+{
       'nvim-telescope/telescope-fzf-native.nvim',
       -- NOTE: If you are having trouble with this installation,
       --       refer to the README for telescope-fzf-native for more instructions.
@@ -50,4 +66,15 @@ return {
       cond = function()
         return vim.fn.executable 'make' == 1
       end,
-    }
+},
+{
+    "nvim-telescope/telescope-file-browser.nvim",
+    dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
+    config = function ()
+      -- To get telescope-file-browser loaded and working with telescope,
+      -- you need to call load_extension, somewhere after setup function:
+        vim.keymap.set('n', '<leader>fb', ':Telescope file_browser path=%:p:h select_buffer=true<CR>', { noremap = true })
+      -- open file_browser with the path of the current buffer
+    end
+}
+
