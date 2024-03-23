@@ -26,14 +26,14 @@ return {
       enable_normal_mode_for_inputs = false,                             -- Enable normal mode for input dialogs.
       open_files_do_not_replace_types = { "terminal", "trouble", "qf" }, -- when opening files, do not use windows containing these filetypes or buftypes
       sort_case_insensitive = false,                                     -- used when sorting files and directories in the tree
-      sort_function = nil,                                               -- use a custom function for sorting files and directories in the tree
-      -- sort_function = function (a,b)
-      --       if a.type == b.type then
-      --           return a.path > b.path
-      --       else
-      --           return a.type > b.type
-      --       end
-      --   end , -- this sorts files and directories descendantly
+      -- sort_function = nil,                                               -- use a custom function for sorting files and directories in the tree
+      sort_function = function (a,b)
+            if a.type == b.type then
+                return a.path < b.path
+            else
+                return a.type < b.type
+            end
+        end , -- this sorts files and directories descendantly
       default_component_configs = {
         container = {
           enable_character_fade = true

@@ -63,19 +63,24 @@ def create_left_prompt [] {
 }
 
 # Use nushell functions to define your right and left prompt
-$env.PROMPT_COMMAND = { create_left_prompt }
-$env.PROMPT_COMMAND_RIGHT = ""
+# $env.PROMPT_COMMAND = { create_left_prompt }
+# $env.PROMPT_COMMAND_RIGHT = ""
 
 # The prompt indicators are environmental variables that represent
 # the state of the prompt
 
+# $env.PROMPT_INDICATOR = ""
+# $env.PROMPT_INDICATOR_VI_INSERT = "❯ "
+# $env.PROMPT_INDICATOR_VI_NORMAL = "❮ "
+# $env.PROMPT_MULTILINE_INDICATOR = "::: "
+
 $env.PROMPT_INDICATOR = ""
-$env.PROMPT_INDICATOR_VI_INSERT = "❯ "
-$env.PROMPT_INDICATOR_VI_NORMAL = "❮ "
+$env.PROMPT_INDICATOR_VI_INSERT = ""
+$env.PROMPT_INDICATOR_VI_NORMAL = ""
 $env.PROMPT_MULTILINE_INDICATOR = "::: "
 
-$env.STARSHIP_SESSION_KEY = (random chars -l 16)
-$env.PROMPT_MULTILINE_INDICATOR = (^/opt/homebrew/bin/starship prompt --continuation)
+# $env.STARSHIP_SESSION_KEY = (random chars -l 16)
+# $env.PROMPT_MULTILINE_INDICATOR = (^/opt/homebrew/bin/starship prompt --continuation)
 
 
 
@@ -84,23 +89,22 @@ $env.PROMPT_MULTILINE_INDICATOR = (^/opt/homebrew/bin/starship prompt --continua
 # # Does not play well with default character module.
 # # TODO: Also Use starship vi mode indicators?
 #
-# $env.PROMPT_INDICATOR = ""
 #
 # $env.PROMPT_COMMAND = { ||
 #     # jobs are not supported
 #     let width = (term size).columns
 #     ^/opt/homebrew/bin/starship prompt $"--cmd-duration=($env.CMD_DURATION_MS)" $"--status=($env.LAST_EXIT_CODE)" $"--terminal-width=($width)"
 # }
-#
+
 # # Whether we have config items
 # let has_config_items = (not ($env | get -i config | is-empty))
-#
+
 # $env.config = if $has_config_items {
 #     $env.config | upsert render_right_prompt_on_last_line true
 # } else {
 #     {render_right_prompt_on_last_line: true}
 # }
-#
+
 # $env.PROMPT_COMMAND_RIGHT = { ||
 #     let width = (term size).columns
 #     ^/opt/homebrew/bin/starship prompt --right $"--cmd-duration=($env.CMD_DURATION_MS)" $"--status=($env.LAST_EXIT_CODE)" $"--terminal-width=($width)"
@@ -141,3 +145,6 @@ $env.PATH = ($env.PATH | split row (char esep) | prepend 'usr/local/bin')
 
 $env.EDITOR = nvim
 $env.VISUAL = code
+
+mkdir ~/.cache/starship
+starship init nu | save -f ~/.cache/starship/init.nu
