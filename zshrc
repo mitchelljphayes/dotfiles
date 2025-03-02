@@ -46,9 +46,10 @@ fi
 
 # pnpm
 export PNPM_HOME="/Users/mjp/Library/pnpm"
-export JAVA_HOME="$(/usr/libexec/java_home )"
+# export JAVA_HOME="$(/usr/libexec/java_home )"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+eval "$(uv generate-shell-completion zsh)"

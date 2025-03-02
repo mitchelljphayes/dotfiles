@@ -131,3 +131,6 @@
 
 [gpg]
   format = ssh
+[gitbutler]
+	aiModelProvider = openai
+	signCommits = true

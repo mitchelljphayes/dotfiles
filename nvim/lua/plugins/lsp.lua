@@ -8,7 +8,7 @@ return {
 
     -- Useful status updates for LSP
     -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
-    { 'j-hui/fidget.nvim',       tag = 'legacy', opts = {} },
+    { 'j-hui/fidget.nvim', tag = 'legacy', opts = {} },
 
     -- Additional lua configuration, makes nvim stuff amazing!
     'folke/neodev.nvim',
@@ -80,8 +80,7 @@ return {
     }
 
     -- Enable Astro support
-    require('nvim-treesitter.configs')
-
+    require 'nvim-treesitter.configs'
 
     -- Setup neovim lua configuration
     require('neodev').setup()
@@ -112,21 +111,22 @@ return {
     vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
     vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
     vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
-  end
+  end,
 },
 -- none-ls
 {
-  "nvimtools/none-ls.nvim",
+  'nvimtools/none-ls.nvim',
   config = function()
-    local null_ls = require("null-ls")
-    null_ls.setup({
+    local null_ls = require 'null-ls'
+    null_ls.setup {
       sources = {
         null_ls.builtins.formatting.stylua,
+        null_ls.builtins.formatting.clang_format,
         null_ls.builtins.formatting.prettier,
         null_ls.builtins.formatting.black,
         null_ls.builtins.formatting.isort,
         null_ls.builtins.diagnostics.eslint_d,
-      }
-    })
-  end
+      },
+    }
+  end,
 }

@@ -1,2 +1,3 @@
 eval "$(/opt/homebrew/bin/brew shellenv)"
-source "$HOME/.rye/env"
+
+# Added by OrbStack: command-line tools and integration
