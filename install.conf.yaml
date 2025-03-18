@@ -27,9 +27,6 @@
     ~/.config/wezterm:
       path: wezterm
       force: true
-    ~/.rye/config.toml:
-      path: rye/config.toml
-      force: true
     ~/.config/tmux:
       path: tmux
     ~/.tmux.conf:
