@@ -21,6 +21,9 @@ source ~/.shell/external.sh
 # Aliases
 source ~/.shell/aliases.sh
 
+# Env
+source ~/.shell/env.sh
+
 # Custom prompt
 if command -v starship &> /dev/null && [ -f ~/.config/starship.toml ]; then
     eval "$(starship init zsh)"
