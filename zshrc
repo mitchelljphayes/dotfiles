@@ -51,7 +51,7 @@ if [ -f ~/.env ]; then
     source ~/.env
 fi
 # pnpm
-export PNPM_HOME="/Users/mjp/Library/pnpm"
+export PNPM_HOME="~/Library/pnpm"
 # export JAVA_HOME="$(/usr/libexec/java_home )"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
@@ -59,4 +59,4 @@ case ":$PATH:" in
 esac
 # pnpm end
 eval "$(uv generate-shell-completion zsh)"
-alias claude="/Users/mjp/.claude/local/claude"
+alias claude="~/.claude/local/claude"
