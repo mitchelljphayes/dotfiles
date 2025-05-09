@@ -1,5 +1,2 @@
-
-
-if [op]; then
-    op run ~/.shell/secrets.env
-fi    
+source ~/.shell/secrets.env
+source ~/.shell/om-secrets.env
