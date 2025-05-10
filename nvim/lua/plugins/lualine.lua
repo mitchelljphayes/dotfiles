@@ -1,11 +1,23 @@
+-- return {
+--   -- Set lualine as statusline
+--   'nvim-lualine/lualine.nvim',
+--   -- See `:help lualine.txt`
+--   opts = {
+--     options = {
+--       icons_enabled = false,
+--       theme = 'one-dark',
+--       component_separators = '|',
+--       section_separators = '',
+--     },
+--   },
+-- }
 return {
-  -- Set lualine as statusline
   'nvim-lualine/lualine.nvim',
-  -- See `:help lualine.txt`
+  dependencies = { 'nvim-tree/nvim-web-devicons' },
   opts = {
     options = {
-      icons_enabled = false,
-      theme = 'catppuccin',
+      icons_enabled = true,
+      theme = 'onedark',
       component_separators = '|',
       section_separators = '',
     },
