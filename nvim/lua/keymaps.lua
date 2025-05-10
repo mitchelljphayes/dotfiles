@@ -21,9 +21,13 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 -- Comment
 vim.keymap.set("n", "<leader>/", "<Plug>(comment_toggle_linewise_current)",
-  { noremap = true, silent = true })
+  { noremap = true, silent = true, desc = 'Comment Line'})
 vim.keymap.set("v", "<leader>/", "<Plug>(comment_toggle_linewise_visual)",
-  { noremap = true, silent = true })
+  { noremap = true, silent = true, desc = 'Comment selected lines'})
+
+-- Oil
+vim.keymap.set("n", "<leader>-","<CMD>Oil<CR>", { desc = "Open oil" })
+vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 
 -- Normal --
 -- Better window navigation
@@ -41,7 +45,7 @@ vim.keymap.set("n", "<A-j>", "<Esc>:m .+1<CR>=g<Esc>", { noremap = true, silent 
 vim.keymap.set("n", "<A-k>", "<Esc>:m .-2<CR>==g<Esc>", { noremap = true, silent = true })
 
 -- file explorer
-vim.keymap.set("n", "<leader>\\", "<cmd>Neotree toggle<cr>", { noremap = true, silent = true })
+-- vim.keymap.set("n", "<leader>\\", "<cmd>Neotree toggle<cr>", { noremap = true, silent = true })
 
 -- vim.keymap.set("n", "<S-l>", ":bnext<CR>", { noremap = true, silent = true })
 -- vim.keymap.set("n", "<S-h>", ":bprevious<CR>", { noremap = true, silent = true })
