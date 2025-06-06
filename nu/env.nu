@@ -70,13 +70,13 @@ def create_left_prompt [] {
 # the state of the prompt
 
 # $env.PROMPT_INDICATOR = ""
-# $env.PROMPT_INDICATOR_VI_INSERT = "❯ "
-# $env.PROMPT_INDICATOR_VI_NORMAL = "❮ "
+$env.PROMPT_INDICATOR_VI_INSERT = "❯ "
+$env.PROMPT_INDICATOR_VI_NORMAL = "❮ "
 # $env.PROMPT_MULTILINE_INDICATOR = "::: "
 
 $env.PROMPT_INDICATOR = ""
-$env.PROMPT_INDICATOR_VI_INSERT = ""
-$env.PROMPT_INDICATOR_VI_NORMAL = ""
+# $env.PROMPT_INDICATOR_VI_INSERT = ""
+# $env.PROMPT_INDICATOR_VI_NORMAL = ""
 $env.PROMPT_MULTILINE_INDICATOR = "::: "
 
 # $env.STARSHIP_SESSION_KEY = (random chars -l 16)
