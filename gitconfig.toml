@@ -134,3 +134,4 @@
 [gitbutler]
 	aiModelProvider = anthropic
 	signCommits = true
+	gitbutlerCommitter = 0

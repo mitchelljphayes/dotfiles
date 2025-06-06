@@ -60,3 +60,4 @@ esac
 # pnpm end
 eval "$(uv generate-shell-completion zsh)"
 alias claude="~/.claude/local/claude"
+alias claude="/Users/mjp/.claude/local/claude"
