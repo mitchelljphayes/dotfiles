@@ -1,5 +1,8 @@
 # Use colors in coreutils utilities output
 
+# Claude CLI
+alias claude="$HOME/.claude/local/claude"
+
 alias grep='grep --color'
 
 # ls aliases
