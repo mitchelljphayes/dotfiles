@@ -124,6 +124,12 @@ function M._setup_commands()
     M.new_task(opts.args)
   end, { nargs = "*", desc = "Start a new Claude task" })
   
+  vim.api.nvim_create_user_command("ClaudeFile", function(opts)
+    -- Add current file to context and open
+    require("claude-code.context").add_file(vim.fn.expand("%:p"))
+    M.toggle()
+  end, { desc = "Open Claude with current file" })
+  
   vim.api.nvim_create_user_command("ClaudeAcceptAll", function()
     require("claude-code.diff").accept_all()
   end, { desc = "Accept all Claude suggestions" })
