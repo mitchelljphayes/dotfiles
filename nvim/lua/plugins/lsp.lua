@@ -30,7 +30,6 @@ return {
           "sqls", -- SQL Language Server
           "sqlls", -- Alternative SQL Language Server with better diagnostics
           "sqlfluff", -- SQL linter with dbt support
-          "dbt-language-server", -- DBT-specific language server
         },
         auto_update = true,
         run_on_start = true,
