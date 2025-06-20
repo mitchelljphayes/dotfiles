@@ -1,328 +1,354 @@
 -- UI module for Claude Code
 local M = {}
 local api = vim.api
-local buf_utils = require("claude-code.buffer_utils")
 
 local config = {}
-local state = {}
+local state = {
+  prompt_buf = nil,
+  prompt_win = nil,
+  history_buf = nil,
+  history_win = nil,
+  active = false,
+}
 
 function M.setup(cfg)
   config = cfg
 end
 
--- Toggle the sidebar
+-- Toggle the floating window
 function M.toggle()
-  state = require("claude-code").get_state()
-  
-  if state.sidebar_win and api.nvim_win_is_valid(state.sidebar_win) then
+  if state.active then
     M.close()
   else
     M.open()
   end
 end
 
--- Open the sidebar
+-- Open the floating window
 function M.open()
-  state = require("claude-code").get_state()
+  if state.active then return end
   
-  -- Create buffer if it doesn't exist
-  if not state.sidebar_buf or not api.nvim_buf_is_valid(state.sidebar_buf) then
-    state.sidebar_buf = api.nvim_create_buf(false, true)
-    api.nvim_buf_set_name(state.sidebar_buf, "Claude Code")
-    
-    -- Set buffer options
-    local buf = state.sidebar_buf
-    api.nvim_buf_set_option(buf, "buftype", "nofile")
-    api.nvim_buf_set_option(buf, "swapfile", false)
-    api.nvim_buf_set_option(buf, "bufhidden", "hide")
-    api.nvim_buf_set_option(buf, "filetype", "claude-code")
-    
-    -- Set up buffer-local keymaps
-    M._setup_buffer_keymaps(buf)
-  end
+  local global_state = require("claude-code").get_state()
   
-  -- Calculate window size
-  local width = config.ui.width
-  local height = config.ui.height
+  -- Get window dimensions
+  local width = math.floor(vim.o.columns * 0.8)
+  local height = math.floor(vim.o.lines * 0.8)
+  local col = math.floor((vim.o.columns - width) / 2)
+  local row = math.floor((vim.o.lines - height) / 2)
   
-  if config.ui.position == "right" or config.ui.position == "left" then
-    width = math.min(width, math.floor(vim.o.columns * 0.5))
-  else
-    height = math.min(height, math.floor(vim.o.lines * 0.5))
-  end
+  -- Create history buffer and window
+  state.history_buf = api.nvim_create_buf(false, true)
+  api.nvim_buf_set_option(state.history_buf, "buftype", "nofile")
+  api.nvim_buf_set_option(state.history_buf, "swapfile", false)
+  api.nvim_buf_set_option(state.history_buf, "filetype", "markdown")
   
-  -- Create window
-  local win_opts = {
+  state.history_win = api.nvim_open_win(state.history_buf, false, {
     relative = "editor",
+    width = width,
+    height = height - 3, -- Leave space for prompt
+    col = col,
+    row = row,
     style = "minimal",
-    border = "none",
-  }
-  
-  if config.ui.position == "right" then
-    win_opts.anchor = "NE"
-    win_opts.row = 0
-    win_opts.col = vim.o.columns
-    win_opts.width = width
-    win_opts.height = vim.o.lines - 2
-  elseif config.ui.position == "left" then
-    win_opts.anchor = "NW"
-    win_opts.row = 0
-    win_opts.col = 0
-    win_opts.width = width
-    win_opts.height = vim.o.lines - 2
-  else -- bottom
-    win_opts.anchor = "SW"
-    win_opts.row = vim.o.lines - 1
-    win_opts.col = 0
-    win_opts.width = vim.o.columns
-    win_opts.height = height
-  end
-  
-  -- Create split instead of floating window for better integration
-  local cmd = config.ui.position == "right" and "botright vsplit" or
-              config.ui.position == "left" and "topleft vsplit" or
-              "botright split"
-  
-  vim.cmd(cmd)
-  state.sidebar_win = api.nvim_get_current_win()
-  
-  -- Set window size
-  if config.ui.position == "right" or config.ui.position == "left" then
-    vim.cmd("vertical resize " .. width)
-  else
-    vim.cmd("resize " .. height)
-  end
-  
-  -- Set buffer
-  api.nvim_win_set_buf(state.sidebar_win, state.sidebar_buf)
-  
-  -- Set window options
-  api.nvim_win_set_option(state.sidebar_win, "number", false)
-  api.nvim_win_set_option(state.sidebar_win, "relativenumber", false)
-  api.nvim_win_set_option(state.sidebar_win, "signcolumn", "no")
-  api.nvim_win_set_option(state.sidebar_win, "winfixwidth", true)
-  
-  -- Render initial content
-  M.render()
-  
-  -- Update state
-  require("claude-code").update_state({ 
-    sidebar_buf = state.sidebar_buf,
-    sidebar_win = state.sidebar_win 
+    border = "rounded",
+    title = " Claude Code ",
+    title_pos = "center",
   })
   
-  -- Focus on input area
-  M._focus_input()
+  -- Create prompt buffer and window
+  state.prompt_buf = api.nvim_create_buf(false, true)
+  api.nvim_buf_set_option(state.prompt_buf, "buftype", "prompt")
+  api.nvim_buf_set_option(state.prompt_buf, "swapfile", false)
+  
+  state.prompt_win = api.nvim_open_win(state.prompt_buf, true, {
+    relative = "editor",
+    width = width,
+    height = 1,
+    col = col,
+    row = row + height - 2,
+    style = "minimal",
+    border = { "─", "─", "─", "─", "└", "┘", "│", "│" },
+  })
+  
+  -- Set prompt
+  vim.fn.prompt_setprompt(state.prompt_buf, " ❯ ")
+  
+  -- Set up keymaps
+  M._setup_keymaps()
+  
+  -- Render history
+  M._render_history()
+  
+  -- Set active state
+  state.active = true
+  
+  -- Start insert mode
+  vim.cmd("startinsert")
 end
 
--- Close the sidebar
+-- Close the floating window
 function M.close()
-  state = require("claude-code").get_state()
-  
-  if state.sidebar_win and api.nvim_win_is_valid(state.sidebar_win) then
-    api.nvim_win_close(state.sidebar_win, true)
+  if state.prompt_win and api.nvim_win_is_valid(state.prompt_win) then
+    api.nvim_win_close(state.prompt_win, true)
+  end
+  if state.history_win and api.nvim_win_is_valid(state.history_win) then
+    api.nvim_win_close(state.history_win, true)
   end
   
-  require("claude-code").update_state({ sidebar_win = nil })
+  state.active = false
+  state.prompt_win = nil
+  state.history_win = nil
+  state.prompt_buf = nil
+  state.history_buf = nil
 end
 
--- Render the UI
-function M.render()
-  state = require("claude-code").get_state()
-  if not state.sidebar_buf then return end
+-- Render the history
+function M._render_history()
+  if not state.history_buf then return end
   
+  local global_state = require("claude-code").get_state()
   local lines = {}
-  local highlights = {}
-  
-  -- Header
-  table.insert(lines, " Claude Code")
-  table.insert(lines, " " .. string.rep("─", config.ui.width - 2))
-  table.insert(highlights, {line = 0, col = 1, end_col = 12, hl_group = "ClaudeCodeHeader"})
   
   -- Context indicator
   if config.ui.show_context then
     local context = require("claude-code.context").get_current()
-    table.insert(lines, "")
-    table.insert(lines, " Context: " .. #context.files .. " files")
-    for i, file in ipairs(context.files) do
-      if i <= 3 then
-        table.insert(lines, "   • " .. vim.fn.fnamemodify(file, ":t"))
+    if #context.files > 0 then
+      table.insert(lines, "**Context:** " .. #context.files .. " files")
+      for i, file in ipairs(context.files) do
+        if i <= 3 then
+          table.insert(lines, "  • " .. vim.fn.fnamemodify(file, ":~:."))
+        end
       end
-    end
-    if #context.files > 3 then
-      table.insert(lines, "   • ...")
+      if #context.files > 3 then
+        table.insert(lines, "  • ...")
+      end
+      table.insert(lines, "")
+      table.insert(lines, "---")
+      table.insert(lines, "")
     end
   end
   
   -- Chat history
-  table.insert(lines, "")
-  table.insert(lines, " " .. string.rep("─", config.ui.width - 2))
-  table.insert(lines, " Chat")
-  table.insert(lines, "")
-  
-  for _, message in ipairs(state.chat_history) do
+  for _, message in ipairs(global_state.chat_history) do
     if message.role == "user" then
-      table.insert(lines, " You: " .. message.content:gsub("\n", "\n      "))
-      table.insert(highlights, {
-        line = #lines - 1, 
-        col = 1, 
-        end_col = 5, 
-        hl_group = "ClaudeCodeUser"
-      })
+      table.insert(lines, "### You")
+      table.insert(lines, "")
+      for line in message.content:gmatch("[^\n]+") do
+        table.insert(lines, line)
+      end
     else
-      table.insert(lines, " Claude: " .. message.content:gsub("\n", "\n         "))
-      table.insert(highlights, {
-        line = #lines - 1, 
-        col = 1, 
-        end_col = 8, 
-        hl_group = "ClaudeCodeAssistant"
-      })
+      table.insert(lines, "### Claude")
+      table.insert(lines, "")
+      for line in message.content:gmatch("[^\n]+") do
+        table.insert(lines, line)
+      end
     end
     table.insert(lines, "")
   end
   
   -- Pending diffs indicator
-  if #state.pending_diffs > 0 then
-    table.insert(lines, " " .. string.rep("─", config.ui.width - 2))
-    table.insert(lines, " Pending Changes: " .. #state.pending_diffs)
-    table.insert(lines, " Press " .. config.keymaps.accept_all .. " to accept all")
+  if #global_state.pending_diffs > 0 then
+    table.insert(lines, "---")
+    table.insert(lines, "")
+    table.insert(lines, "**Pending Changes:** " .. #global_state.pending_diffs .. " files")
+    table.insert(lines, "Press `" .. config.keymaps.accept_all .. "` to accept all")
     table.insert(lines, "")
   end
   
-  -- Input area
-  table.insert(lines, " " .. string.rep("─", config.ui.width - 2))
-  table.insert(lines, " Message (Press " .. config.keymaps.submit .. " to send):")
-  table.insert(lines, " > ")
-  
   -- Set lines
-  api.nvim_buf_set_option(state.sidebar_buf, "modifiable", true)
-  api.nvim_buf_set_lines(state.sidebar_buf, 0, -1, false, lines)
+  api.nvim_buf_set_option(state.history_buf, "modifiable", true)
+  api.nvim_buf_set_lines(state.history_buf, 0, -1, false, lines)
+  api.nvim_buf_set_option(state.history_buf, "modifiable", false)
   
-  -- Apply highlights
-  for _, hl in ipairs(highlights) do
-    api.nvim_buf_add_highlight(
-      state.sidebar_buf, 
-      -1, 
-      hl.hl_group, 
-      hl.line, 
-      hl.col, 
-      hl.end_col
-    )
+  -- Scroll to bottom
+  if state.history_win and api.nvim_win_is_valid(state.history_win) then
+    local line_count = api.nvim_buf_line_count(state.history_buf)
+    api.nvim_win_set_cursor(state.history_win, {line_count, 0})
   end
+end
+
+-- Set up keymaps
+function M._setup_keymaps()
+  -- Prompt buffer keymaps
+  local prompt_opts = { noremap = true, silent = true, buffer = state.prompt_buf }
   
-  api.nvim_buf_set_option(state.sidebar_buf, "modifiable", true)
-end
-
--- Set up buffer-local keymaps
-function M._setup_buffer_keymaps(buf)
-  -- We need to set keymaps after the buffer is displayed in a window
-  vim.schedule(function()
-    if not api.nvim_buf_is_valid(buf) then return end
-    
-    -- Use vim.keymap.set with buffer option
-    local opts = { noremap = true, silent = true, buffer = buf }
-    
-    -- Submit on Ctrl+Enter
-    vim.keymap.set("i", config.keymaps.submit, 
-      function() require('claude-code.ui').submit() end, opts)
-    vim.keymap.set("n", config.keymaps.submit, 
-      function() require('claude-code.ui').submit() end, opts)
-    
-    -- Close on q
-    vim.keymap.set("n", "q", 
-      function() require('claude-code.ui').close() end, opts)
-    
-    -- Toggle context
-    vim.keymap.set("n", config.keymaps.toggle_context,
-      function() require('claude-code.context').toggle_file() end, opts)
-  end)
-end
-
--- Focus on the input area
-function M._focus_input()
-  state = require("claude-code").get_state()
-  if not state.sidebar_win or not api.nvim_win_is_valid(state.sidebar_win) then
-    return
-  end
+  -- Submit on Enter
+  vim.keymap.set("i", "<CR>", function() M._submit() end, prompt_opts)
   
-  -- Move cursor to input line
-  local line_count = api.nvim_buf_line_count(state.sidebar_buf)
-  api.nvim_win_set_cursor(state.sidebar_win, {line_count, 3})
-  vim.cmd("startinsert!")
+  -- Close on Escape
+  vim.keymap.set({"i", "n"}, "<Esc>", function() M.close() end, prompt_opts)
+  
+  -- History buffer keymaps
+  local history_opts = { noremap = true, silent = true, buffer = state.history_buf }
+  
+  -- Close on q or Escape
+  vim.keymap.set("n", "q", function() M.close() end, history_opts)
+  vim.keymap.set("n", "<Esc>", function() M.close() end, history_opts)
+  
+  -- Switch to prompt
+  vim.keymap.set("n", "i", function()
+    api.nvim_set_current_win(state.prompt_win)
+    vim.cmd("startinsert")
+  end, history_opts)
+  
+  -- Accept/reject diffs
+  vim.keymap.set("n", config.keymaps.accept_all, function()
+    require("claude-code.diff").accept_all()
+    M._render_history()
+  end, history_opts)
+  
+  vim.keymap.set("n", config.keymaps.reject_all, function()
+    require("claude-code.diff").reject_all()
+    M._render_history()
+  end, history_opts)
 end
 
--- Submit the current message
-function M.submit()
-  state = require("claude-code").get_state()
-  if not state.sidebar_buf then return end
+-- Submit the message
+function M._submit()
+  if not state.prompt_buf then return end
   
   -- Get the input text
-  local lines = api.nvim_buf_get_lines(state.sidebar_buf, 0, -1, false)
-  local input_start = nil
+  local lines = api.nvim_buf_get_lines(state.prompt_buf, 0, -1, false)
+  local message = table.concat(lines, "\n"):gsub("^ ❯ ", "")
   
-  -- Find the input line
-  for i = #lines, 1, -1 do
-    if lines[i]:match("^ > ") then
-      input_start = i
-      break
-    end
-  end
-  
-  if not input_start then return end
-  
-  -- Extract message
-  local message = lines[input_start]:sub(4) -- Remove " > " prefix
   if message == "" then return end
   
+  -- Clear prompt
+  api.nvim_buf_set_lines(state.prompt_buf, 0, -1, false, {})
+  
   -- Add to chat history
-  table.insert(state.chat_history, {
+  local global_state = require("claude-code").get_state()
+  table.insert(global_state.chat_history, {
     role = "user",
     content = message
   })
   
   -- Update state
-  require("claude-code").update_state({ chat_history = state.chat_history })
+  require("claude-code").update_state({ chat_history = global_state.chat_history })
   
   -- Re-render to show user message
-  M.render()
+  M._render_history()
   
-  -- Send to Claude
-  require("claude-code.api").send_message(message, function(response)
-    if response.error then
-      vim.notify("Claude error: " .. response.error, vim.log.levels.ERROR)
-      return
+  -- Send to Claude (try local CLI first)
+  M._send_message(message)
+end
+
+-- Send message to Claude
+function M._send_message(message)
+  local global_state = require("claude-code").get_state()
+  
+  -- Show loading indicator
+  api.nvim_buf_set_option(state.history_buf, "modifiable", true)
+  local lines = api.nvim_buf_get_lines(state.history_buf, 0, -1, false)
+  table.insert(lines, "### Claude")
+  table.insert(lines, "")
+  table.insert(lines, "_Thinking..._")
+  api.nvim_buf_set_lines(state.history_buf, 0, -1, false, lines)
+  api.nvim_buf_set_option(state.history_buf, "modifiable", false)
+  
+  -- Check if local Claude Code CLI is available
+  local has_local_claude = vim.fn.executable(vim.fn.expand("~/.claude/local/claude")) == 1
+  
+  if has_local_claude and config.use_local_claude ~= false then
+    -- Use local Claude Code CLI
+    M._send_via_cli(message)
+  else
+    -- Use API directly
+    require("claude-code.api").send_message(message, function(response)
+      M._handle_response(response)
+    end)
+  end
+end
+
+-- Send via local Claude Code CLI
+function M._send_via_cli(message)
+  local global_state = require("claude-code").get_state()
+  local context = require("claude-code.context").get_current()
+  
+  -- Build command
+  local cmd = {vim.fn.expand("~/.claude/local/claude")}
+  
+  -- Add context files
+  for _, file in ipairs(context.files) do
+    table.insert(cmd, file)
+  end
+  
+  -- Add message
+  table.insert(cmd, message)
+  
+  -- Run command asynchronously
+  local output = {}
+  local job_id = vim.fn.jobstart(cmd, {
+    on_stdout = function(_, data)
+      if data then
+        vim.list_extend(output, data)
+      end
+    end,
+    on_exit = function(_, exit_code)
+      if exit_code == 0 then
+        local response_text = table.concat(output, "\n")
+        M._handle_response({
+          content = response_text,
+          changes = M._parse_cli_changes(response_text)
+        })
+      else
+        M._handle_response({
+          error = "Claude CLI failed with exit code " .. exit_code
+        })
+      end
     end
-    
-    -- Add response to chat history
-    table.insert(state.chat_history, {
-      role = "assistant",
-      content = response.content
-    })
-    
-    -- Process any code changes
-    if response.changes then
-      require("claude-code.diff").process_changes(response.changes)
+  })
+end
+
+-- Parse changes from CLI output
+function M._parse_cli_changes(output)
+  -- TODO: Parse code changes from CLI output format
+  -- For now, return empty changes
+  return {}
+end
+
+-- Handle response from Claude
+function M._handle_response(response)
+  local global_state = require("claude-code").get_state()
+  
+  if response.error then
+    -- Replace loading with error
+    api.nvim_buf_set_option(state.history_buf, "modifiable", true)
+    local lines = api.nvim_buf_get_lines(state.history_buf, 0, -1, false)
+    -- Find and replace the loading message
+    for i = #lines, 1, -1 do
+      if lines[i] == "_Thinking..._" then
+        lines[i] = "**Error:** " .. response.error
+        break
+      end
     end
-    
-    -- Update state and re-render
-    require("claude-code").update_state({ chat_history = state.chat_history })
-    M.render()
-    M._focus_input()
-  end)
+    api.nvim_buf_set_lines(state.history_buf, 0, -1, false, lines)
+    api.nvim_buf_set_option(state.history_buf, "modifiable", false)
+    return
+  end
+  
+  -- Add response to chat history
+  table.insert(global_state.chat_history, {
+    role = "assistant",
+    content = response.content
+  })
+  
+  -- Process any code changes
+  if response.changes and #response.changes > 0 then
+    require("claude-code.diff").process_changes(response.changes)
+  end
+  
+  -- Update state and re-render
+  require("claude-code").update_state({ chat_history = global_state.chat_history })
+  M._render_history()
 end
 
 -- Start a new chat
 function M.new_chat()
-  state = require("claude-code").get_state()
-  state.chat_history = {}
+  local global_state = require("claude-code").get_state()
+  global_state.chat_history = {}
   require("claude-code").update_state({ chat_history = {} })
   
-  if not state.sidebar_win then
-    M.open()
-  else
-    M.render()
-    M._focus_input()
-  end
+  M.open()
 end
 
 -- Start a new task
@@ -330,19 +356,12 @@ function M.new_task(task_description)
   M.new_chat()
   
   if task_description and task_description ~= "" then
-    -- Simulate typing the task
+    -- Pre-fill the prompt
     vim.schedule(function()
-      state = require("claude-code").get_state()
-      if state.sidebar_win and api.nvim_win_is_valid(state.sidebar_win) then
-        local line_count = api.nvim_buf_line_count(state.sidebar_buf)
-        api.nvim_buf_set_lines(
-          state.sidebar_buf, 
-          line_count - 1, 
-          line_count, 
-          false, 
-          {" > " .. task_description}
-        )
-        M.submit()
+      if state.prompt_buf and api.nvim_buf_is_valid(state.prompt_buf) then
+        api.nvim_buf_set_lines(state.prompt_buf, 0, -1, false, {" ❯ " .. task_description})
+        -- Position cursor at end
+        api.nvim_win_set_cursor(state.prompt_win, {1, #task_description + 3})
       end
     end)
   end
