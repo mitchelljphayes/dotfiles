@@ -56,8 +56,9 @@ function M.open()
   
   -- Create prompt buffer and window
   state.prompt_buf = api.nvim_create_buf(false, true)
-  api.nvim_buf_set_option(state.prompt_buf, "buftype", "prompt")
+  api.nvim_buf_set_option(state.prompt_buf, "buftype", "nofile") -- Change from prompt to nofile
   api.nvim_buf_set_option(state.prompt_buf, "swapfile", false)
+  api.nvim_buf_set_option(state.prompt_buf, "bufhidden", "wipe")
   
   state.prompt_win = api.nvim_open_win(state.prompt_buf, true, {
     relative = "editor",
@@ -69,8 +70,18 @@ function M.open()
     border = { "─", "─", "─", "─", "└", "┘", "│", "│" },
   })
   
-  -- Set prompt
-  vim.fn.prompt_setprompt(state.prompt_buf, " ❯ ")
+  -- Set window options
+  api.nvim_win_set_option(state.history_win, "number", false)
+  api.nvim_win_set_option(state.history_win, "relativenumber", false)
+  api.nvim_win_set_option(state.history_win, "cursorline", true)
+  api.nvim_win_set_option(state.history_win, "wrap", true)
+  api.nvim_win_set_option(state.history_win, "linebreak", true)
+  
+  api.nvim_win_set_option(state.prompt_win, "number", false)
+  api.nvim_win_set_option(state.prompt_win, "relativenumber", false)
+  
+  -- Initialize prompt with prompt character
+  api.nvim_buf_set_lines(state.prompt_buf, 0, -1, false, {" ❯ "})
   
   -- Set up keymaps
   M._setup_keymaps()
@@ -81,8 +92,10 @@ function M.open()
   -- Set active state
   state.active = true
   
-  -- Start insert mode
-  vim.cmd("startinsert")
+  -- Focus prompt and position cursor after prompt
+  api.nvim_set_current_win(state.prompt_win)
+  api.nvim_win_set_cursor(state.prompt_win, {1, 3})
+  vim.cmd("startinsert!")
 end
 
 -- Close the floating window
@@ -108,10 +121,29 @@ function M._render_history()
   local global_state = require("claude-code").get_state()
   local lines = {}
   
+  -- If no chat history, show welcome message
+  if #global_state.chat_history == 0 then
+    table.insert(lines, "# Welcome to Claude Code")
+    table.insert(lines, "")
+    table.insert(lines, "Type your message below and press Enter to send.")
+    table.insert(lines, "")
+    table.insert(lines, "**Quick tips:**")
+    table.insert(lines, "- Press `Esc` to close this window")
+    table.insert(lines, "- Press `q` in the history to close")
+    table.insert(lines, "- Press `i` in the history to jump back to input")
+    table.insert(lines, "")
+    if config.use_local_claude and vim.fn.executable(vim.fn.expand("~/.claude/local/claude")) == 1 then
+      table.insert(lines, "✓ Using local Claude Code CLI")
+    else
+      table.insert(lines, "⚡ Using Claude API directly")
+    end
+    table.insert(lines, "")
+  end
+  
   -- Context indicator
   if config.ui.show_context then
     local context = require("claude-code.context").get_current()
-    if #context.files > 0 then
+    if context and context.files and #context.files > 0 then
       table.insert(lines, "**Context:** " .. #context.files .. " files")
       for i, file in ipairs(context.files) do
         if i <= 3 then
@@ -208,12 +240,15 @@ function M._submit()
   
   -- Get the input text
   local lines = api.nvim_buf_get_lines(state.prompt_buf, 0, -1, false)
-  local message = table.concat(lines, "\n"):gsub("^ ❯ ", "")
+  local message = ""
+  if #lines > 0 then
+    message = lines[1]:gsub("^ ❯ ", "")
+  end
   
   if message == "" then return end
   
-  -- Clear prompt
-  api.nvim_buf_set_lines(state.prompt_buf, 0, -1, false, {})
+  -- Clear prompt and reset with prompt character
+  api.nvim_buf_set_lines(state.prompt_buf, 0, -1, false, {" ❯ "})
   
   -- Add to chat history
   local global_state = require("claude-code").get_state()
