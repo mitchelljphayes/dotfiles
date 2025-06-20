@@ -113,7 +113,7 @@ require("claude-code").setup({
 The Claude Code plugin now maintains your conversation session:
 
 - **Toggle behavior**: `<leader>cc` toggles the window visibility without ending the conversation
-- **Hide window**: Press `Esc` or `q` in normal mode to hide the window (conversation continues)
+- **Hide window**: Press `<leader><Esc>` or `q` in normal mode to hide the window (conversation continues)
 - **Show window**: Press `<leader>cc` again to restore the hidden window with your conversation intact
 - **End session**: Use `:ClaudeClose` or press `Ctrl-C` twice to completely end the conversation
 
