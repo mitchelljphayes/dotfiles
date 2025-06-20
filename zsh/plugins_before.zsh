@@ -9,3 +9,7 @@ fpath=(~/.zsh/plugins/zsh-completions/src $fpath)
 
 
 source ~/.orbstack/shell/init.zsh 2>/dev/null || :
+
+eval "$(zoxide init zsh)"
+
+
