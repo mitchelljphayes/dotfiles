@@ -137,6 +137,10 @@ function M._setup_commands()
   vim.api.nvim_create_user_command("ClaudeRejectAll", function()
     require("claude-code.diff").reject_all()
   end, { desc = "Reject all Claude suggestions" })
+  
+  vim.api.nvim_create_user_command("ClaudeClose", function()
+    require("claude-code.ui").close(true)
+  end, { desc = "Close Claude session (end conversation)" })
 end
 
 -- Set up keymaps

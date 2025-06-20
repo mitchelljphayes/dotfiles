@@ -107,3 +107,18 @@ require("claude-code").setup({
 - Integration with LSP for better code understanding
 - Custom prompt templates
 - Session persistence
+
+## Session Management
+
+The Claude Code plugin now maintains your conversation session:
+
+- **Toggle behavior**: `<leader>cc` toggles the window visibility without ending the conversation
+- **Hide window**: Press `Esc` or `q` in normal mode to hide the window (conversation continues)
+- **Show window**: Press `<leader>cc` again to restore the hidden window with your conversation intact
+- **End session**: Use `:ClaudeClose` or press `Ctrl-C` twice to completely end the conversation
+
+This allows you to:
+- Keep a conversation going while working on code
+- Quickly hide/show Claude without losing context
+- Reference previous messages in the same session
+- Only start fresh when you explicitly close the session
