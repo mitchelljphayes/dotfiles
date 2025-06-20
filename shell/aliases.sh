@@ -3,7 +3,7 @@
 alias grep='grep --color'
 
 # ls aliases
-# alias ls='ls --color=auto'
+alias ls='ls --color=auto'
 alias ll='ls -lah'
 alias la='ls -la'
 
@@ -15,6 +15,11 @@ if [ "$(command -v eza)" ]; then
     alias ls='eza -G  --color auto --icons -a -s type'
     alias ll='eza -l --color always --icons -a -s type'
 fi
+
+# if [ "$(command -v z)" ]; then
+#     unalias -m 'cd'
+#     alias cd='z'
+# fi
 
 if [ -f rg ]; 
     then
