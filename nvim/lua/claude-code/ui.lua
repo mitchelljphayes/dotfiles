@@ -20,7 +20,8 @@ end
 -- Toggle the floating window
 function M.toggle()
   if state.active then
-    M.close()
+    -- If window is active, just hide it instead of closing
+    M.hide()
   else
     M.open()
   end
@@ -28,6 +29,12 @@ end
 
 -- Open the floating window
 function M.open()
+  -- If we have a hidden window, show it
+  if state.term_buf and api.nvim_buf_is_valid(state.term_buf) and not state.active then
+    M.show()
+    return
+  end
+  
   if state.active then return end
   
   -- Check if local Claude Code CLI is available
@@ -44,8 +51,36 @@ function M.open()
   local col = math.floor((vim.o.columns - width) / 2)
   local row = math.floor((vim.o.lines - height) / 2)
   
-  -- Create terminal buffer
-  state.term_buf = api.nvim_create_buf(false, true)
+  -- Create terminal buffer if it doesn't exist
+  if not state.term_buf or not api.nvim_buf_is_valid(state.term_buf) then
+    state.term_buf = api.nvim_create_buf(false, true)
+    api.nvim_buf_set_option(state.term_buf, "bufhidden", "hide")
+    
+    -- Get context files
+    local context = require("claude-code.context").get_current()
+    local cmd = {claude_cmd}
+    
+    -- Add context files as arguments
+    for _, file in ipairs(context.files) do
+      table.insert(cmd, file)
+    end
+    
+    -- Start terminal with Claude CLI
+    local term_cmd = table.concat(cmd, " ")
+    local job_id = vim.fn.termopen(term_cmd, {
+      on_exit = function(exit_code)
+        vim.schedule(function()
+          -- Only close if explicitly exited, not hidden
+          if exit_code == 0 or exit_code == 130 then -- 130 is Ctrl+C
+            M.close(true) -- Force close
+          end
+        end)
+      end
+    })
+    
+    -- Store job ID for potential task sending
+    state.term_job_id = job_id
+  end
   
   -- Create floating window
   state.term_win = api.nvim_open_win(state.term_buf, true, {
@@ -59,28 +94,6 @@ function M.open()
     title = " Claude Code ",
     title_pos = "center",
   })
-  
-  -- Get context files
-  local context = require("claude-code.context").get_current()
-  local cmd = {claude_cmd}
-  
-  -- Add context files as arguments
-  for _, file in ipairs(context.files) do
-    table.insert(cmd, file)
-  end
-  
-  -- Start terminal with Claude CLI
-  local term_cmd = table.concat(cmd, " ")
-  local job_id = vim.fn.termopen(term_cmd, {
-    on_exit = function()
-      vim.schedule(function()
-        M.close()
-      end)
-    end
-  })
-  
-  -- Store job ID for potential task sending
-  state.term_job_id = job_id
   
   -- Set up terminal keymaps
   M._setup_term_keymaps()
@@ -174,14 +187,13 @@ function M._open_api_ui()
   vim.cmd("startinsert!")
 end
 
--- Close the floating window
-function M.close()
-  -- Close terminal window
+-- Hide the floating window (keep session)
+function M.hide()
+  -- Close windows but keep buffers
   if state.term_win and api.nvim_win_is_valid(state.term_win) then
     api.nvim_win_close(state.term_win, true)
   end
   
-  -- Close API UI windows
   if state.prompt_win and api.nvim_win_is_valid(state.prompt_win) then
     api.nvim_win_close(state.prompt_win, true)
   end
@@ -189,11 +201,83 @@ function M.close()
     api.nvim_win_close(state.history_win, true)
   end
   
+  -- Mark as inactive but keep buffers
   state.active = false
   state.term_win = nil
-  state.term_buf = nil
   state.prompt_win = nil
   state.history_win = nil
+end
+
+-- Show hidden window
+function M.show()
+  if state.active then return end
+  
+  -- Get window dimensions
+  local width = math.floor(vim.o.columns * 0.9)
+  local height = math.floor(vim.o.lines * 0.9)
+  local col = math.floor((vim.o.columns - width) / 2)
+  local row = math.floor((vim.o.lines - height) / 2)
+  
+  -- Recreate window for terminal buffer
+  if state.term_buf and api.nvim_buf_is_valid(state.term_buf) then
+    state.term_win = api.nvim_open_win(state.term_buf, true, {
+      relative = "editor",
+      width = width,
+      height = height,
+      col = col,
+      row = row,
+      style = "minimal",
+      border = "rounded",
+      title = " Claude Code ",
+      title_pos = "center",
+    })
+    
+    -- Set up terminal keymaps
+    M._setup_term_keymaps()
+    
+    -- Set active state
+    state.active = true
+    
+    -- Enter terminal mode
+    vim.cmd("startinsert")
+  else
+    -- No existing session, create new
+    M.open()
+  end
+end
+
+-- Close the floating window (end session)
+function M.close(force)
+  -- If not forcing close, just hide
+  if not force and state.term_buf then
+    M.hide()
+    return
+  end
+  
+  -- Close terminal job if running
+  if state.term_job_id then
+    vim.fn.jobstop(state.term_job_id)
+    state.term_job_id = nil
+  end
+  
+  -- Close and delete buffers
+  if state.term_buf and api.nvim_buf_is_valid(state.term_buf) then
+    api.nvim_buf_delete(state.term_buf, { force = true })
+  end
+  
+  if state.prompt_buf and api.nvim_buf_is_valid(state.prompt_buf) then
+    api.nvim_buf_delete(state.prompt_buf, { force = true })
+  end
+  
+  if state.history_buf and api.nvim_buf_is_valid(state.history_buf) then
+    api.nvim_buf_delete(state.history_buf, { force = true })
+  end
+  
+  -- Close windows
+  M.hide()
+  
+  -- Clear all state
+  state.term_buf = nil
   state.prompt_buf = nil
   state.history_buf = nil
 end
@@ -490,14 +574,19 @@ end
 function M._setup_term_keymaps()
   local opts = { noremap = true, silent = true, buffer = state.term_buf }
   
-  -- Close on Ctrl-C twice or Escape in normal mode
-  vim.keymap.set("n", "<Esc>", function() M.close() end, opts)
-  vim.keymap.set("n", "q", function() M.close() end, opts)
+  -- Hide on Escape in normal mode (keep session)
+  vim.keymap.set("n", "<Esc>", function() M.hide() end, opts)
+  vim.keymap.set("n", "q", function() M.hide() end, opts)
   
-  -- Make Ctrl-C in terminal mode close after confirmation
+  -- Force close with double Ctrl-C (end session)
   vim.keymap.set("t", "<C-c><C-c>", function() 
-    vim.fn.jobstop(vim.b.terminal_job_id)
-    M.close() 
+    M.close(true) -- Force close
+  end, opts)
+  
+  -- Hide with single Escape in terminal mode
+  vim.keymap.set("t", "<Esc>", function()
+    vim.cmd("stopinsert")
+    M.hide()
   end, opts)
 end
 
