@@ -1,0 +1,27 @@
+# Example .sqlfluff configuration for dbt projects
+# Copy this to your project root or home directory as .sqlfluff
+
+[sqlfluff]
+templater = dbt
+dialect = postgres  # Change to your SQL dialect (postgres, bigquery, snowflake, etc.)
+exclude_rules = L034,L044  # Exclude rules that conflict with dbt patterns
+
+[sqlfluff:templater:dbt]
+project_dir = .
+profiles_dir = ~/.dbt  # Path to your dbt profiles
+profile = default  # Your dbt profile name
+target = dev  # Your dbt target
+
+[sqlfluff:rules]
+tab_space_size = 4
+max_line_length = 120
+indent_unit = space
+
+[sqlfluff:rules:L010]  # Keywords
+capitalisation_policy = lower
+
+[sqlfluff:rules:L014]  # Unquoted identifiers
+extended_capitalisation_policy = lower
+
+[sqlfluff:rules:L030]  # Function names
+capitalisation_policy = lower
