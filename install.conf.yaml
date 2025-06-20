@@ -61,6 +61,9 @@
       if: '[ `uname` = Darwin ]'
       path: nu/env.nu
       force: true
+    ~/.claude/CLAUDE.md:
+      path: CLAUDE.md
+      force: true
 
 - shell:
   - git submodule sync --recursive
