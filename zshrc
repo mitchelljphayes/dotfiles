@@ -59,3 +59,9 @@ case ":$PATH:" in
 esac
 # pnpm end
 eval "$(uv generate-shell-completion zsh)"
+
+# Added by dbt installer
+export PATH="$PATH:/Users/mjp/.local/bin"
+
+# dbt aliases
+alias dbtf=/Users/mjp/.local/bin/dbt
