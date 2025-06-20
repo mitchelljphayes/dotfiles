@@ -34,7 +34,8 @@ M.config = {
     multi_file_edit = true,        -- Support editing multiple files
     terminal_integration = true,   -- Terminal command suggestions
     project_awareness = true,      -- Understand project structure
-  }
+  },
+  use_local_claude = true,         -- Use local Claude Code CLI if available
 }
 
 -- State management
