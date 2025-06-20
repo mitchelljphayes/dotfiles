@@ -8,6 +8,8 @@ local state = {
   prompt_win = nil,
   history_buf = nil,
   history_win = nil,
+  term_buf = nil,
+  term_win = nil,
   active = false,
 }
 
@@ -28,6 +30,80 @@ end
 function M.open()
   if state.active then return end
   
+  -- Check if local Claude Code CLI is available
+  local claude_cmd = vim.fn.expand("~/.claude/local/claude")
+  if not (config.use_local_claude ~= false and vim.fn.executable(claude_cmd) == 1) then
+    -- Fall back to API-based UI if CLI not available
+    M._open_api_ui()
+    return
+  end
+  
+  -- Get window dimensions
+  local width = math.floor(vim.o.columns * 0.9)
+  local height = math.floor(vim.o.lines * 0.9)
+  local col = math.floor((vim.o.columns - width) / 2)
+  local row = math.floor((vim.o.lines - height) / 2)
+  
+  -- Create terminal buffer
+  state.term_buf = api.nvim_create_buf(false, true)
+  
+  -- Create floating window
+  state.term_win = api.nvim_open_win(state.term_buf, true, {
+    relative = "editor",
+    width = width,
+    height = height,
+    col = col,
+    row = row,
+    style = "minimal",
+    border = "rounded",
+    title = " Claude Code ",
+    title_pos = "center",
+  })
+  
+  -- Get context files
+  local context = require("claude-code.context").get_current()
+  local cmd = {claude_cmd}
+  
+  -- Add context files as arguments
+  for _, file in ipairs(context.files) do
+    table.insert(cmd, file)
+  end
+  
+  -- Start terminal with Claude CLI
+  local term_cmd = table.concat(cmd, " ")
+  local job_id = vim.fn.termopen(term_cmd, {
+    on_exit = function()
+      vim.schedule(function()
+        M.close()
+      end)
+    end
+  })
+  
+  -- Store job ID for potential task sending
+  state.term_job_id = job_id
+  
+  -- Set up terminal keymaps
+  M._setup_term_keymaps()
+  
+  -- Set active state
+  state.active = true
+  
+  -- Enter terminal mode
+  vim.cmd("startinsert")
+  
+  -- If we have a pending task, send it after a short delay
+  if state.pending_task then
+    vim.defer_fn(function()
+      if state.term_job_id then
+        vim.api.nvim_chan_send(state.term_job_id, state.pending_task .. "\n")
+        state.pending_task = nil
+      end
+    end, 500) -- Wait 500ms for Claude to initialize
+  end
+end
+
+-- Open API-based UI (fallback)
+function M._open_api_ui()
   local global_state = require("claude-code").get_state()
   
   -- Get window dimensions
@@ -56,7 +132,7 @@ function M.open()
   
   -- Create prompt buffer and window
   state.prompt_buf = api.nvim_create_buf(false, true)
-  api.nvim_buf_set_option(state.prompt_buf, "buftype", "nofile") -- Change from prompt to nofile
+  api.nvim_buf_set_option(state.prompt_buf, "buftype", "nofile")
   api.nvim_buf_set_option(state.prompt_buf, "swapfile", false)
   api.nvim_buf_set_option(state.prompt_buf, "bufhidden", "wipe")
   
@@ -100,6 +176,12 @@ end
 
 -- Close the floating window
 function M.close()
+  -- Close terminal window
+  if state.term_win and api.nvim_win_is_valid(state.term_win) then
+    api.nvim_win_close(state.term_win, true)
+  end
+  
+  -- Close API UI windows
   if state.prompt_win and api.nvim_win_is_valid(state.prompt_win) then
     api.nvim_win_close(state.prompt_win, true)
   end
@@ -108,6 +190,8 @@ function M.close()
   end
   
   state.active = false
+  state.term_win = nil
+  state.term_buf = nil
   state.prompt_win = nil
   state.history_win = nil
   state.prompt_buf = nil
@@ -400,6 +484,21 @@ function M.new_task(task_description)
       end
     end)
   end
+end
+
+-- Set up terminal keymaps
+function M._setup_term_keymaps()
+  local opts = { noremap = true, silent = true, buffer = state.term_buf }
+  
+  -- Close on Ctrl-C twice or Escape in normal mode
+  vim.keymap.set("n", "<Esc>", function() M.close() end, opts)
+  vim.keymap.set("n", "q", function() M.close() end, opts)
+  
+  -- Make Ctrl-C in terminal mode close after confirmation
+  vim.keymap.set("t", "<C-c><C-c>", function() 
+    vim.fn.jobstop(vim.b.terminal_job_id)
+    M.close() 
+  end, opts)
 end
 
 -- Define highlight groups
