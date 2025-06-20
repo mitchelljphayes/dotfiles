@@ -24,9 +24,6 @@ return {
           toggle_context = "<leader>cx", -- Toggle context inclusion
         },
         ui = {
-          position = "right",            -- right, left, bottom
-          width = 50,                    -- Width in columns
-          height = 20,                   -- Height in lines (for bottom)
           show_context = true,           -- Show file context
           show_diff_preview = true,      -- Show diff preview
           auto_close_on_accept = false,  -- Close after accepting changes
@@ -37,7 +34,8 @@ return {
           multi_file_edit = true,        -- Support multi-file edits
           terminal_integration = false,  -- Terminal command suggestions
           project_awareness = true,      -- Understand project structure
-        }
+        },
+        use_local_claude = true,         -- Use local Claude Code CLI if available
       })
     end,
     keys = {
