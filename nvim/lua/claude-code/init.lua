@@ -19,6 +19,7 @@ M.config = {
     prev_diff = "[c",              -- Previous diff
     accept_diff = "<leader>cd",    -- Accept current diff
     toggle_context = "<leader>cc", -- Toggle context inclusion
+    hide = "<leader><Esc>",        -- Hide window (keep session)
   },
   ui = {
     position = "right",            -- right, left, bottom

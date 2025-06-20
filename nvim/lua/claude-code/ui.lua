@@ -95,6 +95,20 @@ function M.open()
     title_pos = "center",
   })
   
+  -- Set window options to keep terminal scrolled to bottom
+  api.nvim_win_set_option(state.term_win, "scrolloff", 0)
+  
+  -- Set up autocmd to keep terminal at bottom
+  vim.api.nvim_create_autocmd({"TextChanged", "TextChangedI", "TextChangedT"}, {
+    buffer = state.term_buf,
+    callback = function()
+      if state.term_win and api.nvim_win_is_valid(state.term_win) then
+        local line_count = api.nvim_buf_line_count(state.term_buf)
+        pcall(api.nvim_win_set_cursor, state.term_win, {line_count, 0})
+      end
+    end
+  })
+  
   -- Set up terminal keymaps
   M._setup_term_keymaps()
   
@@ -231,6 +245,9 @@ function M.show()
       title = " Claude Code ",
       title_pos = "center",
     })
+    
+    -- Keep terminal scrolled to bottom
+    api.nvim_win_set_option(state.term_win, "scrolloff", 0)
     
     -- Set up terminal keymaps
     M._setup_term_keymaps()
@@ -574,8 +591,7 @@ end
 function M._setup_term_keymaps()
   local opts = { noremap = true, silent = true, buffer = state.term_buf }
   
-  -- Hide on Escape in normal mode (keep session)
-  vim.keymap.set("n", "<Esc>", function() M.hide() end, opts)
+  -- Hide on q in normal mode (keep session)
   vim.keymap.set("n", "q", function() M.hide() end, opts)
   
   -- Force close with double Ctrl-C (end session)
@@ -583,10 +599,18 @@ function M._setup_term_keymaps()
     M.close(true) -- Force close
   end, opts)
   
-  -- Hide with single Escape in terminal mode
-  vim.keymap.set("t", "<Esc>", function()
-    vim.cmd("stopinsert")
+  -- Hide with leader+Esc in any mode
+  vim.keymap.set({"n", "t"}, "<leader><Esc>", function()
+    if vim.fn.mode() == "t" then
+      vim.cmd("stopinsert")
+    end
     M.hide()
+  end, opts)
+  
+  -- Scroll to bottom with Ctrl+L in terminal mode
+  vim.keymap.set("t", "<C-l>", function()
+    local line_count = api.nvim_buf_line_count(state.term_buf)
+    api.nvim_win_set_cursor(state.term_win, {line_count, 0})
   end, opts)
 end
 
