@@ -141,7 +141,7 @@ $env.NU_PLUGIN_DIRS = [
 $env.PATH = ($env.PATH | split row (char esep) | prepend '/opt/homebrew/bin')
 $env.PATH = ($env.PATH | split row (char esep) | prepend '~/.cargo/bin')
 $env.PATH = ($env.PATH | split row (char esep) | prepend '~/.local/bin')
-$env.PATH = ($env.PATH | split row (char esep) | prepend 'usr/local/bin')
+$env.PATH = ($env.PATH | split row (char esep) | prepend '/usr/local/bin')
 
 $env.EDITOR = nvim
 $env.VISUAL = code

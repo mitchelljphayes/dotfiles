@@ -50,6 +50,12 @@
     ~/.zsh:
     ~/.zshrc:
     ~/.zprofile:
+    ~/.fzf.bash:
+      path: shell/fzf.bash
+    ~/.fzf.zsh:
+      path: shell/fzf.zsh
+    ~/.yarnrc:
+      path: yarnrc
     ~/.ssh/config: 
       path: ssh/config
       force: true
