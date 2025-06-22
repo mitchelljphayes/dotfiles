@@ -65,3 +65,6 @@ export PATH="$PATH:/Users/mjp/.local/bin"
 
 # dbt aliases
 alias dbtf=/Users/mjp/.local/bin/dbt
+export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
+export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
+export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
