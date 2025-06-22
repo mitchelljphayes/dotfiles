@@ -36,7 +36,7 @@ brew "docker", link: false
 brew "docker-credential-helper-ecr"
 brew "doctl"
 brew "docutils"
-brew "exa"
+brew "eza" # Modern replacement for ls (fork of exa)
 brew "fd"
 brew "fzf"
 brew "gdk-pixbuf"

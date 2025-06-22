@@ -24,10 +24,9 @@ fi
 #     alias cd='z'
 # fi
 
-if [ -f rg ]; 
-    then
-        unalias -m 'grep'
-        alias grep='rg'
+if command -v rg &> /dev/null; then
+    unalias -m 'grep'
+    alias grep='rg'
 fi
 
 if [ "$(command -v bat)" ]; then

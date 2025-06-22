@@ -92,7 +92,7 @@
 	default = upstream
 
 [credential]
-	helper = store
+	helper = osxkeychain
 
 [grep]
 	lineNumber = true
