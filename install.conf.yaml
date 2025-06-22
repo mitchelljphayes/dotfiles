@@ -27,6 +27,9 @@
     ~/.config/wezterm:
       path: wezterm
       force: true
+    ~/.config/ghostty:
+      path: ghostty
+      force: true
     ~/.config/tmux:
       path: tmux
     ~/.tmux.conf:
