@@ -21,7 +21,7 @@ return {
       -- Window-local options to use for oil buffers
       win_options = {
         wrap = false,
-        signcolumn = "no",
+        signcolumn = "yes:1",
         cursorcolumn = false,
         foldcolumn = "0",
         spell = false,
@@ -77,6 +77,7 @@ return {
         ["gx"] = "actions.open_external",
         ["g."] = { "actions.toggle_hidden", mode = "n" },
         ["g\\"] = { "actions.toggle_trash", mode = "n" },
+        ["<C-r>"] = { "actions.refresh", mode = "n", desc = "Refresh Oil (with diagnostics)" },
       },
       -- Set to false to disable all of the above keymaps
       use_default_keymaps = true,
@@ -204,7 +205,45 @@ return {
       },
     },
   -- Optional dependencies
-  dependencies = { { "echasnovski/mini.icons", opts = {} } },
+  dependencies = { 
+    { "echasnovski/mini.icons", opts = {} },
+    {
+      "JezerM/oil-lsp-diagnostics.nvim",
+      config = function()
+        require("oil-lsp-diagnostics").setup({
+          -- Filter diagnostics to exclude dbt files and Jinja syntax errors
+          filter_diagnostics = function(diagnostic, bufnr)
+            -- Get the file path from the diagnostic
+            local filepath = diagnostic.filename or ""
+            
+            -- Skip diagnostics from dbt files
+            if filepath:match("/models/") or 
+               filepath:match("/macros/") or 
+               filepath:match("/tests/") or 
+               filepath:match("/seeds/") or 
+               filepath:match("/snapshots/") or 
+               filepath:match("/analyses/") or
+               filepath:match("%.dbt%.sql$") then
+              return false
+            end
+            
+            -- Skip Jinja-related syntax errors
+            if diagnostic.message and (
+               diagnostic.message:match("Expected.*but.*{.*found") or
+               diagnostic.message:match("{{") or
+               diagnostic.message:match("{%%")
+            ) then
+              return false
+            end
+            
+            return true
+          end,
+        })
+        
+        -- The oil-lsp-diagnostics plugin handles refresh automatically
+      end,
+    },
+  },
   -- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
   -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
   lazy = false,

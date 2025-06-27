@@ -30,6 +30,8 @@ return {
           "sqls", -- SQL Language Server
           "sqlls", -- Alternative SQL Language Server with better diagnostics
           "sqlfluff", -- SQL linter with dbt support
+          "yaml-language-server", -- YAML LSP
+          "prettier", -- Formatter for JS/TS/JSON/YAML/MD
         },
         auto_update = true,
         run_on_start = true,
