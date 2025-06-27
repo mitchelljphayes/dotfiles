@@ -49,35 +49,14 @@
 
 # The prompt indicators are environmental variables that represent
 # the state of the prompt
-# $env.PROMPT_INDICATOR = {|| "〉" }
-# $env.PROMPT_INDICATOR_VI_INSERT = {|| ": " }
-# $env.PROMPT_INDICATOR_VI_NORMAL = {|| "〉" }
-# $env.PROMPT_MULTILINE_INDICATOR = {|| "::: " }
-
-
-### STARSHIP
-$env.STARSHIP_SHELL = "nu"
-
-def create_left_prompt [] {
-    starship prompt --cmd-duration $env.CMD_DURATION_MS $'--status=($env.LAST_EXIT_CODE)'
-}
-
-# Use nushell functions to define your right and left prompt
-# $env.PROMPT_COMMAND = { create_left_prompt }
-# $env.PROMPT_COMMAND_RIGHT = ""
-
-# The prompt indicators are environmental variables that represent
-# the state of the prompt
-
-# $env.PROMPT_INDICATOR = ""
-$env.PROMPT_INDICATOR_VI_INSERT = "❯ "
-$env.PROMPT_INDICATOR_VI_NORMAL = "❮ "
-# $env.PROMPT_MULTILINE_INDICATOR = "::: "
-
+# Nushell's vi mode indicators - these appear after starship's prompt
 $env.PROMPT_INDICATOR = ""
-# $env.PROMPT_INDICATOR_VI_INSERT = ""
-# $env.PROMPT_INDICATOR_VI_NORMAL = ""
-$env.PROMPT_MULTILINE_INDICATOR = "::: "
+$env.PROMPT_INDICATOR_VI_INSERT = ""
+$env.PROMPT_INDICATOR_VI_NORMAL = " ❮"  # Space + backward arrow for normal mode
+$env.PROMPT_MULTILINE_INDICATOR = "▶▶"
+
+
+# Starship is now loaded automatically from vendor/autoload directory
 
 # $env.STARSHIP_SESSION_KEY = (random chars -l 16)
 # $env.PROMPT_MULTILINE_INDICATOR = (^/opt/homebrew/bin/starship prompt --continuation)
@@ -127,7 +106,7 @@ $env.ENV_CONVERSIONS = {
 
 # Directories to search for scripts when calling source or use
 $env.NU_LIB_DIRS = [
-    # ($nu.default-config-dir | path join 'scripts') # add <nushell-config-dir>/scripts
+    ($nu.default-config-dir | path join 'scripts') # add <nushell-config-dir>/scripts
 ]
 
 # Directories to search for plugin binaries when calling register
@@ -143,11 +122,25 @@ $env.PATH = ($env.PATH | split row (char esep) | prepend '~/.cargo/bin')
 $env.PATH = ($env.PATH | split row (char esep) | prepend '~/.local/bin')
 $env.PATH = ($env.PATH | split row (char esep) | prepend '/usr/local/bin')
 
-$env.EDITOR = nvim
-$env.VISUAL = code
+# Editor settings
+$env.EDITOR = "nvim"
+$env.VISUAL = "code"
 
-mkdir ~/.cache/starship
-starship init nu | save -f ~/.cache/starship/init.nu
-zoxide init nushell | save -f ~/.zoxide.nu
+# Python settings
+$env.PIP_REQUIRE_VIRTUALENV = "True"
+$env.PIP_DOWNLOAD_CACHE = $"($env.HOME)/.pip/cache"
+$env.PYTHONSTARTUP = $"($env.HOME)/.pythonrc"
+
+# pnpm
+$env.PNPM_HOME = $"($env.HOME)/Library/pnpm"
+
+# History (nushell manages its own history)
+# But set these for compatibility with external tools
+$env.HISTSIZE = "1048576"
+$env.SAVEHIST = "1048576"
+
+# Initialize external tools
+# Starship is now loaded automatically from vendor/autoload directory
+source scripts/zoxide.nu
 
 

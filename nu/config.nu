@@ -224,8 +224,7 @@ $env.config = {
     }
 
     filesize: {
-        metric: true # true => KB, MB, GB (ISO standard), false => KiB, MiB, GiB (Windows standard)
-        format: "auto" # b, kb, kib, mb, mib, gb, gib, tb, tib, pb, pib, eb, eib, auto
+        # filesize options have been removed in newer versions
     }
 
     cursor_shape: {
@@ -235,14 +234,28 @@ $env.config = {
     }
 
     color_config: $dark_theme # if you want a more interesting theme, you can replace the empty record with `$dark_theme`, `$light_theme` or another custom record
-    use_grid_icons: true
-    footer_mode: "25" # always, never, number_of_rows, auto
+    footer_mode: 25 # always, never, number_of_rows, auto
     float_precision: 2 # the precision for displaying floats in tables
     buffer_editor: "" # command that will be used to edit the current line buffer with ctrl+o, if unset fallback to $env.EDITOR and $env.VISUAL
     use_ansi_coloring: true
     bracketed_paste: true # enable bracketed paste, currently useless on windows
     edit_mode: vi # emacs, vi
-    shell_integration: false # enables terminal shell integration. Off by default, as some terminals have issues with this.
+    shell_integration: {
+        # OSC2 (window title)
+        osc2: true
+        # OSC7 (current working directory)
+        osc7: true
+        # OSC8 (hyperlinks)
+        osc8: true
+        # OSC9_9 (notifications)
+        osc9_9: false
+        # OSC133 (prompt marking)
+        osc133: true
+        # OSC633 (vscode terminal protocol)
+        osc633: true
+        # FTCS_MARKS (fish style prompt marking)
+        reset_application_mode: true
+    }
     render_right_prompt_on_last_line: false # true or false to enable or disable right prompt to be rendered on last line of the prompt.
 
     hooks: {
@@ -767,5 +780,7 @@ $env.config = {
     ]
 }
 
-use ~/.cache/starship/init.nu
 source ~/.zoxide.nu
+
+# Load custom configurations
+source aliases.nu
