@@ -1,7 +1,7 @@
 # Use colors in coreutils utilities output
 
 # Claude CLI
-alias claude="$HOME/.claude/local/claude"
+# alias claude="$HOME/.claude/local/claude"
 
 alias grep='grep --color'
 
@@ -19,10 +19,11 @@ if [ "$(command -v eza)" ]; then
     alias ll='eza -l --color always --icons -a -s type'
 fi
 
-# if [ "$(command -v z)" ]; then
-#     unalias -m 'cd'
-#     alias cd='z'
-# fi
+# Zoxide - smarter cd command
+if command -v zoxide &> /dev/null; then
+    alias cd='z'
+    alias cdi='zi'  # interactive mode
+fi
 
 if command -v rg &> /dev/null; then
     unalias -m 'grep'
@@ -81,11 +82,6 @@ alias cdgr='cd "$(git root)"'
 # Create a directory and cd into it
 mcd() {
     mkdir "${1}" && cd "${1}"
-}
-
-# Jump to directory containing file
-jump() {
-    cd "$(dirname ${1})"
 }
 
 # cd replacement for screen to track cwd (like tmux)
