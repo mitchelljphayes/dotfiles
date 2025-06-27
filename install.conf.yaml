@@ -70,6 +70,18 @@
       if: '[ `uname` = Darwin ]'
       path: nu/env.nu
       force: true
+    ~/Library/Application Support/nushell/aliases.nu:
+      if: '[ `uname` = Darwin ]'
+      path: nu/aliases.nu
+      force: true
+    ~/Library/Application Support/nushell/scripts:
+      if: '[ `uname` = Darwin ]'
+      path: nu/scripts
+      force: true
+    ~/Library/Application Support/nushell/vendor:
+      if: '[ `uname` = Darwin ]'
+      path: nu/vendor
+      force: true
     ~/.claude/CLAUDE.md:
       path: CLAUDE.md
       force: true
