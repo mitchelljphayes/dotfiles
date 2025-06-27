@@ -25,9 +25,6 @@ setopt extendedhistory
 # Time to wait for additional characters in a sequence
 export KEYTIMEOUT=1 # corresponds to 10ms
 
-# Use vim as the editor
-export EDITOR=nvim
-
 # vi mode
 bindkey -v
 
