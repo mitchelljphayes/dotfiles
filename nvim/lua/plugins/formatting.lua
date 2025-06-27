@@ -18,7 +18,7 @@ return {
           lua = { "stylua" },
         },
         
-        -- Configure sqlfluff formatter
+        -- Configure formatters
         formatters = {
           sqlfluff = {
             command = "sqlfluff",
@@ -31,6 +31,9 @@ return {
             },
             stdin = true,
             cwd = require("conform.util").root_file({ ".sqlfluff", "dbt_project.yml" }),
+          },
+          prettier = {
+            command = vim.fn.stdpath("data") .. "/mason/bin/prettier",
           },
         },
         
@@ -59,13 +62,13 @@ return {
       end, { range = true })
       
       -- Keymap for formatting
-      vim.keymap.set({ "n", "v" }, "<leader>f", function()
+      vim.keymap.set({ "n", "v" }, "<leader>cf", function()
         conform.format({
           lsp_fallback = true,
           async = false,
           timeout_ms = 1000,
         })
-      end, { desc = "Format file or range (in visual mode)" })
+      end, { desc = "[C]ode [F]ormat file or range (in visual mode)" })
       
       -- Special handling for dbt SQL files
       vim.api.nvim_create_autocmd("BufEnter", {

@@ -78,6 +78,8 @@ return {
         mapping = cmp.mapping.preset.insert({
           ['<C-k>'] = cmp.mapping.select_prev_item(),
           ['<C-j>'] = cmp.mapping.select_next_item(),
+          ['<Up>'] = cmp.mapping.select_prev_item(),
+          ['<Down>'] = cmp.mapping.select_next_item(),
           ['<C-b>'] = cmp.mapping.scroll_docs(-4),
           ['<C-f>'] = cmp.mapping.scroll_docs(4),
           ['<C-Space>'] = cmp.mapping.complete(),
@@ -86,26 +88,12 @@ return {
             behavior = cmp.ConfirmBehavior.Replace,
             select = false, -- Don't select first item automatically
           }),
-          ['<Tab>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_next_item()
-            elseif luasnip.expand_or_jumpable() then
-              luasnip.expand_or_jump()
-            elseif has_words_before() then
-              cmp.complete()
-            else
-              fallback()
-            end
-          end, { 'i', 's' }),
-          ['<S-Tab>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then
-              cmp.select_prev_item()
-            elseif luasnip.jumpable(-1) then
-              luasnip.jump(-1)
-            else
-              fallback()
-            end
-          end, { 'i', 's' }),
+          ['<Right>'] = cmp.mapping.confirm({
+            behavior = cmp.ConfirmBehavior.Replace,
+            select = true, -- Select current item
+          }),
+          -- Tab is now reserved for Copilot ghost text
+          -- S-Tab is now reserved for Copilot accept word
         }),
         
         sources = cmp.config.sources({
@@ -120,7 +108,7 @@ return {
         }),
         
         experimental = {
-          ghost_text = true,
+          ghost_text = false,
         },
         
         sorting = {
@@ -150,9 +138,16 @@ return {
         })
       })
       
+      -- Custom cmdline mappings with our navigation keys
+      local cmdline_mapping = cmp.mapping.preset.cmdline()
+      cmdline_mapping['<C-j>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'c' })
+      cmdline_mapping['<C-k>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'c' })
+      cmdline_mapping['<Down>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'c' })
+      cmdline_mapping['<Up>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'c' })
+      
       -- Use buffer source for `/` search
       cmp.setup.cmdline('/', {
-        mapping = cmp.mapping.preset.cmdline(),
+        mapping = cmdline_mapping,
         sources = {
           { name = 'buffer' }
         }
@@ -160,7 +155,7 @@ return {
       
       -- Use cmdline & path source for ':' commands
       cmp.setup.cmdline(':', {
-        mapping = cmp.mapping.preset.cmdline(),
+        mapping = cmdline_mapping,
         sources = cmp.config.sources({
           { name = 'path' }
         }, {

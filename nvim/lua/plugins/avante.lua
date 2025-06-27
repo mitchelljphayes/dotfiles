@@ -37,8 +37,8 @@ return {
         dismiss = "<C-]>",
       },
       jump = {
-        next = "]]",
-        prev = "[[",
+        next = "]j",  -- Changed from ]] to avoid conflict
+        prev = "[j",  -- Changed from [[ to avoid conflict
       },
       submit = {
         normal = "<CR>",
