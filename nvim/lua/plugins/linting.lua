@@ -9,7 +9,7 @@ return {
       -- Configure linters by filetype
       lint.linters_by_ft = {
         sql = { "sqlfluff" },
-        python = { "ruff", "mypy" },
+        python = { "ruff" },
         javascript = { "eslint" },
         typescript = { "eslint" },
       }

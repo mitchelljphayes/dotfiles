@@ -45,8 +45,7 @@ end, { desc = "Initialize Molten for python3", silent = true })
 -- Normal --
 -- Better window navigation
 vim.keymap.set("n", "<C-h>", "<C-w>h", { noremap = true, silent = true })
-vim.keymap.set("n", "<C-j>", "<C-w>j", { noremap = true, silent = true })
-vim.keymap.set("n", "<C-k>", "<C-w>k", { noremap = true, silent = true })
+-- C-j and C-k are handled by smart navigation below
 vim.keymap.set("n", "<C-l>", "<C-w>l", { noremap = true, silent = true })
 
 -- Navigate buffers
@@ -82,3 +81,55 @@ vim.keymap.set("x", "J", ":move '>+1<CR>gv-gv", { noremap = true, silent = true 
 vim.keymap.set("x", "K", ":move '<-2<CR>gv-gv", { noremap = true, silent = true })
 vim.keymap.set("x", "<A-j>", ":move '>+1<CR>gv-gv", { noremap = true, silent = true })
 vim.keymap.set("x", "<A-k>", ":move '<-2<CR>gv-gv", { noremap = true, silent = true })
+
+-- Quickfix navigation
+vim.keymap.set("n", "]q", ":cnext<CR>", { desc = "Next quickfix item" })
+vim.keymap.set("n", "[q", ":cprev<CR>", { desc = "Previous quickfix item" })
+
+-- Smart navigation: use Ctrl-j/k for quickfix when quickfix is open, otherwise for windows
+vim.keymap.set("n", "<C-j>", function()
+  local qf_exists = false
+  for _, win in pairs(vim.fn.getwininfo()) do
+    if win.quickfix == 1 then
+      qf_exists = true
+      break
+    end
+  end
+  if qf_exists then
+    vim.cmd("cnext")
+  else
+    vim.cmd("wincmd j")
+  end
+end, { desc = "Next quickfix item or window down" })
+
+vim.keymap.set("n", "<C-k>", function()
+  local qf_exists = false
+  for _, win in pairs(vim.fn.getwininfo()) do
+    if win.quickfix == 1 then
+      qf_exists = true
+      break
+    end
+  end
+  if qf_exists then
+    vim.cmd("cprev")
+  else
+    vim.cmd("wincmd k")
+  end
+end, { desc = "Previous quickfix item or window up" })
+
+-- Location list navigation
+vim.keymap.set("n", "]l", ":lnext<CR>", { desc = "Next location list item" })
+vim.keymap.set("n", "[l", ":lprev<CR>", { desc = "Previous location list item" })
+
+-- When in quickfix or location list window, use simple j/k
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "qf" },
+  callback = function()
+    vim.keymap.set("n", "j", "j", { buffer = true })
+    vim.keymap.set("n", "k", "k", { buffer = true })
+    vim.keymap.set("n", "<C-j>", "j", { buffer = true })
+    vim.keymap.set("n", "<C-k>", "k", { buffer = true })
+    vim.keymap.set("n", "<Down>", "j", { buffer = true })
+    vim.keymap.set("n", "<Up>", "k", { buffer = true })
+  end,
+})
