@@ -15,11 +15,20 @@ source ~/.zsh/settings.zsh
 # Bootstrap
 source ~/.shell/bootstrap.sh
 
+# Environment variables
+source ~/.shell/environment.sh
+
+# PATH management
+source ~/.shell/path.sh
+
 # External settings
 source ~/.shell/external.sh
 
 # Aliases
 source ~/.shell/aliases.sh
+
+# Tmux functions
+source ~/.shell/tmux-functions.sh
 
 # Env
 source ~/.shell/env.sh
@@ -45,26 +54,9 @@ if [ -f ~/.zshrc_local_after ]; then
 fi
 
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 if [ -f ~/.env ]; then
     source ~/.env
 fi
-# pnpm
-export PNPM_HOME="~/Library/pnpm"
-# export JAVA_HOME="$(/usr/libexec/java_home )"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
 eval "$(uv generate-shell-completion zsh)"
 
-# Added by dbt installer
-export PATH="$PATH:/Users/mjp/.local/bin"
-
-# dbt aliases
-alias dbtf=/Users/mjp/.local/bin/dbt
-export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
-export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"
-export PATH="/opt/homebrew/opt/postgresql@16/bin:$PATH"

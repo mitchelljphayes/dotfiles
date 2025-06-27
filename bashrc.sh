@@ -17,11 +17,20 @@ source ~/.bash/settings.bash
 # Bootstrap
 source ~/.shell/bootstrap.sh
 
+# Environment variables
+source ~/.shell/environment.sh
+
+# PATH management  
+source ~/.shell/path.sh
+
 # External settings
 source ~/.shell/external.sh
 
 # Aliases
 source ~/.shell/aliases.sh
+
+# Tmux functions
+source ~/.shell/tmux-functions.sh
 
 # Custom prompt
 if command -v starship &> /dev/null && [ -f ~/.config/starship.toml ]; then
