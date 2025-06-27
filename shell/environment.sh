@@ -3,7 +3,7 @@
 
 # Editor settings
 export EDITOR=nvim
-export VISUAL=code
+export VISUAL=nvim
 
 # Python settings
 export PIP_REQUIRE_VIRTUALENV=True
