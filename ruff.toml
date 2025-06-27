@@ -1,0 +1,53 @@
+# Global Ruff configuration
+# This file will be used as a fallback when no project-specific config exists
+
+# Exclude common directories that shouldn't be linted
+exclude = [
+    ".venv",
+    "venv",
+    "__pycache__",
+    "build",
+    "dist",
+    ".git",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+    "node_modules",
+    "site-packages",
+    ".env",
+    ".env.*",
+    "migrations",
+    "vendor",
+    "third_party",
+    "external",
+    "libs",
+    "cache",
+    "**/build/**",
+    "**/cache/**",
+    "evaluation",
+    "evaluation_results",
+]
+
+# Python version target
+target-version = "py311"
+
+# Line length (matching Black's default)
+line-length = 88
+
+# Enable pycodestyle, pyflakes, and isort
+select = ["E", "F", "I"]
+
+# Common ignores
+ignore = [
+    "E501",  # Line too long (handled by formatter)
+    "E203",  # Whitespace before ':' (conflicts with Black)
+]
+
+[per-file-ignores]
+# Ignore imports in __init__.py files
+"__init__.py" = ["F401", "F403"]
+# Ignore imports in test files
+"test_*.py" = ["F401"]
+"*_test.py" = ["F401"]
+".env" = ["ALL"]
+".env.*" = ["ALL"]
