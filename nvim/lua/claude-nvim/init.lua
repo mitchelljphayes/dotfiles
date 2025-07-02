@@ -25,10 +25,10 @@ M.config = {
 -- Setup function
 function M.setup(opts)
   M.config = vim.tbl_deep_extend("force", M.config, opts or {})
-  
+
   -- Set up commands
   M._setup_commands()
-  
+
   -- Set up keymaps
   M._setup_keymaps()
 end
@@ -43,10 +43,11 @@ end
 -- Set up keymaps
 function M._setup_keymaps()
   local keymaps = M.config.keymaps
-  
-  vim.keymap.set({"n", "v"}, keymaps.open, function()
+
+  vim.keymap.set({ "n", "v" }, keymaps.open, function()
     require("claude-nvim.ui").open()
   end, { desc = "Open Claude" })
 end
 
 return M
+

@@ -29,3 +29,6 @@ kaggle/kaggle.json
 
 # Vim
 .netrwhist
+
+# Claude
+.claude/settings.local.json
