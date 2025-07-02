@@ -23,5 +23,3 @@ export KEYTIMEOUT=1  # corresponds to 10ms for zsh
 # Java location (uncomment if needed)
 # export JAVA_HOME="$(/usr/libexec/java_home)"
 
-# DBT aliases support
-alias dbtf=/Users/mjp/.local/bin/dbt

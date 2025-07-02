@@ -78,15 +78,12 @@ This file contains instructions for Claude Code when working on this machine. Cl
 - Look for .env.example files for environment setup
 - Check README files for project conventions
 
-## Zoxide Usage Notes
+## Directory Navigation
 
-- The user has `cd` aliased to `z` (zoxide) for smarter directory navigation
-- When Claude Code needs to change directories, use absolute paths with `cd` to avoid confusion
-- Zoxide learns from usage patterns, so `cd project` might go to `/Users/mjp/code/project` instead of `./project`
-- For precise directory changes in scripts or commands, prefer:
-  - Full paths: `cd /Users/mjp/exact/path`
-  - Relative paths with `./`: `cd ./subfolder`
-- The original `cd` behavior can be accessed with `\cd` or `command cd`
+- The user has `cd` aliased to `z` (zoxide) for smarter directory navigation in their terminal
+- In Claude Code, `cd` works normally (the zoxide alias is automatically disabled)
+- Feel free to use standard `cd` commands for directory navigation
+- Zoxide features like fuzzy matching won't work in Claude Code's environment
 
 ## Important Reminders
 

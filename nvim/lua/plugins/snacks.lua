@@ -13,7 +13,6 @@ return {
     scroll = { enabled = false },       -- Smooth scrolling
     statuscolumn = { enabled = false }, -- Keep your current statuscolumn
     words = { enabled = true },         -- Highlight word under cursor
-
     -- Command palette configuration
     picker = {
       enabled = true,
@@ -23,7 +22,6 @@ return {
         { name = "files",           weight = 1 },
       },
     },
-
     -- Input configuration for Telescope-like behavior
     input = {
       prompt = " ",
@@ -100,7 +98,7 @@ return {
         toggle.diagnostics():map("<leader>td")
         toggle.line_number():map("<leader>tl")
         toggle.option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2 }):map(
-        "<leader>tc")
+          "<leader>tc")
         toggle.treesitter():map("<leader>tT")
       end,
     })
