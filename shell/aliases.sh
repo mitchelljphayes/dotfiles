@@ -21,8 +21,12 @@ fi
 
 # Zoxide - smarter cd command
 if command -v zoxide &> /dev/null; then
-    alias cd='z'
-    alias cdi='zi'  # interactive mode
+    # Only alias cd to z if we're not in Claude Code's environment
+    # Claude Code sets CLAUDECODE=1
+    if [ -z "$CLAUDECODE" ]; then
+        alias cd='z'
+        alias cdi='zi'  # interactive mode
+    fi
 fi
 
 if command -v rg &> /dev/null; then
@@ -173,3 +177,6 @@ alias mirrorsite='wget -m -k -K -E -e robots=off'
 alias peek='tee >(cat 1>&2)'
 
 alias dc='docker-compose'
+
+# DBT aliases support
+alias dbtf=/Users/mjp/.local/bin/dbt
