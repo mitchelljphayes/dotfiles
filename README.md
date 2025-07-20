@@ -103,6 +103,25 @@ The One Dark theme is used consistently. To change:
 - Run `./install` after any configuration changes
 - Check individual tool READMEs for specific features
 
+## Applying Configuration Changes
+
+After modifying dotfiles, you may need to restart or reload certain applications:
+
+### Terminal/Shell
+- **New terminal sessions**: Changes apply automatically
+- **Current session**: Run `source ~/.zshrc` (for Zsh) or restart your terminal
+- **Nushell**: Run `source ~/.config/nushell/config.nu` or restart
+
+### Applications
+- **Neovim**: Restart or run `:source %` on changed config files
+- **Tmux**: Run `tmux source-file ~/.tmux.conf` or restart tmux
+- **Terminal Emulators**: Restart the application (Alacritty, WezTerm, Ghostty)
+- **Git**: Changes apply immediately to new git commands
+
+### System-wide Changes
+- **Environment variables**: Log out and log back in, or restart your terminal
+- **Default shell change**: Log out and log back in for full effect
+
 ## Troubleshooting
 
 ### Permission Issues
