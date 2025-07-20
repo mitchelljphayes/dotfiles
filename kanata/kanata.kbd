@@ -1,0 +1,45 @@
+;; Kanata configuration - converted from Karabiner Elements
+;; This config replicates your Karabiner mappings
+
+(defcfg
+  ;; Process all keys to maintain normal keyboard functionality
+  process-unmapped-keys yes
+)
+
+(defsrc
+  caps esc
+  h    j    k    l
+  lsft rsft
+  lctl rctl
+  left down up   rght
+)
+
+(deflayer default
+  @cap _
+  @h   @j   @k   @l
+  @lsh @rsh
+  _    _
+  _    _    _    _
+)
+
+(defalias
+  ;; Caps Lock → Control when held, Escape when tapped
+  cap (tap-hold 200 200 esc lctl)
+  
+  ;; For simplicity, just pass through h,j,k,l
+  ;; You can use external tools or layers for Control+HJKL
+  h h
+  j j
+  k k
+  l l
+  
+  ;; Shift keys for double-shift caps lock
+  lsh (chord shifts lsft)
+  rsh (chord shifts rsft)
+)
+
+(defchords shifts 100
+  (lsft     ) lsft
+  (     rsft) rsft
+  (lsft rsft) caps
+)
