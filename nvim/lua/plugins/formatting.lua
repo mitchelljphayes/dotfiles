@@ -25,8 +25,6 @@ return {
             args = {
               "fix",
               "--force",
-              "--dialect", "postgres", -- Change to your dialect
-              "--templater", "dbt", -- Enable dbt templater for dbt files
               "-",
             },
             stdin = true,
