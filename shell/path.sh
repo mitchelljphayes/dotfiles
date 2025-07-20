@@ -9,9 +9,10 @@ fi
 # Core development paths
 path_prepend "$HOME/.local/bin"
 path_prepend "$HOME/.cargo/bin"
+path_prepend "$HOME/.opencode/bin"
+path_prepend "$HOME/.claude/local"
 
 # Language-specific paths
-path_prepend "$HOME/.claude/local"
 path_append "$HOME/.npm-global/bin"
 
 # pnpm

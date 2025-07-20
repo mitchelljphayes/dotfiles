@@ -30,9 +30,6 @@ source ~/.shell/aliases.sh
 # Tmux functions
 source ~/.shell/tmux-functions.sh
 
-# Env
-source ~/.shell/env.sh
-
 # Custom prompt
 if command -v starship &> /dev/null && [ -f ~/.config/starship.toml ]; then
     eval "$(starship init zsh)"
@@ -59,4 +56,3 @@ if [ -f ~/.env ]; then
     source ~/.env
 fi
 eval "$(uv generate-shell-completion zsh)"
-
