@@ -1,0 +1,34 @@
+[sqlfluff]
+# SQL dialect to use
+dialect = postgres
+
+# Rules configuration
+[sqlfluff:rules]
+# Enforce trailing commas in SELECT statements
+[sqlfluff:rules:convention.select_trailing_comma]
+select_clause_trailing_comma = require
+
+# Also enforce general comma style
+[sqlfluff:rules:layout.commas]
+line_position = trailing
+
+# Disable overly strict rules that might conflict with modern SQL
+[sqlfluff:rules:structure.column_order]
+enabled = False
+
+[sqlfluff:rules:aliasing.length]
+enabled = False
+
+[sqlfluff:rules:aliasing.forbid]
+enabled = False
+
+# Keep basic syntax rules enabled
+[sqlfluff:rules:layout.end_of_file]
+enabled = True
+
+[sqlfluff:rules:layout.spacing]
+enabled = True
+
+# Templater configuration for dbt
+[sqlfluff:templater:dbt]
+project_dir = .
