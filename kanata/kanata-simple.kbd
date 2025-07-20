@@ -1,0 +1,31 @@
+;; Kanata configuration - converted from Karabiner Elements
+;; Simplified version that implements the core mappings
+
+(defcfg
+  process-unmapped-keys yes
+)
+
+(defsrc
+  caps
+  lsft rsft
+)
+
+(deflayer default
+  @cap
+  lsft rsft
+)
+
+(defalias
+  ;; Caps Lock → Control when held, Escape when tapped
+  cap (tap-hold 200 200 esc lctl)
+)
+
+;; Note: Control+HJKL arrow mappings are better handled with:
+;; 1. A dedicated navigation layer
+;; 2. Or using kanata's switch feature
+;; 3. Or keeping them in Karabiner for now
+
+;; Double shift for caps lock can be added with defchords:
+;; (defchords shifts 100
+;;   (lsft rsft) caps
+;; )
