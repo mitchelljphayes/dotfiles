@@ -1,0 +1,66 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "theme": "one-dark",
+  "autoupdate": true,
+  "keybinds": {
+    "leader": "ctrl+x",
+    "session_new": "<leader>n",
+    "session_list": "<leader>s",
+    "switch_mode": "shift+tab",
+    "input_submit": "enter",
+    "input_clear": "ctrl+u",
+    "messages_next": "down",
+    "messages_previous": "up",
+    "messages_first": "ctrl+home",
+    "messages_last": "ctrl+end",
+    "editor_open": "<leader>o",
+    "file_search": "<leader>/",
+    "app_help": "<leader>h",
+    "app_exit": "<leader>q"
+  },
+  "instructions": ["AGENTS.md", "CLAUDE.md", ".cursor/rules/*.md"],
+  "mode": {
+    "build": {
+      "model": "anthropic/claude-opus-4-20250514",
+      "instructions": "{fil:./prompts/build.md}",
+      "tools": {
+        "bash": true,
+        "edit": true,
+        "read": true,
+        "write": true,
+        "glob": true,
+        "grep": true,
+        "list": true,
+        "todowrite": true,
+        "todoread": true
+      }
+    },
+    "plan": {
+      "model": "anthropic/claude-opus-4-20250514",
+      "instructions": "{file:./prompts/plan.md}",
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "list": true,
+        "webfetch": true,
+        "todowrite": true,
+        "todoread": true,
+        "task": true
+      }
+    },
+    "review": {
+      "model": "anthropic/claude-opus-4-20250514",
+      "instructions": "{file:./prompts/review.md}",
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "list": true,
+        "bash": true,
+        "todowrite": true,
+        "todoread": true
+      }
+    }
+  }
+}
