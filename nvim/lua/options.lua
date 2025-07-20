@@ -84,3 +84,8 @@ vim.g.molten_virt_lines_off_by_1 = true
 
 -- respect editor config
 vim.g.editorconfig = true
+
+-- Auto-save settings to prevent E37 errors with Claude Code
+vim.o.hidden = true -- Allow switching buffers with unsaved changes
+vim.o.confirm = true -- Ask for confirmation instead of failing commands
+vim.o.autowriteall = true -- Automatically write files when switching buffers

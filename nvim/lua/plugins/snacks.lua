@@ -67,6 +67,16 @@ return {
       },
       style = "fancy", -- "compact", "fancy", "minimal"
     },
+    
+    -- Terminal configuration
+    terminal = {
+      win = {
+        wo = {
+          winblend = 0, -- No transparency
+          winhighlight = "Normal:Normal,FloatBorder:Normal", -- Use normal background
+        },
+      },
+    },
   },
   keys = {
     -- Command palette

@@ -14,12 +14,10 @@ return {
         typescript = { "eslint" },
       }
       
-      -- Configure sqlfluff for dbt
+      -- Configure sqlfluff
       lint.linters.sqlfluff.args = {
         "lint",
         "--format", "json",
-        "--dialect", "postgres", -- Change this to your SQL dialect
-        "--templater", "dbt", -- Enable dbt templater
         "-",
       }
       

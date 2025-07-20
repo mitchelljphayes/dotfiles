@@ -6,18 +6,18 @@ vim.defer_fn(function()
     -- The individual server configs in nvim/lsp/*.lua should be picked up automatically
     -- Just need to enable them
     if vim.lsp.enable then
-      vim.lsp.enable({'lua_ls', 'pyright', 'rust_analyzer', 'tsserver', 'sqls', 'sqlls', 'yamlls'})
+      vim.lsp.enable({ 'lua_ls', 'pyright', 'rust_analyzer', 'tsserver', 'yamlls' })
     end
   else
     -- Fallback: manually start LSP servers using vim.lsp.start
     local mason_path = vim.fn.stdpath("data") .. "/mason"
-    
+
     -- Define server configurations
     local servers = {
       lua = {
         name = "lua_ls",
         cmd = { mason_path .. "/bin/lua-language-server" },
-        root_dir = vim.fs.root(0, {'.git', '.luarc.json'}),
+        root_dir = vim.fs.root(0, { '.git', '.luarc.json' }),
         settings = {
           Lua = {
             runtime = { version = "LuaJIT" },
@@ -31,16 +31,11 @@ vim.defer_fn(function()
         },
       },
       python = dofile(vim.fn.stdpath("config") .. "/lsp/pyright.lua"),
-      sql = {
-        name = "sqlls",
-        cmd = { mason_path .. "/bin/sql-language-server", "up", "--method", "stdio" },
-        root_dir = vim.fs.root(0, {'.git'}),
-      },
     }
-    
+
     -- Set up autocmd to start servers
     vim.api.nvim_create_autocmd("FileType", {
-      pattern = {"lua", "python", "sql"},
+      pattern = { "lua", "python" },
       callback = function(args)
         local server = servers[args.match]
         if server and vim.fn.executable(server.cmd[1]) == 1 then
@@ -61,15 +56,15 @@ vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
     local client = vim.lsp.get_client_by_id(args.data.client_id)
     if not client then return end
-    
+
     local bufnr = args.buf
     -- Only show attachment message for dbt-ls in dbt projects
     if client.name == "dbt-ls" then
       vim.notify("dbt language server attached", vim.log.levels.INFO)
     end
-    local opts = { noremap=true, silent=true, buffer=bufnr }
+    local opts = { noremap = true, silent = true, buffer = bufnr }
     local keymap = vim.keymap.set
-    
+
     -- Navigation
     keymap('n', 'gD', vim.lsp.buf.declaration, opts)
     keymap('n', 'gd', vim.lsp.buf.definition, opts)
@@ -94,7 +89,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.lsp.buf.format { async = true }
       end
     end, opts)
-    
+
     -- Enable completion triggered by <c-x><c-o>
     vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc'
   end,
@@ -111,18 +106,19 @@ vim.diagnostic.config({
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
+-- vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
+-- vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
 vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
 
--- Disable diagnostics in oil buffers
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "oil",
-  callback = function(args)
-    vim.diagnostic.enable(false, { bufnr = args.buf })
-  end,
-  desc = "Disable diagnostics in oil buffers",
-})
+-- NOTE: Commented out to allow oil-lsp-diagnostics plugin to work
+-- The oil-lsp-diagnostics plugin handles diagnostic display in Oil buffers
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = "oil",
+--   callback = function(args)
+--     vim.diagnostic.enable(false, { bufnr = args.buf })
+--   end,
+--   desc = "Disable diagnostics in oil buffers",
+-- })
 
 -- Toggle diagnostics command (useful for dbt files)
 vim.api.nvim_create_user_command('DiagnosticsToggle', function()
@@ -154,16 +150,16 @@ vim.api.nvim_create_user_command('DiagnosticsShowSources', function()
   local bufnr = vim.api.nvim_get_current_buf()
   local diagnostics = vim.diagnostic.get(bufnr)
   local sources = {}
-  
+
   for _, d in ipairs(diagnostics) do
     sources[d.source or "unknown"] = (sources[d.source or "unknown"] or 0) + 1
   end
-  
-  local lines = {"Diagnostic sources:"}
+
+  local lines = { "Diagnostic sources:" }
   for source, count in pairs(sources) do
     table.insert(lines, string.format("  • %s: %d", source, count))
   end
-  
+
   if #lines == 1 then
     vim.notify("No diagnostics found", vim.log.levels.INFO)
   else
@@ -178,15 +174,15 @@ vim.api.nvim_create_user_command('LspInfo', function()
     vim.notify("No active LSP clients", vim.log.levels.INFO)
     return
   end
-  
-  local lines = {"Active LSP clients:"}
+
+  local lines = { "Active LSP clients:" }
   for _, client in pairs(clients) do
     table.insert(lines, string.format("  • %s (id: %d)", client.name, client.id))
     if client.root_dir then
       table.insert(lines, string.format("    Root: %s", client.root_dir))
     end
   end
-  
+
   vim.notify(table.concat(lines, "\n"), vim.log.levels.INFO)
 end, { desc = "Show active LSP clients" })
 
@@ -197,7 +193,7 @@ vim.api.nvim_create_user_command('LspRestart', function()
     local client_name = client.name
     vim.lsp.stop_client(client_id)
     vim.notify("Stopped " .. client_name, vim.log.levels.INFO)
-    
+
     -- Restart by re-triggering FileType autocmd
     vim.defer_fn(function()
       vim.cmd('doautocmd FileType')
@@ -238,7 +234,7 @@ vim.api.nvim_create_user_command('PyrightSetInterpreter', function()
       return
     end
   end
-  
+
   -- Restart pyright with new settings
   local clients = vim.lsp.get_clients({ name = "pyright" })
   for _, client in pairs(clients) do
@@ -259,12 +255,12 @@ end, { desc = "Show current pyright configuration" })
 vim.api.nvim_create_user_command('PyrightCreateConfig', function()
   local cwd = vim.fn.getcwd()
   local config_path = cwd .. "/pyrightconfig.json"
-  
+
   if vim.fn.filereadable(config_path) == 1 then
     vim.notify("pyrightconfig.json already exists", vim.log.levels.WARN)
     return
   end
-  
+
   local config = {
     venvPath = ".",
     venv = ".venv",
@@ -285,7 +281,7 @@ vim.api.nvim_create_user_command('PyrightCreateConfig', function()
       "**/evaluation_results",
     },
   }
-  
+
   local file = io.open(config_path, "w")
   if file then
     file:write(vim.fn.json_encode(config))
@@ -296,3 +292,4 @@ vim.api.nvim_create_user_command('PyrightCreateConfig', function()
     vim.notify("Failed to create pyrightconfig.json", vim.log.levels.ERROR)
   end
 end, { desc = "Create pyrightconfig.json for current project" })
+

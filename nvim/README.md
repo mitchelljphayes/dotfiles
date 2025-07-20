@@ -5,7 +5,7 @@
 This is my personal Neovim configuration, built for modern development workflows with AI assistance, data science capabilities, and efficient editing.
 
 **Key Features:**
-* **AI-Powered Development** - Integrated Claude AI assistance via Avante.nvim
+* **AI-Powered Development** - GitHub Copilot integration
 * **Data Science Ready** - Jupyter notebook support with Molten.nvim
 * **Modern LSP Setup** - Full language server protocol support
 * **Efficient Navigation** - Oil.nvim for file management, Telescope for fuzzy finding
@@ -55,7 +55,6 @@ nvim/
 │       ├── init.lua      # Core plugins (lazy.nvim setup)
 │       ├── lsp.lua       # Language server configuration
 │       ├── telescope.lua # Fuzzy finder
-│       ├── avante.lua    # AI assistant
 │       ├── molten.lua    # Jupyter notebooks
 │       ├── oil.lua       # File manager
 │       └── ...           # Other plugin configs
@@ -64,7 +63,6 @@ nvim/
 ### Key Features & Plugins
 
 #### AI Development
-- **Avante.nvim** - Claude AI integration for code generation and assistance
 - **GitHub Copilot** - AI code completion
 
 #### Data Science
@@ -96,7 +94,6 @@ nvim/
 - `jk` (insert mode) - Exit to normal mode
 
 #### AI & Development
-- See Avante.nvim documentation for AI assistant keybindings
 - LSP keybindings are configured per-buffer when LSP attaches
 
 ### Customization
