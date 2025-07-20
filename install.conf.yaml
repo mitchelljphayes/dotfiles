@@ -30,6 +30,12 @@
     ~/.config/ghostty:
       path: ghostty
       force: true
+    ~/.config/kanata:
+      path: kanata
+      force: true
+    ~/.config/opencode:
+      path: opencode
+      force: true
     ~/.config/tmux:
       path: tmux
     ~/.tmux.conf:

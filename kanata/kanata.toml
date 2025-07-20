@@ -1,0 +1,83 @@
+# Kanata configuration - converted from Karabiner Elements
+# This config replicates your Karabiner mappings
+
+[config]
+# Process all keys to maintain normal keyboard functionality
+process-unmapped-keys = true
+
+# macOS specific settings
+macos-dev-names-include = []
+
+[source]
+# Define all keys we're going to remap
+keys = [
+    "caps", "esc",
+    "h", "j", "k", "l",
+    "lsft", "rsft",
+    "lctl", "rctl",
+    "left", "down", "up", "rght"
+]
+
+[layers.default]
+# Default layer mappings
+caps = "@caps_ctrl_esc"  # Caps Lock → Control/Escape
+h = "@ctrl_h"            # With Control held, h → left arrow
+j = "@ctrl_j"            # With Control held, j → down arrow
+k = "@ctrl_k"            # With Control held, k → up arrow
+l = "@ctrl_l"            # With Control held, l → right arrow
+lsft = "@lsft_caps"      # Left shift for double-shift caps lock
+rsft = "@rsft_caps"      # Right shift for double-shift caps lock
+
+# Pass through other keys
+esc = "esc"
+lctl = "lctl"
+rctl = "rctl"
+left = "left"
+down = "down"
+up = "up"
+rght = "rght"
+
+[aliases]
+# Caps Lock → Control when held, Escape when tapped
+caps_ctrl_esc = { tap-hold = { tap = "esc", hold = "lctl", tap-time = 200, hold-time = 200 } }
+
+# For now, just pass through these keys since fork isn't implemented yet
+# In practice, you'd use the chord feature below for Control+HJKL
+ctrl_h = "h"
+ctrl_j = "j"
+ctrl_k = "k"
+ctrl_l = "l"
+
+# Shift keys with chord detection for caps lock
+lsft_caps = "lsft"
+rsft_caps = "rsft"
+
+[chords]
+# Double shift (both shifts pressed together) → Caps Lock
+timeout = 100
+
+[[chords.combos]]
+keys = ["lsft", "rsft"]
+action = "caps"
+
+# Control + HJKL → Arrow keys using chords
+[[chords.combos]]
+keys = ["lctl", "h"]
+action = "left"
+
+[[chords.combos]]
+keys = ["lctl", "j"]
+action = "down"
+
+[[chords.combos]]
+keys = ["lctl", "k"]
+action = "up"
+
+[[chords.combos]]
+keys = ["lctl", "l"]
+action = "rght"
+
+# Alternative: You could also use sequences if you prefer
+# [sequences]
+# # Quick double tap of shift for caps lock
+# "lsft rsft" = ["caps"]
