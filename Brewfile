@@ -1,239 +1,142 @@
-tap "1password/tap"
-tap "adoptopenjdk/openjdk"
-tap "homebrew/bundle"
-tap "homebrew/cask-fonts"
-tap "homebrew/services"
-tap "michaeleisel/zld"
+# Taps
+tap "dbt-labs/dbt-cli"
 tap "stripe/stripe-cli"
-tap "surrealdb/tap"
+tap "supabase/tap"
+
+# Core dependencies
 brew "ca-certificates"
 brew "openssl@3"
-brew "asdf"
-brew "python@3.11"
-brew "awscli"
-brew "bat"
-brew "grpc"
-brew "bear"
-brew "berkeley-db", link: true
-brew "black"
-brew "bottom"
-brew "brotli"
-brew "libpng"
-brew "freetype"
-brew "fontconfig"
-brew "glib"
-brew "cairo"
-brew "pycparser"
-brew "cffi"
-brew "chezmoi"
-brew "cmake"
-brew "unbound"
-brew "gnutls"
-brew "qemu"
-brew "lima"
-brew "colima"
-brew "docker", link: false
-brew "docker-credential-helper-ecr"
-brew "doctl"
-brew "docutils"
-brew "eza" # Modern replacement for ls (fork of exa)
-brew "fd"
-brew "fzf"
-brew "gdk-pixbuf"
-brew "gh"
-brew "little-cms2"
-brew "ghostscript"
-brew "giflib"
-brew "git-delta"
-brew "git-lfs"
-brew "gnu-sed"
-brew "gnupg"
-brew "go"
-brew "pkg-config"
-brew "gobject-introspection"
-brew "harfbuzz", link: false
-brew "openjdk"
-brew "gradle"
-brew "guile"
-brew "helix"
-brew "htop"
-brew "httpie", link: false
-brew "ipython"
-brew "jpeg"
-brew "jq"
-brew "node", link: false
-brew "pandoc"
-brew "jupyterlab"
-brew "keyring"
-brew "lazygit"
-brew "libarchive"
-brew "libfido2"
-brew "libomp"
-brew "pango"
-brew "librsvg"
-brew "luv"
-brew "mas"
-brew "maven"
-brew "meson"
-brew "mypy"
-brew "mysql"
-brew "n"
-brew "neofetch"
-brew "neovim", args: ["HEAD"]
-brew "nghttp2"
-brew "nushell"
-brew "openblas"
-brew "openjdk@17"
-brew "tmux"
-brew "overmind"
-brew "pdm"
-brew "perl"
-brew "pipenv"
-brew "pipx"
-brew "pnpm"
-brew "poetry"
-brew "postgresql@15"
-brew "python-lsp-server"
-brew "python@3.9"
-brew "ripgrep"
-brew "rust"
-brew "rust-analyzer"
-brew "spark"
-brew "starship"
-brew "swi-prolog"
-brew "tere"
-brew "tldr"
-brew "tree"
-brew "trunk"
-brew "typst"
-brew "uv"
-brew "watchexec"
-brew "wget"
-brew "wimlib"
-brew "wireguard-tools"
-brew "yadm"
-brew "yarn"
-brew "zoxide"
+
+# Terminal & Shell
+brew "bat"                    # Better cat with syntax highlighting
+brew "eza"                    # Modern ls replacement
+brew "fd"                     # Fast find alternative
+brew "fzf"                    # Fuzzy finder
+brew "ripgrep"                # Fast grep
+brew "starship"               # Cross-shell prompt
+brew "tmux"                   # Terminal multiplexer
+brew "tree"                   # Directory tree viewer
+brew "zoxide"                 # Smart cd
 brew "zsh-syntax-highlighting"
+
+# Development Tools
+brew "cmake"                  # Build tool
+brew "gh"                     # GitHub CLI
+brew "git-delta"              # Better git diffs
+brew "git-lfs"                # Git large file storage
+brew "jq"                     # JSON processor
+brew "lazygit"                # Git TUI
+brew "neovim"                 # Text editor
+brew "watchexec"              # File watcher
+
+# Languages & Runtimes
+brew "go"                     # Go language
+brew "n"                      # Node version manager
+brew "nushell"                # Modern shell
+brew "openjdk@21"             # Java
+brew "python-lsp-server"      # Python LSP
+brew "r"                      # R language
+brew "rust"                   # Rust language
+brew "rust-analyzer"          # Rust LSP
+
+# Python Tools
+brew "ipython"                # Interactive Python
+brew "jupyterlab"             # Jupyter notebooks
+brew "ruff"                   # Fast linter
+brew "uv"                     # Fast package manager
+
+# Database Tools
+brew "duckdb"                 # OLAP database
+brew "postgresql@17"          # PostgreSQL
+brew "sqlfluff"               # SQL linter
+
+# Cloud & DevOps
+brew "awscli"                 # AWS CLI
+brew "doctl"                  # DigitalOcean CLI
+brew "k9s"                    # Kubernetes TUI
+brew "kubernetes-cli"         # kubectl
+brew "overmind"               # Process manager
+
+# Package Managers
+brew "pnpm"                   # Fast npm alternative
+brew "yarn"                   # JavaScript package manager
+
+# Utilities
+brew "bottom"                 # System monitor (btm)
+brew "gnu-sed"                # GNU sed
+brew "gnupg"                  # GPG
+brew "htop"                   # Process viewer
+brew "wget"                   # File downloader
+brew "yadm"                   # Dotfiles manager
+
+# Media & Graphics
+brew "ffmpeg"                 # Media processing
+brew "ghostscript"            # PostScript/PDF
+brew "imagemagick"            # Image processing
+
+# Platform-specific tools
+brew "mas"                    # Mac App Store CLI
+brew "databricks/tap/databricks"
 brew "stripe/stripe-cli/stripe"
-brew "surrealdb/tap/surreal"
-cask "1password-cli"
-cask "alacritty"
-cask "alt-tab"
-cask "balenaetcher"
-cask "canva"
-cask "chromium"
-cask "dbeaver-community"
-cask "discord"
-cask "docker"
-cask "figma"
-cask "fliqlo"
-cask "font-fira-code"
+brew "supabase/tap/supabase"
+
+# Casks - Core Applications
+cask "1password-cli"          # Password manager CLI
+cask "alt-tab"                # Better window switcher
+cask "ghostty"                # Primary terminal
+cask "google-chrome"          # Web browser
+cask "google-drive"           # Cloud storage
+cask "karabiner-elements"     # Keyboard customizer
+cask "maccy"                  # Clipboard manager
+cask "monitorcontrol"         # External monitor control
+cask "orbstack"               # Docker alternative
+cask "raycast"                # Launcher
+cask "visual-studio-code"     # Code editor
+
+# Casks - Productivity
+cask "discord"                # Communication
+cask "figma"                  # Design
+cask "notion"                 # Notes
+cask "obsidian"               # Knowledge base
+cask "postman"                # API testing
+brew "httpie"                 # Command-line HTTP client
+cask "httpie-desktop"         # Testing client for REST, GraphQL, and HTTP APIs
+cask "zoom"                   # Video calls
+cask "zotero"                 # Research
+
+# Casks - Database
+cask "dbeaver-community"      # Universal DB client
+cask "postico"                # PostgreSQL GUI
+
+# Casks - Media
+cask "vlc"                    # Media player
+
+# Fonts
 cask "font-fira-code-nerd-font"
-cask "font-fira-mono-nerd-font"
-cask "font-hack-nerd-font"
-cask "font-new-york"
-cask "font-sf-compact"
 cask "font-sf-mono"
 cask "font-sf-pro"
-cask "google-chrome"
-cask "google-drive"
-cask "hiddenbar"
-cask "httpie"
-cask "imageoptim"
-cask "karabiner-elements"
-cask "maccy"
-cask "mactex-no-gui"
-cask "microsoft-auto-update"
-cask "microsoft-teams"
-cask "monitorcontrol"
-cask "notion"
-cask "obsidian"
-cask "postico"
-cask "postman"
-cask "raycast"
-cask "scroll-reverser"
-cask "visual-studio-code"
-cask "vlc"
-cask "vscodium"
-cask "warp"
-cask "wezterm"
-cask "zed"
-cask "zoom"
-cask "zotero"
+
+# Mac App Store
 mas "1Password for Safari", id: 1569813296
-mas "Aircall", id: 1511741985
-mas "ColorSlurp", id: 1287239339
 mas "Grammarly for Safari", id: 1462114288
-mas "Messenger", id: 1480068668
-mas "Microsoft Excel", id: 462058435
 mas "Slack", id: 803453959
-mas "Spark", id: 1176895641
-mas "TestFlight", id: 899247664
+mas "Spark Desktop", id: 6445813049  
 mas "Todoist", id: 585829637
-mas "Trello", id: 1278508951
-vscode "akamud.vscode-theme-onedark"
-vscode "alexcvzz.vscode-sqlite"
-vscode "blanu.vscode-styled-jsx"
-vscode "bradymholt.pgformatter"
-vscode "catppuccin.catppuccin-vsc"
+mas "WireGuard", id: 1451685025
+
+# VS Code Extensions - Core Only
+vscode "charliermarsh.ruff"
+vscode "databricks.databricks"
 vscode "davidanson.vscode-markdownlint"
+vscode "docker.docker"
 vscode "eamodio.gitlens"
-vscode "ecmel.vscode-html-css"
 vscode "esbenp.prettier-vscode"
-vscode "freebroccolo.sml"
 vscode "github.copilot"
 vscode "github.copilot-chat"
-vscode "gruntfuggly.todo-tree"
-vscode "inferrinizzard.prettier-sql-vscode"
-vscode "james-yu.latex-workshop"
-vscode "kelvin.vscode-sshfs"
-vscode "marp-team.marp-vscode"
-vscode "mattn.lisp"
-vscode "mechatroner.rainbow-csv"
-vscode "meezilla.json"
-vscode "ms-azuretools.vscode-docker"
-vscode "ms-ossdata.vscode-postgresql"
-vscode "ms-playwright.playwright"
-vscode "ms-python.debugpy"
-vscode "ms-python.gather"
-vscode "ms-python.isort"
+vscode "github.vscode-pull-request-github"
 vscode "ms-python.python"
 vscode "ms-python.vscode-pylance"
 vscode "ms-toolsai.jupyter"
-vscode "ms-toolsai.jupyter-keymap"
-vscode "ms-toolsai.jupyter-renderers"
-vscode "ms-toolsai.vscode-jupyter-cell-tags"
-vscode "ms-toolsai.vscode-jupyter-powertoys"
-vscode "ms-toolsai.vscode-jupyter-slideshow"
-vscode "ms-vscode-remote.remote-containers"
 vscode "ms-vscode-remote.remote-ssh"
-vscode "ms-vscode-remote.remote-ssh-edit"
-vscode "ms-vscode.cmake-tools"
-vscode "ms-vscode.cpptools"
-vscode "ms-vscode.cpptools-extension-pack"
-vscode "ms-vscode.cpptools-themes"
-vscode "ms-vscode.remote-explorer"
-vscode "ms-vscode.remote-server"
-vscode "nvarner.typst-lsp"
-vscode "qingpeng.common-lisp"
-vscode "redhat.java"
-vscode "ritwickdey.liveserver"
 vscode "rust-lang.rust-analyzer"
-vscode "tamasfe.even-better-toml"
-vscode "teabyii.ayu"
-vscode "thenuprojectcontributors.vscode-nushell-lang"
-vscode "tomoki1207.pdf"
-vscode "twxs.cmake"
-vscode "visualstudioexptteam.intellicode-api-usage-examples"
-vscode "visualstudioexptteam.vscodeintellicode"
-vscode "vscjava.vscode-java-debug"
-vscode "vscjava.vscode-java-dependency"
-vscode "vscjava.vscode-java-pack"
-vscode "vscjava.vscode-java-test"
-vscode "vscjava.vscode-maven"
 vscode "vscodevim.vim"
-vscode "wayou.vscode-todo-highlight"
-vscode "yzhang.markdown-all-in-one"
-vscode "zhuangtongfa.material-theme"
-vscode "znck.grammarly"

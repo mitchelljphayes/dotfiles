@@ -118,10 +118,22 @@
 [interactive]
   diffFilter = delta --color-only
 [delta]
-  side-by-side = true
+  navigate = true                 # use n and N to move between diff sections
+  light = false                   # set to true if you're in a terminal with a light background
+  side-by-side = false           # inline diffs instead of side-by-side
+  line-numbers = true            # show line numbers
   line-numbers-left-format = ""
   line-numbers-right-format = "│ "
+  file-style = bold yellow ul
+  file-decoration-style = none
   syntax-theme = OneHalfDark
+  hunk-header-style = file line-number syntax
+  hunk-header-decoration-style = cyan box
+  plus-style = syntax "#003800"
+  minus-style = syntax "#3f0001"
+  line-numbers-zero-style = "#999999"
+  line-numbers-plus-style = green
+  line-numbers-minus-style = red
 
 # Allow local customizations in the .gitconfig_local file
 [include]
@@ -138,3 +150,4 @@
 	aiAnthropicKeyOption = bringYourOwn
 	aiAnthropicModelName = claude-opus-4-0
 	diffLengthLimit = 10000
+	aiOpenAIKeyOption = butlerAPI
