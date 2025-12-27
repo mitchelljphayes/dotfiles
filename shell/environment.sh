@@ -16,6 +16,7 @@ export PNPM_HOME="$HOME/Library/pnpm"
 # History settings (for shells that respect these)
 export HISTSIZE=1048576
 export SAVEHIST=$HISTSIZE
+export HISTFILE="$HOME/.shell_history"
 
 # Terminal settings
 export KEYTIMEOUT=1  # corresponds to 10ms for zsh

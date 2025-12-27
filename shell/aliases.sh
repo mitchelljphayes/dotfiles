@@ -3,40 +3,45 @@
 # Claude CLI
 # alias claude="$HOME/.claude/local/claude"
 
-alias grep='grep --color'
-
-# ls aliases
-alias ls='ls --color=auto'
-alias ll='ls -lah'
-alias la='ls -la'
-
-if [ "$(command -v eza)" ]; then
-    unalias -m 'll'
-    unalias -m 'l'
-    unalias -m 'la'
-    unalias -m 'ls'
-    alias ls='eza -G  --color auto --icons -a -s type'
-    alias ll='eza -l --color always --icons -a -s type'
+# grep - use rg if available, otherwise native grep with color
+if command -v rg &> /dev/null; then
+    alias grep='rg'
+else
+    alias grep='grep --color'
 fi
 
-# Zoxide - smarter cd command
-if command -v zoxide &> /dev/null; then
-    # Only alias cd to z if we're not in Claude Code's environment
-    # Claude Code sets CLAUDECODE=1
-    if [ -z "$CLAUDECODE" ]; then
+# ls aliases - use eza if available, otherwise native ls
+if [ "$(command -v eza)" ]; then
+    alias ls='eza -G  --color auto --icons -a -s type'
+    alias ll='eza -l --color always --icons -a -s type'
+    alias la='eza -lA --color always --icons -s type'
+else
+    alias ls='ls --color=auto'
+    alias ll='ls -lah'
+    alias la='ls -la'
+fi
+
+# cd command - use zoxide if available and not in Claude Code/OpenCode
+# (Claude Code sets CLAUDECODE=1, OpenCode may set OPENCODE=1)
+if [ -z "$CLAUDECODE" ] && [ -z "$OPENCODE" ]; then
+    if command -v zoxide &> /dev/null; then
         alias cd='z'
         alias cdi='zi'  # interactive mode
+    elif [[ -n $STY ]]; then
+        # If in screen session, use screen-aware cd
+        alias cd='scr_cd'
+    fi
+else
+    # In Claude Code or OpenCode - use builtin cd
+    if [[ -n $STY ]]; then
+        # But if in screen, still use screen-aware cd
+        alias cd='scr_cd'
     fi
 fi
 
-if command -v rg &> /dev/null; then
-    unalias -m 'grep'
-    alias grep='rg'
-fi
-
+# bat - use for syntax-highlighted cat if available
 if [ "$(command -v bat)" ]; then
-  unalias -m 'cat'
-  alias cat='bat -pp --theme="OneHalfDark"'
+    alias cat='bat -pp --theme="OneHalfDark"'
 fi
 
 # Aliases to protect against overwriting
@@ -80,6 +85,10 @@ syspip3() {
 alias python='python3'
 alias pip='pip3'
 
+# uv aliases
+alias py='uv run python'
+alias uvr='uv run'
+
 # cd to git root directory
 alias cdgr='cd "$(git root)"'
 
@@ -94,10 +103,6 @@ scr_cd()
     builtin cd $1
     screen -X chdir "$PWD"
 }
-
-if [[ -n $STY ]]; then
-    alias cd=scr_cd
-fi
 
 # Go up [n] directories
 up()
@@ -179,4 +184,4 @@ alias peek='tee >(cat 1>&2)'
 alias dc='docker-compose'
 
 # DBT aliases support
-alias dbtf=/Users/mjp/.local/bin/dbt
+alias dbtf="$HOME/.local/bin/dbt"
