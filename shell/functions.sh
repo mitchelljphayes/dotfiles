@@ -29,6 +29,15 @@ there() {
     cd "$(readlink "${there}")"
 }
 
+# Get machine name from ~/.name file or fallback to hostname
+machine_name() {
+    if [[ -f $HOME/.name ]]; then
+        cat $HOME/.name
+    else
+        hostname
+    fi
+}
+
 update_terminfo () {
     local x ncdir terms
     ncdir="/opt/homebrew/opt/ncurses"

@@ -4,6 +4,11 @@
 
 source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
+# uv shell completion
+if command -v uv &> /dev/null; then
+    eval "$(uv generate-shell-completion zsh)"
+fi
+
 # if command -v zoxide &> /dev/null; then
     # eval "$(zoxide init zsh)"
 # fi
