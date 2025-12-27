@@ -1,0 +1,167 @@
+// Zed keybindings - matching nvim keymaps.lua
+// Leader key in Zed vim mode is space by default
+[
+    // ============================================
+    // NORMAL MODE
+    // ============================================
+    {
+        "context": "Editor && vim_mode == normal",
+        "bindings": {
+            // File/Search (matching telescope.lua)
+            "space f f": "file_finder::Toggle",
+            "space o": "file_finder::Toggle",
+            "space s f": "file_finder::Toggle",
+            "space s g": "workspace::NewSearch",
+            "space f g": "workspace::NewSearch",
+            "space g f": "workspace::NewSearch",
+            "space s w": "pane::DeploySearch",
+            "space s h": "zed::OpenDocs",
+            // Buffer management (matching keymaps.lua)
+            "space space": "tab_switcher::Toggle",
+            "space f b": "tab_switcher::Toggle",
+            "space b d": "pane::CloseActiveItem",
+            "space q": "pane::CloseActiveItem",
+            "space ?": "pane::DeploySearch",
+            // Buffer navigation (matching S-h/S-l in nvim)
+            "shift-h": "pane::ActivatePreviousItem",
+            "shift-l": "pane::ActivateNextItem",
+            // Window navigation (matching C-hjkl in nvim)
+            "ctrl-h": "workspace::ActivatePaneLeft",
+            "ctrl-j": "workspace::ActivatePaneDown",
+            "ctrl-k": "workspace::ActivatePaneUp",
+            "ctrl-l": "workspace::ActivatePaneRight",
+            // Comment toggle (matching <leader>/ in nvim)
+            "space /": "editor::ToggleComments",
+            // LSP actions (matching lsp.lua keybindings)
+            "g d": "editor::GoToDefinition",
+            "g D": "editor::GoToDeclaration",
+            "g r": "editor::FindAllReferences",
+            "g i": "editor::GoToImplementation",
+            "g t": "editor::GoToTypeDefinition",
+            "K": "editor::Hover",
+            "space r n": "editor::Rename",
+            "space c a": "editor::ToggleCodeActions",
+            "space D": "editor::GoToTypeDefinition",
+            "space f": "editor::Format",
+            "space e": "editor::ToggleInlayHints",
+            // Diagnostics (matching lsp.lua and keymaps.lua)
+            "space s d": "diagnostics::Deploy",
+            "] d": "editor::GoToDiagnostic",
+            "[ d": "editor::GoToPreviousDiagnostic",
+            "] q": "editor::GoToDiagnostic",
+            "[ q": "editor::GoToPreviousDiagnostic",
+            // Git (matching gitsigns.lua)
+            "] c": "editor::GoToHunk",
+            "[ c": "editor::GoToPreviousHunk",
+            "space g n": "editor::GoToHunk",
+            "space g p": "editor::GoToPreviousHunk",
+            "space g b": "editor::ToggleGitBlameInline",
+            "g B": "editor::BlameHover",
+            "space p h": "editor::ExpandAllHunkDiffs",
+            // Diffview equivalent
+            "space d v": "project_panel::ToggleFocus",
+            // File explorer (matching oil - in nvim)
+            "-": "workspace::ToggleLeftDock",
+            "space -": "workspace::ToggleLeftDock",
+            "space \\": "project_panel::ToggleFocus",
+            // Move lines (matching A-j/k in nvim)
+            "alt-j": "editor::MoveLineDown",
+            "alt-k": "editor::MoveLineUp",
+            // Function/class navigation (matching treesitter textobjects)
+            "] m": "editor::GoToDefinition",
+            "[ m": "editor::GoToDefinition",
+            // Quickfix/location list style navigation
+            "] l": "editor::GoToDiagnostic",
+            "[ l": "editor::GoToPreviousDiagnostic",
+            // Zen mode (matching zen-mode.lua)
+            "space z": "workspace::ToggleCenteredLayout",
+            // Splits (matching vim split commands)
+            "space v": "pane::SplitRight",
+            "space s": "pane::SplitDown",
+            // Terminal
+            "space t": "terminal_panel::ToggleFocus",
+            // Agent/AI panel
+            "space a": "agent::ToggleFocus"
+        }
+    },
+    // ============================================
+    // INSERT MODE
+    // ============================================
+    {
+        "context": "Editor && vim_mode == insert",
+        "bindings": {
+            // Quick escape (matching jk in nvim keymaps.lua:115)
+            "j k": "vim::NormalBefore"
+        }
+    },
+    // ============================================
+    // VISUAL MODE
+    // ============================================
+    {
+        "context": "Editor && vim_mode == visual",
+        "bindings": {
+            // Comment toggle in visual mode
+            "space /": "editor::ToggleComments",
+            // Move lines in visual mode (matching keymaps.lua)
+            "alt-j": "editor::MoveLineDown",
+            "alt-k": "editor::MoveLineUp",
+            "J": "editor::MoveLineDown",
+            "K": "editor::MoveLineUp"
+        }
+    },
+    // ============================================
+    // COMPLETION MENU (matching nvim-cmp config)
+    // ============================================
+    {
+        "context": "Editor && showing_completions",
+        "bindings": {
+            "ctrl-j": "editor::ContextMenuNext",
+            "ctrl-k": "editor::ContextMenuPrevious",
+            "ctrl-n": "editor::ContextMenuNext",
+            "ctrl-p": "editor::ContextMenuPrevious"
+        }
+    },
+    // ============================================
+    // TERMINAL (vi-style navigation)
+    // ============================================
+    {
+        "context": "Terminal",
+        "bindings": {
+            "ctrl-h": "workspace::ActivatePaneLeft",
+            "ctrl-j": "workspace::ActivatePaneDown",
+            "ctrl-k": "workspace::ActivatePaneUp",
+            "ctrl-l": "workspace::ActivatePaneRight"
+        }
+    },
+    // ============================================
+    // PROJECT PANEL (oil-like navigation)
+    // ============================================
+    {
+        "context": "ProjectPanel",
+        "bindings": {
+            "-": "project_panel::SelectParent",
+            "enter": "project_panel::OpenPermanent",
+            "l": "project_panel::OpenPermanent",
+            "h": "project_panel::SelectParent",
+            "a": "project_panel::NewFile",
+            "A": "project_panel::NewDirectory",
+            "r": "project_panel::Rename",
+            "d": "project_panel::Delete",
+            "x": "project_panel::Cut",
+            "y": "project_panel::Copy",
+            "p": "project_panel::Paste"
+        }
+    },
+    // ============================================
+    // GLOBAL BINDINGS
+    // ============================================
+    {
+        "context": "Workspace",
+        "bindings": {
+            // Quick command palette access
+            "ctrl-shift-p": "command_palette::Toggle",
+            // Project/file switching
+            "ctrl-p": "file_finder::Toggle"
+        }
+    }
+]
