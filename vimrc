@@ -13,6 +13,12 @@ augroup CursorLineOnlyInActiveWindow
     autocmd WinLeave * setlocal nocursorline
 augroup END
 
+" highlight on yank (brief highlight of yanked text)
+augroup YankHighlight
+    autocmd!
+    autocmd TextYankPost * silent! call timer_start(200, {-> execute('highlight clear IncSearch')})
+augroup END
+
 " vim can autodetect this based on $TERM (e.g. 'xterm-256color')
 " but it can be set to force 256 colors
 " set t_Co=256
@@ -46,14 +52,16 @@ set shortmess+=I " disable startup message
 set nu " number lines
 set rnu " relative line numbering
 set incsearch " incremental search (as string is being typed)
-set hls " highlight search
+set nohlsearch " don't highlight search by default (nvim default)
 set listchars=tab:>>,nbsp:~ " set list to see tabs and non-breakable spaces
 set lbr " line break
-set scrolloff=5 " show lines above and below cursor (when possible)
+set breakindent " enable break indent
+set scrolloff=8 " show lines above and below cursor
+set sidescrolloff=8 " horizontal scrolloff
 set noshowmode " hide mode
 set laststatus=2
 set backspace=indent,eol,start " allow backspacing over everything
-set timeout timeoutlen=1000 ttimeoutlen=100 " fix slow O inserts
+set timeout timeoutlen=300 ttimeoutlen=100 " faster timeout
 set lazyredraw " skip redrawing screen in some cases
 set autochdir " automatically set current directory to directory of last opened file
 set hidden " allow auto-hiding of edited buffers
@@ -64,6 +72,7 @@ set expandtab
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
+set smartindent " smart indentation
 " smart case-sensitive search
 set ignorecase
 set smartcase
@@ -76,6 +85,11 @@ if &term =~ '^screen'
     set ttymouse=xterm2
 endif
 set nofoldenable " disable folding by default
+set undofile " enable undo history persistence
+set noswapfile " disable swap files
+set updatetime=250 " faster updates
+set confirm " ask for confirmation instead of failing commands
+set autowriteall " automatically write files when switching buffers
 
 "--------------------
 " Misc configurations
@@ -93,9 +107,7 @@ set noerrorbells visualbell t_vb=
 set splitbelow
 set splitright
 
-" quicker window movement
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
+" quicker window movement (C-j/k are smart, see below)
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 
@@ -128,6 +140,73 @@ nnoremap <C-n> :set rnu!<CR>
 
 " save read-only files
 command -nargs=0 Sudow w !sudo tee % >/dev/null
+
+"---------------------
+" Keymaps from nvim
+"---------------------
+
+" Insert mode
+" Press jk to exit insert mode
+inoremap jk <ESC>
+
+" Normal mode
+" Move text up and down with Alt+jk
+nnoremap <A-j> :m .+1<CR>==
+nnoremap <A-k> :m .-2<CR>==
+
+" Navigate buffers
+nnoremap <S-l> :bnext<CR>
+nnoremap <S-h> :bprevious<CR>
+
+" Visual mode
+" Stay in indent mode
+vnoremap < <gv
+vnoremap > >gv
+
+" Move text up and down
+vnoremap <A-j> :m .+1<CR>==
+vnoremap <A-k> :m .-2<CR>==
+vnoremap p "_dP
+
+" Visual block mode
+" Move text up and down
+xnoremap J :move '>+1<CR>gv-gv
+xnoremap K :move '<-2<CR>gv-gv
+xnoremap <A-j> :move '>+1<CR>gv-gv
+xnoremap <A-k> :move '<-2<CR>gv-gv
+
+" Location list navigation (bracket mappings)
+nnoremap ]l :lnext<CR>
+nnoremap [l :lprev<CR>
+
+" Smart C-j/k: Use for quickfix/location list when open, otherwise for windows
+" (Quickfix navigation available via ]q [q, but C-j/k work when quickfix is visible)
+function! SmartCj()
+    " Check if quickfix window is open
+    for win_info in getwininfo()
+        if win_info.quickfix == 1
+            execute "cnext"
+            return
+        endif
+    endfor
+    " Otherwise move window down
+    execute "wincmd j"
+endfunction
+
+function! SmartCk()
+    " Check if quickfix window is open
+    for win_info in getwininfo()
+        if win_info.quickfix == 1
+            execute "cprev"
+            return
+        endif
+    endfor
+    " Otherwise move window up
+    execute "wincmd k"
+endfunction
+
+nnoremap <C-j> :call SmartCj()<CR>
+nnoremap <C-k> :call SmartCk()<CR>
 
 "---------------------
 " Plugin configuration
