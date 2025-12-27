@@ -148,6 +148,6 @@
 	signCommits = true
 	gitbutlerCommitter = 0
 	aiAnthropicKeyOption = bringYourOwn
-	aiAnthropicModelName = claude-opus-4-0
+	aiAnthropicModelName = claude-sonnet-4-0
 	diffLengthLimit = 10000
 	aiOpenAIKeyOption = butlerAPI
