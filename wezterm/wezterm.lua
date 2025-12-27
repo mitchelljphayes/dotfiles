@@ -3,6 +3,9 @@ return {
 	-- color_scheme = 'termnial.sexy',
 	color_scheme = 'Catppuccin Mocha',
 	enable_tab_bar = false,
+	-- Make Option key work as Alt for word navigation (Option+b, Option+f)
+	send_composed_key_when_left_alt_is_pressed = false,
+	send_composed_key_when_right_alt_is_pressed = false,
 	enable_scroll_bar = true,
 	font_size = 16.0,
 	-- macos_window_background_blur = 40,

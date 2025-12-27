@@ -36,6 +36,12 @@
     ~/.config/opencode:
       path: opencode
       force: true
+    ~/.config/zed/settings.json:
+      path: zed/settings.json
+      force: true
+    ~/.config/zed/keymap.json:
+      path: zed/keymap.json
+      force: true
     ~/.config/tmux:
       path: tmux
     ~/.tmux.conf:
