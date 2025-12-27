@@ -11,7 +11,9 @@ return {
         sql = { "sqlfluff" },
         python = { "ruff" },
         javascript = { "eslint" },
+        javascriptreact = { "eslint" },
         typescript = { "eslint" },
+        typescriptreact = { "eslint" },
       }
       
       -- Configure sqlfluff
