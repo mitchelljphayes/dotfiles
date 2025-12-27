@@ -2,44 +2,92 @@
   "$schema": "https://opencode.ai/config.json",
   "theme": "one-dark",
   "autoupdate": true,
+  "small_model": "anthropic/claude-haiku-4-5",
+  "tui": {
+    "scroll_acceleration": {
+      "enabled": true
+    }
+  },
   "keybinds": {
     "leader": "ctrl+x",
+    "app_exit": "ctrl+c,ctrl+d,<leader>q",
+    "editor_open": "<leader>e",
+    "theme_list": "<leader>t",
+    "sidebar_toggle": "<leader>b",
+    "status_view": "<leader>s",
+    "session_export": "<leader>x",
     "session_new": "<leader>n",
-    "session_list": "<leader>s",
-    "switch_mode": "shift+tab",
+    "session_list": "<leader>l",
+    "session_timeline": "<leader>g",
+    "session_share": "none",
+    "session_unshare": "none",
+    "session_interrupt": "escape",
+    "session_compact": "<leader>c",
+    "session_child_cycle": "<leader>+right",
+    "session_child_cycle_reverse": "<leader>+left",
+    "messages_page_up": "pageup,ctrl+b",
+    "messages_page_down": "pagedown,ctrl+f",
+    "messages_half_page_up": "ctrl+u,ctrl+k",
+    "messages_half_page_down": "ctrl+d,ctrl+j",
+    "messages_first": "ctrl+g,home",
+    "messages_last": "ctrl+alt+g,end",
+    "messages_copy": "<leader>y",
+    "messages_undo": "<leader>u",
+    "messages_redo": "<leader>r",
+    "messages_toggle_conceal": "<leader>h",
+    "model_list": "<leader>m",
+    "model_cycle_recent": "f2",
+    "model_cycle_recent_reverse": "shift+f2",
+    "command_list": "ctrl+p",
+    "agent_list": "<leader>a",
+    "agent_cycle": "tab",
+    "agent_cycle_reverse": "shift+tab",
+    "input_clear": "ctrl+c",
+    "input_paste": "ctrl+v",
     "input_submit": "enter",
-    "input_clear": "ctrl+u",
-    "messages_next": "down",
-    "messages_previous": "up",
-    "messages_first": "ctrl+home",
-    "messages_last": "ctrl+end",
-    "editor_open": "<leader>o",
-    "file_search": "<leader>/",
-    "app_help": "<leader>h",
-    "app_exit": "<leader>q"
+    "input_newline": "shift+enter,ctrl+j",
+    "history_previous": "up",
+    "history_next": "down"
   },
   "instructions": ["AGENTS.md", "CLAUDE.md", ".cursor/rules/*.md"],
   "mode": {
+    "orchestrate": {
+      "model": "anthropic/claude-opus-4-5",
+      "instructions": "{file:./prompts/orchestrate.md}",
+      "tools": {
+        "task": true,
+        "read": true,
+        "bash": true,
+        "todowrite": true,
+        "todoread": true,
+        "write": false,
+        "edit": false
+      }
+    },
+    "research": {
+      "model": "anthropic/claude-sonnet-4-5",
+      "instructions": "{file:./prompts/research.md}",
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "list": true,
+        "bash": true,
+        "task": true,
+        "todowrite": true,
+        "todoread": true,
+        "write": true,
+        "edit": false
+      }
+    },
     "build": {
-      "model": "anthropic/claude-opus-4-20250514",
-      "instructions": "{fil:./prompts/build.md}",
+      "model": "anthropic/claude-sonnet-4-5",
+      "instructions": "{file:./prompts/build.md}",
       "tools": {
         "bash": true,
         "edit": true,
         "read": true,
         "write": true,
-        "glob": true,
-        "grep": true,
-        "list": true,
-        "todowrite": true,
-        "todoread": true
-      }
-    },
-    "plan": {
-      "model": "anthropic/claude-opus-4-20250514",
-      "instructions": "{file:./prompts/plan.md}",
-      "tools": {
-        "read": true,
         "glob": true,
         "grep": true,
         "list": true,
@@ -49,8 +97,25 @@
         "task": true
       }
     },
+    "plan": {
+      "model": "anthropic/claude-opus-4-5",
+      "instructions": "{file:./prompts/plan.md}",
+      "tools": {
+        "read": true,
+        "glob": true,
+        "grep": true,
+        "list": true,
+        "webfetch": true,
+        "todowrite": true,
+        "todoread": true,
+        "task": true,
+        "bash": true,
+        "write": true,
+        "edit": false
+      }
+    },
     "review": {
-      "model": "anthropic/claude-opus-4-20250514",
+      "model": "anthropic/claude-sonnet-4-5",
       "instructions": "{file:./prompts/review.md}",
       "tools": {
         "read": true,
@@ -59,7 +124,8 @@
         "list": true,
         "bash": true,
         "todowrite": true,
-        "todoread": true
+        "todoread": true,
+        "task": true
       }
     }
   }
