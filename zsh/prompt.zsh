@@ -14,30 +14,6 @@ setopt prompt_subst
 # Load color variables to make it easier to color things
 autoload -U colors && colors
 
-# Make using 256 colors easier
-# if [[ "$(tput colors)" == "256" ]]; then
-#     source ~/.zsh/plugins/spectrum.zsh
-#     # change default colors
-#     fg[red]=$FG[160]
-#     fg[green]=$FG[064]
-#     fg[yellow]=$FG[136]
-#     fg[blue]=$FG[033]
-#     fg[magenta]=$FG[125]
-#     fg[cyan]=$FG[037]
-#
-#     fg[teal]=$FG[041]
-#     fg[orange]=$FG[166]
-#     fg[violet]=$FG[061]
-#     fg[neon]=$FG[112]
-#     fg[pink]=$FG[183]
-# else
-#     fg[teal]=$fg[blue]
-#     fg[orange]=$fg[yellow]
-#     fg[violet]=$fg[magenta]
-#     fg[neon]=$fg[green]
-#     fg[pink]=$fg[magenta]
-# fi
-
 # Current directory, truncated to 3 path elements (or 4 when one of them is "~")
 # The number of elements to keep can be specified as ${1}
 function PR_DIR() {
@@ -95,31 +71,23 @@ function RPR_USER() {
     fi
 }
 
-function machine_name() {
-    if [[ -f $HOME/.name ]]; then
-        cat $HOME/.name
-    else
-        hostname
-    fi
-}
+# machine_name() is now in shell/functions.sh (sourced before this file)
 
-# Host in a deterministically chosen color
+# Host in a deterministically chosen color (using native zsh instead of Python)
 RPR_SHOW_HOST=true # Set to false to disable host in rhs prompt
 function RPR_HOST() {
-    local colors
-    colors=(cyan green yellow red pink)
-    local index=$(python <<EOF
-import hashlib
-
-hash = int(hashlib.sha1('$(machine_name)'.encode('utf8')).hexdigest(), 16)
-index = hash % ${#colors} + 1
-
-print(index)
-EOF
-    )
-    local color=$colors[index]
+    local colors=(cyan green yellow red pink)
+    # Use hostname length to deterministically pick a color
+    # This avoids expensive Python subprocess call
+    local host=$(machine_name)
+    local hash=0
+    local i
+    for ((i=1; i<=${#host}; i++)); do
+        hash=$((hash * 31 + $(printf '%d' "'${host:i-1:1}")))
+    done
+    local color=$colors[$(( (hash % ${#colors}) + 1 ))]
     if [[ "${RPR_SHOW_HOST}" == "true" ]]; then
-        echo "%{$fg[$color]%}$(machine_name)%{$reset_color%}"
+        echo "%{$fg[$color]%}${host}%{$reset_color%}"
     fi
 }
 

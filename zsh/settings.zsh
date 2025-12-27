@@ -14,10 +14,9 @@ autoload -U edit-command-line && zle -N edit-command-line
 # Enable interactive comments (# on the command line)
 setopt interactivecomments
 
-# Nicer history
-HISTSIZE=1048576
+# History settings are centralized in shell/environment.sh
+# Zsh-specific history file override
 HISTFILE="$HOME/.zsh_history"
-SAVEHIST=$HISTSIZE
 setopt appendhistory
 setopt incappendhistory
 setopt extendedhistory

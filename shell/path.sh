@@ -15,18 +15,23 @@ path_prepend "$HOME/.claude/local"
 # Language-specific paths
 path_append "$HOME/.npm-global/bin"
 
-# pnpm
-export PNPM_HOME="$HOME/Library/pnpm"
+# pnpm (defined in environment.sh, add to PATH if not already present)
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 
 # Database tools
-path_append "/opt/homebrew/opt/postgresql@16/bin"
+path_append "/opt/homebrew/opt/postgresql@17/bin"
 
-# Python tools
-path_append "$HOME/.local/bin"  # For dbt and other pip-installed tools
+# Java tools
+path_append "/opt/homebrew/opt/openjdk/bin"
+
+# Python tools (dbt and other pip-installed tools)
+# .local/bin already prepended above
+
+# TeX Live tools
+path_append "/usr/local/texlive/2025/bin/universal-darwin"
 
 # Export final PATH
 export PATH

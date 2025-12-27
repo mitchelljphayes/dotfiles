@@ -1,4 +1,4 @@
-HISTSIZE=1048576
+# History settings are centralized in shell/environment.sh
+# Bash-specific history file override
 HISTFILE="$HOME/.bash_history"
-SAVEHIST=$HISTSIZE
-shopt -s histappend # append to history file
+shopt -s histappend  # append to history file
