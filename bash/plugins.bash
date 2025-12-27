@@ -11,5 +11,13 @@ if command -v zoxide &> /dev/null; then
 fi
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# Load nvm only once (guard against multiple sources)
+if [ -s "$NVM_DIR/nvm.sh" ] && [ -z "$NVM_LOADED" ]; then
+    . "$NVM_DIR/nvm.sh"  # Load nvm
+    export NVM_LOADED=1
+fi
+# Load nvm bash completion
+if [ -s "$NVM_DIR/bash_completion" ] && [ -z "$NVM_COMPLETION_LOADED" ]; then
+    . "$NVM_DIR/bash_completion"
+    export NVM_COMPLETION_LOADED=1
+fi
