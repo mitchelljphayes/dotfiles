@@ -12,17 +12,12 @@ source ~/.zsh/plugins_before.zsh
 # Settings
 source ~/.zsh/settings.zsh
 
-# Bootstrap
-source ~/.shell/bootstrap.sh
 
 # Environment variables
 source ~/.shell/environment.sh
 
 # PATH management
 source ~/.shell/path.sh
-
-# External settings
-source ~/.shell/external.sh
 
 # Aliases
 source ~/.shell/aliases.sh
@@ -49,10 +44,9 @@ fi
 if [ -f ~/.zshrc_local_after ]; then
     source ~/.zshrc_local_after
 fi
-
-
-
-if [ -f ~/.env ]; then
-    source ~/.env
+# Added by dbt Fusion extension (ensure dbt binary dir on PATH)
+if [[ ":$PATH:" != *":/Users/mjp/.local/bin:"* ]]; then
+  export PATH=/Users/mjp/.local/bin:"$PATH"
 fi
-eval "$(uv generate-shell-completion zsh)"
+# Added by dbt Fusion extension
+alias dbtf=/Users/mjp/.local/bin/dbt
