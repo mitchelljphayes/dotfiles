@@ -1,0 +1,116 @@
+// Zed settings - loosely matching nvim config
+// For documentation: https://zed.dev/docs/configuring-zed
+{
+  // Theme - matching nvim onedark
+  "theme": "One Dark - Darkened",
+
+  // Vim mode
+  "vim_mode": true,
+
+  // UI
+  "ui_font_size": 16,
+  "buffer_font_size": 16,
+  "cursor_blink": false,
+
+  // Line numbers - matching vim.o.number + vim.o.relativenumber
+  "relative_line_numbers": "enabled",
+
+  // Indentation - matching vim.o.tabstop/shiftwidth = 4, expandtab = true
+  "tab_size": 4,
+  "hard_tabs": false,
+
+  // No line wrap - matching vim.o.wrap = false
+  "soft_wrap": "none",
+  "show_wrap_guides": false,
+
+  // Scrolloff - matching vim.o.scrolloff = 8
+  "vertical_scroll_margin": 8,
+  "scroll_beyond_last_line": "off",
+
+  // Search - matching vim.o.ignorecase + smartcase
+  "search": {
+    "case_sensitivity": "smart"
+  },
+
+  // Copilot - matching your copilot.lua setup
+  "features": {
+    "edit_prediction_provider": "copilot"
+  },
+
+  // Agent panel position
+  "agent": {
+    "default_model": {
+      "provider": "anthropic",
+      "model": "claude-sonnet-4-5-latest"
+    },
+    "dock": "left"
+  },
+
+  // Formatting - matching your conform/autoformat setup
+  "format_on_save": "on",
+  "formatter": "language_server",
+
+  // Git - matching git-blame.nvim settings
+  "git": {
+    "inline_blame": {
+      "enabled": true,
+      "delay_ms": 500
+    },
+    "git_gutter": "tracked_files"
+  },
+
+  // Inlay hints (similar to LSP inlay hints)
+  "inlay_hints": {
+    "enabled": true
+  },
+
+  // File associations
+  "file_types": {
+    "SQL": ["sql", "ddl", "dml"]
+  },
+
+  // Language-specific settings
+  "languages": {
+    "Python": {
+      "tab_size": 4,
+      "formatter": "language_server"
+    },
+    "Lua": {
+      "tab_size": 2
+    },
+    "JavaScript": {
+      "tab_size": 2
+    },
+    "TypeScript": {
+      "tab_size": 2
+    },
+    "JSON": {
+      "tab_size": 2
+    },
+    "YAML": {
+      "tab_size": 2
+    },
+    "Markdown": {
+      "soft_wrap": "editor_width"
+    }
+  },
+
+  // Terminal
+  "terminal": {
+    "font_size": 14,
+    "line_height": "comfortable"
+  },
+
+  // Project panel (similar to oil/neotree)
+  "project_panel": {
+    "dock": "left",
+    "git_status": true
+  },
+
+  // Autosave - matching vim.o.autowriteall
+  "autosave": {
+    "after_delay": {
+      "milliseconds": 1000
+    }
+  }
+}
