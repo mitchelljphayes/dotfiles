@@ -97,6 +97,12 @@ vim.keymap.set("n", "<C-h>", "<C-w>h", { noremap = true, silent = true })
 vim.keymap.set("n", "<C-l>", "<C-w>l", { noremap = true, silent = true })
 -- Note: Alt+hjkl are handled by vim-tmux-navigator plugin for seamless tmux integration
 
+-- Arrow key window navigation (useful when C-hjkl is remapped to arrows at system level)
+vim.keymap.set("n", "<Left>", "<C-w>h", { noremap = true, silent = true, desc = "Window left" })
+vim.keymap.set("n", "<Right>", "<C-w>l", { noremap = true, silent = true, desc = "Window right" })
+vim.keymap.set("n", "<Up>", "<C-w>k", { noremap = true, silent = true, desc = "Window up" })
+vim.keymap.set("n", "<Down>", "<C-w>j", { noremap = true, silent = true, desc = "Window down" })
+
 -- Navigate buffers
 vim.keymap.set("n", "<S-l>", ":bnext<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<S-h>", ":bprevious<CR>", { noremap = true, silent = true })

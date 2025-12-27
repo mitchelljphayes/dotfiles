@@ -86,7 +86,7 @@ return {
           -- Only apply to actual Claude Code terminals
           if bufname:match("term://") and bufname:match("claude") then
             vim.cmd([[
-              setlocal winhighlight=Normal:Normal,NormalNC:Normal
+              setlocal winhighlight=
               setlocal fillchars=eob:\
               setlocal nonumber norelativenumber
               setlocal signcolumn=no
@@ -166,6 +166,16 @@ return {
         highlight! link TermNormalNC Normal
       ]])
       
+      -- Override diff highlights to use OneDark colors instead of default blue
+      vim.cmd([[
+        highlight! ClaudeCodeDiffAdd guifg=#98c379 ctermfg=2
+        highlight! ClaudeCodeDiffDelete guifg=#e06c75 ctermfg=1  
+        highlight! ClaudeCodeDiffChange guifg=#e5c07b ctermfg=3
+        highlight! link DiffAdd ClaudeCodeDiffAdd
+        highlight! link DiffDelete ClaudeCodeDiffDelete
+        highlight! link DiffChange ClaudeCodeDiffChange
+      ]])
+      
       -- Visual focus indicators
       vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
         group = vim.api.nvim_create_augroup("ClaudeCodeFocusIndicator", { clear = true }),
@@ -174,7 +184,8 @@ return {
           if bufname:match("term://") and bufname:match("claude") then
             -- In Claude terminal - show focus indicator
             vim.opt_local.cursorline = true
-            vim.opt_local.winhl = "Normal:ClaudeTerminalFocused"
+            -- Remove custom window highlight to use terminal defaults
+            vim.opt_local.winhl = ""
           end
         end,
         desc = "Highlight focused Claude terminal",
@@ -187,17 +198,18 @@ return {
           if bufname:match("term://") and bufname:match("claude") then
             -- Leaving Claude terminal - remove focus indicator
             vim.opt_local.cursorline = false
-            vim.opt_local.winhl = "Normal:ClaudeTerminalUnfocused"
+            -- Remove custom window highlight to use terminal defaults
+            vim.opt_local.winhl = ""
           end
         end,
         desc = "Remove highlight from unfocused Claude terminal",
       })
       
-      -- Define custom highlight groups for focus states
-      vim.cmd([[
-        highlight ClaudeTerminalFocused guibg=#1e2127 ctermbg=235
-        highlight ClaudeTerminalUnfocused guibg=#181a1f ctermbg=234
-      ]])
+      -- Remove custom highlight groups to let terminal use its own colors
+      -- vim.cmd([[
+      --   highlight ClaudeTerminalFocused guibg=#1e2127 ctermbg=235
+      --   highlight ClaudeTerminalUnfocused guibg=#181a1f ctermbg=234
+      -- ]])
       
       -- Command to reset Claude Code state when errors occur
       vim.api.nvim_create_user_command("ClaudeCodeReset", function()

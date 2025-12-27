@@ -71,6 +71,10 @@ return {
     -- Terminal configuration
     terminal = {
       win = {
+        position = "float",
+        border = "rounded",
+        width = 0.9,
+        height = 0.9,
         wo = {
           winblend = 0, -- No transparency
           winhighlight = "Normal:Normal,FloatBorder:Normal", -- Use normal background
@@ -82,6 +86,18 @@ return {
     -- Command palette
     { "<leader>k",  function() require("snacks").picker.command_palette() end, desc = "Command Palette" },
     { "<leader>:",  function() require("snacks").picker.commands() end,        desc = "Commands" },
+
+    -- Terminal - floating
+    { "<leader>tt", function() require("snacks").terminal() end,               desc = "Toggle Terminal (float)" },
+    { "<C-\\>",     function() require("snacks").terminal() end,               desc = "Toggle Terminal (float)", mode = {"n", "t"} },
+    
+    -- Terminal - splits
+    { "<leader>th", function() require("snacks").terminal(nil, { win = { position = "bottom" } }) end, desc = "Toggle Terminal (horizontal)" },
+    { "<leader>tv", function() require("snacks").terminal(nil, { win = { position = "right" } }) end,  desc = "Toggle Terminal (vertical)" },
+    
+    -- Terminal - specific commands
+    { "<leader>gg", function() require("snacks").terminal("lazygit", { win = { border = "rounded" } }) end, desc = "Lazygit" },
+    { "<leader>gl", function() require("snacks").terminal("lazygit log", { win = { border = "rounded" } }) end, desc = "Lazygit Log" },
 
     -- Notifications
     { "<leader>un", function() require("snacks").notifier.hide() end,          desc = "Dismiss All Notifications" },
