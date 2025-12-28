@@ -5,6 +5,3 @@
 [submodule "tmux/plugins/tpm"]
 	path = tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
-[submodule "catpuccin_vim"]
-	path = catpuccin_vim
-	url = git@github.com:catppuccin/vim.git
