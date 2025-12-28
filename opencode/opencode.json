@@ -50,6 +50,12 @@
     "history_next": "down"
   },
   "instructions": ["AGENTS.md", "CLAUDE.md", ".cursor/rules/*.md"],
+  "mcpServers": {
+    "linear": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://mcp.linear.app/mcp"]
+    }
+  },
   "mode": {
     "orchestrate": {
       "model": "anthropic/claude-opus-4-5",
