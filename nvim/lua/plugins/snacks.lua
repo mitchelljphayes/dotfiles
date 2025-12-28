@@ -98,6 +98,26 @@ return {
     -- Terminal - specific commands
     { "<leader>gg", function() require("snacks").terminal("lazygit", { win = { border = "rounded" } }) end, desc = "Lazygit" },
     { "<leader>gl", function() require("snacks").terminal("lazygit log", { win = { border = "rounded" } }) end, desc = "Lazygit Log" },
+    
+    -- Multiple terminal sessions (using env to create separate terminals)
+    { "<leader>t1", function() require("snacks").terminal(nil, { env = { SNACKS_TERM_ID = "1" } }) end, desc = "Terminal 1" },
+    { "<leader>t2", function() require("snacks").terminal(nil, { env = { SNACKS_TERM_ID = "2" } }) end, desc = "Terminal 2" },
+    { "<leader>t3", function() require("snacks").terminal(nil, { env = { SNACKS_TERM_ID = "3" } }) end, desc = "Terminal 3" },
+    { "<leader>ts", function()
+      local terminals = require("snacks").terminal.list()
+      if #terminals == 0 then
+        require("snacks").notify.warn("No terminals found")
+        return
+      end
+      vim.ui.select(terminals, {
+        prompt = "Select Terminal:",
+        format_item = function(term)
+          return string.format("%s (%s)", term.opts.id or "default", term.cmd or "shell")
+        end,
+      }, function(term)
+        if term then term:show() end
+      end)
+    end, desc = "Select Terminal" },
 
     -- Notifications
     { "<leader>un", function() require("snacks").notifier.hide() end,          desc = "Dismiss All Notifications" },
@@ -118,7 +138,7 @@ return {
 
         -- Create some toggle commands
         local toggle = require("snacks").toggle
-        toggle.option("spell", { name = "Spelling" }):map("<leader>ts")
+        toggle.option("spell", { name = "Spelling" }):map("<leader>us")
         toggle.option("wrap", { name = "Wrap" }):map("<leader>tw")
         toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>tL")
         toggle.diagnostics():map("<leader>td")
