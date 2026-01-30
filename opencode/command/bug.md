@@ -1,6 +1,6 @@
 ---
 description: Fix a bug (focused research → plan → fix → verify)
-agent: orchestrate
+agent: builder
 ---
 
 ## Bug Fix Workflow
