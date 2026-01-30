@@ -9,6 +9,12 @@ if command -v uv &> /dev/null; then
     eval "$(uv generate-shell-completion zsh)"
 fi
 
+# direnv - per-directory environment variables
+# This MUST be the last hook to properly manage environments
+if command -v direnv &> /dev/null; then
+    eval "$(direnv hook zsh)"
+fi
+
 # if command -v zoxide &> /dev/null; then
     # eval "$(zoxide init zsh)"
 # fi
