@@ -185,3 +185,15 @@ alias dc='docker-compose'
 
 # DBT aliases support
 alias dbtf="$HOME/.local/bin/dbt"
+
+# opencode with 1Password secrets injected on-demand
+opencode() {
+    if command -v op &>/dev/null; then
+        op run --env-file="$HOME/.dotfiles/opencode/opencode.env" \
+            --account="ordermentum.1password.com" \
+            --no-masking \
+            -- "$HOME/.opencode/bin/opencode" "$@"
+    else
+        "$HOME/.opencode/bin/opencode" "$@"
+    fi
+}
