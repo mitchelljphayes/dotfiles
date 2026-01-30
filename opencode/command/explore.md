@@ -1,6 +1,6 @@
 ---
 description: Research a topic without implementation (research only)
-agent: orchestrate
+agent: builder
 ---
 
 ## Exploration Workflow

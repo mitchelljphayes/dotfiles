@@ -1,6 +1,6 @@
 ---
 description: Review codebase practices and research industry best practices
-agent: orchestrate
+agent: builder
 ---
 
 ## Review Best Practices Workflow

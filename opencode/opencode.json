@@ -3,10 +3,12 @@
   "theme": "one-dark",
   "autoupdate": true,
   "small_model": "anthropic/claude-haiku-4-5",
+  "plugin": ["opencode-antigravity-auth"],
   "tui": {
     "scroll_acceleration": {
       "enabled": true
-    }
+    },
+    "diff_style": "stacked"
   },
   "keybinds": {
     "leader": "ctrl+x",
@@ -54,84 +56,27 @@
     "linear": {
       "type": "remote",
       "url": "https://mcp.linear.app/mcp"
-    }
-  },
-  "mode": {
-    "orchestrate": {
-      "model": "anthropic/claude-opus-4-5",
-      "instructions": "{file:./prompts/orchestrate.md}",
-      "tools": {
-        "task": true,
-        "read": true,
-        "bash": true,
-        "todowrite": true,
-        "todoread": true,
-        "write": false,
-        "edit": false
+    },
+    "atlassian": {
+      "type": "remote",
+      "url": "https://mcp.atlassian.com/v1/mcp"
+    },
+    "figma": {
+      "type": "remote",
+      "url": "https://mcp.figma.com/mcp",
+      "oauth": {
+        "clientId": "1VnaWyJZl7rJlwfDhaJE9T",
+        "clientSecret": "rXF4U6sxJMpSJZzlQA3yuy0RBgxcpa"
       }
     },
-    "research": {
-      "model": "anthropic/claude-sonnet-4-5",
-      "instructions": "{file:./prompts/research.md}",
-      "tools": {
-        "read": true,
-        "glob": true,
-        "grep": true,
-        "list": true,
-        "bash": true,
-        "task": true,
-        "todowrite": true,
-        "todoread": true,
-        "write": true,
-        "edit": false
-      }
-    },
-    "build": {
-      "model": "anthropic/claude-sonnet-4-5",
-      "instructions": "{file:./prompts/build.md}",
-      "tools": {
-        "bash": true,
-        "edit": true,
-        "read": true,
-        "write": true,
-        "glob": true,
-        "grep": true,
-        "list": true,
-        "webfetch": true,
-        "todowrite": true,
-        "todoread": true,
-        "task": true
-      }
-    },
-    "plan": {
-      "model": "anthropic/claude-opus-4-5",
-      "instructions": "{file:./prompts/plan.md}",
-      "tools": {
-        "read": true,
-        "glob": true,
-        "grep": true,
-        "list": true,
-        "webfetch": true,
-        "todowrite": true,
-        "todoread": true,
-        "task": true,
-        "bash": true,
-        "write": true,
-        "edit": false
-      }
-    },
-    "review": {
-      "model": "anthropic/claude-sonnet-4-5",
-      "instructions": "{file:./prompts/review.md}",
-      "tools": {
-        "read": true,
-        "glob": true,
-        "grep": true,
-        "list": true,
-        "bash": true,
-        "todowrite": true,
-        "todoread": true,
-        "task": true
+    "omni": {
+      "type": "remote",
+      "url": "https://ordermentum.omniapp.co/mcp/https",
+      "oauth": false,
+      "headers": {
+        "Authorization": "Bearer {env:OMNI_API_KEY}",
+        "X-MCP-Model-ID": "edaaed7c-65b3-43d9-8160-13937c33bdf7",
+        "Accept": "application/json, text/event-stream"
       }
     }
   }

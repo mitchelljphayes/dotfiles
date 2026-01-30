@@ -36,6 +36,9 @@
     ~/.config/opencode:
       path: opencode
       force: true
+    ~/.config/Claude:
+      path: Claude
+      force: true
     ~/.config/zed/settings.json:
       path: zed/settings.json
       force: true
@@ -96,6 +99,9 @@
       force: true
     ~/.claude/CLAUDE.md:
       path: CLAUDE.md
+      force: true
+    ~/.claude/settings.json:
+      path: claude/settings.json
       force: true
 
 - shell:

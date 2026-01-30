@@ -1,6 +1,6 @@
 ---
 description: Compact current context into structured artifact during workflow
-agent: orchestrate
+agent: builder
 ---
 
 ## Context Compaction Command
