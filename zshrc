@@ -50,3 +50,6 @@ if [[ ":$PATH:" != *":/Users/mjp/.local/bin:"* ]]; then
 fi
 # Added by dbt Fusion extension
 alias dbtf=/Users/mjp/.local/bin/dbt
+
+# Added by Antigravity
+export PATH="/Users/mjp/.antigravity/antigravity/bin:$PATH"
