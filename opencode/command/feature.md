@@ -1,6 +1,6 @@
 ---
 description: Implement a new feature (research → plan → build → review)
-agent: orchestrate
+agent: builder
 ---
 
 ## Feature Implementation Workflow
