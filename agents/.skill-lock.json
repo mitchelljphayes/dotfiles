@@ -1,0 +1,51 @@
+{
+  "version": 3,
+  "skills": {
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/skills.git",
+      "skillPath": "skills/find-skills/SKILL.md",
+      "skillFolderHash": "c2f31172b6f256272305a5e6e7228b258446899f",
+      "installedAt": "2026-01-28T01:22:58.308Z",
+      "updatedAt": "2026-01-28T01:22:58.308Z"
+    },
+    "dagster-conventions": {
+      "source": "dagster-io/dagster-claude-plugins",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/dagster-io/dagster-claude-plugins.git",
+      "skillPath": "plugins/dagster-conventions/skills/dagster-conventions/SKILL.md",
+      "skillFolderHash": "ae7f8932f8e154f870715baf89a26e0d27346f17",
+      "installedAt": "2026-01-28T01:25:30.933Z",
+      "updatedAt": "2026-01-28T01:25:30.933Z"
+    },
+    "integrations-index": {
+      "source": "dagster-io/dagster-claude-plugins",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/dagster-io/dagster-claude-plugins.git",
+      "skillPath": "plugins/dagster-integrations/skills/integrations-index/SKILL.md",
+      "skillFolderHash": "e26f8f43eae70fe693d0943eb3262ac7fcb857ec",
+      "installedAt": "2026-01-28T01:25:32.196Z",
+      "updatedAt": "2026-01-28T01:25:32.196Z"
+    },
+    "dbt-transformation-patterns": {
+      "source": "wshobson/agents",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/wshobson/agents.git",
+      "skillPath": "plugins/data-engineering/skills/dbt-transformation-patterns/SKILL.md",
+      "skillFolderHash": "008a79d0dd1d0a1a8b23bc80b9b2102fee0bad38",
+      "installedAt": "2026-01-28T01:26:50.225Z",
+      "updatedAt": "2026-01-28T01:26:50.225Z"
+    },
+    "dbt-expert": {
+      "source": "personamanagmentlayer/pcl",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/personamanagmentlayer/pcl.git",
+      "skillPath": "stdlib/data/dbt-expert/SKILL.md",
+      "skillFolderHash": "c5b269b25d51255a8c9f5f37a4f9ee2396b562c7",
+      "installedAt": "2026-01-28T01:31:51.961Z",
+      "updatedAt": "2026-01-28T01:31:51.961Z"
+    }
+  },
+  "dismissed": {}
+}
