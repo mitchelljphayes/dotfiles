@@ -1,6 +1,6 @@
 ---
 description: Refactor code (extensive research → careful implementation)
-agent: orchestrate
+agent: builder
 ---
 
 ## Refactor Workflow
