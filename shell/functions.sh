@@ -38,6 +38,34 @@ machine_name() {
     fi
 }
 
+# Update tmux window name based on git repo (or directory name)
+_tmux_update_window_name() {
+    # Only run if inside tmux
+    [[ -z "$TMUX" ]] && return
+
+    local name
+    # Try to get git repo name, fall back to directory name
+    if git rev-parse --is-inside-work-tree &>/dev/null; then
+        name=$(basename "$(git rev-parse --show-toplevel)")
+    else
+        name=$(basename "$PWD")
+    fi
+
+    # Rename the current tmux window
+    tmux rename-window "$name"
+}
+
+# Hook to update tmux window name on directory change
+if [[ -n "$ZSH_VERSION" ]]; then
+    autoload -Uz add-zsh-hook
+    add-zsh-hook chpwd _tmux_update_window_name
+    # Also set name on shell startup
+    _tmux_update_window_name
+elif [[ -n "$BASH_VERSION" ]]; then
+    # For bash, use PROMPT_COMMAND
+    PROMPT_COMMAND="_tmux_update_window_name${PROMPT_COMMAND:+;$PROMPT_COMMAND}"
+fi
+
 update_terminfo () {
     local x ncdir terms
     ncdir="/opt/homebrew/opt/ncurses"
