@@ -1,13 +1,17 @@
 ---
 description: Run tests and fix failures
-agent: build
+agent: builder
 ---
 
-Run the test suite for this project. First, identify the testing framework being used (pytest, jest, cargo test, go test, etc.) by examining the project structure.
+Run the project's test suite.
 
-Then run the tests and analyze any failures. For each failure:
-1. Identify the root cause
-2. Suggest or implement a fix
-3. Re-run the affected tests to verify
+1. Identify testing framework (pytest, jest, cargo test, etc.)
+2. Run the tests
+3. If failures occur, **delegate to test-analyzer agent** for diagnosis
+4. For each failure:
+   - Identify root cause
+   - Implement fix (do it yourself if simple, delegate to build if complex)
+   - Re-run affected tests
+5. Provide summary of results
 
-If all tests pass, provide a brief summary of test coverage.
+$ARGUMENTS
