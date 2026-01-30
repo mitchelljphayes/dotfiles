@@ -2,6 +2,8 @@
 
 This directory contains the orchestration system for Advanced Context Engineering (ACE) based on Dex Horthy's "Frequent Intentional Compaction" workflow principles.
 
+> **TL;DR**: Use `/feature`, `/bug`, `/refactor`, or `/explore` to start a structured workflow with research, planning, and implementation phases.
+
 ## Quick Start
 
 ### For New Features

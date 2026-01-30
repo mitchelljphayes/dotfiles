@@ -1,16 +1,15 @@
 ---
 description: Run linters and fix issues
-agent: build
+agent: builder
 ---
 
-Identify and run the appropriate linters for this project:
+Run linters for this project.
 
-1. Check for linting configuration files (ruff.toml, .eslintrc, .prettierrc, rustfmt.toml, etc.)
-2. Run the linter(s) and capture any errors or warnings
-3. For each issue found:
-   - Auto-fix if the linter supports it (e.g., `ruff check --fix`, `eslint --fix`)
-   - For issues that can't be auto-fixed, explain the problem and suggest a fix
-4. Re-run the linter to verify all issues are resolved
-5. Provide a summary of what was fixed
+1. Detect linting tools (ruff, eslint, prettier, rustfmt, etc.)
+2. Run linter(s) and capture issues
+3. Auto-fix where supported (--fix flags)
+4. For issues that can't auto-fix, implement fixes yourself
+5. Re-run to verify
+6. Provide summary
 
 $ARGUMENTS

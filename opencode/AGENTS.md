@@ -131,3 +131,26 @@ These are global instructions that apply to all opencode sessions and projects.
 - Be mindful of backwards compatibility
 - Consider the impact of changes on the entire system
 - Always verify that changes work as expected before completing tasks
+## Git Branch Naming
+
+- Use feature branch names based on issue identifiers, not usernames
+- Format: `<issue-id>-<short-description>` (e.g., `wal-136-implement-auth-login`)
+- Do NOT include usernames or personal identifiers in branch names
+- When Linear provides a `gitBranchName`, extract the issue ID and create a cleaner name
+
+## Git Branch Creation (IMPORTANT)
+
+When creating branches from a base branch (like `develop` or `main`):
+
+1. **NEVER** use `git checkout -b <branch> origin/develop` - this sets up tracking to the remote and `git push` will push to develop!
+2. **ALWAYS** use this pattern:
+   ```bash
+   git fetch origin
+   git switch --no-track -c <branch-name> origin/develop
+   git push -u origin <branch-name>
+   ```
+
+### Protected Branches
+- **NEVER push directly to `main` or `develop`** - always create a PR
+- Verify with `git branch -vv` that your branch is NOT tracking `origin/main` or `origin/develop` before pushing
+- When creating a new branch, use `git switch --no-track -c <branch-name> origin/develop`
