@@ -104,6 +104,8 @@ link kanata         ~/.config/kanata
 link opencode       ~/.config/opencode
 link 1Password      ~/.config/1Password
 link ssh/config     ~/.ssh/config
+link_darwin ssh/config.darwin  ~/.ssh/config.local
+link_linux  ssh/config.linux   ~/.ssh/config.local
 link gpg.conf       ~/.gnupg/gpg.conf
 link yarnrc         ~/.yarnrc
 link kaggle         ~/.kaggle
