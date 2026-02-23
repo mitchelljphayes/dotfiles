@@ -45,6 +45,15 @@
       "skillFolderHash": "c5b269b25d51255a8c9f5f37a4f9ee2396b562c7",
       "installedAt": "2026-01-28T01:31:51.961Z",
       "updatedAt": "2026-01-28T01:31:51.961Z"
+    },
+    "dagster-best-practices": {
+      "source": "dagster-io/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/dagster-io/skills.git",
+      "skillPath": "skills/dagster-best-practices/SKILL.md",
+      "skillFolderHash": "9bd4ce34e627ef1cebb8d61f1a5e12e27032bd14",
+      "installedAt": "2026-02-04T03:19:26.226Z",
+      "updatedAt": "2026-02-04T03:19:26.226Z"
     }
   },
   "dismissed": {}

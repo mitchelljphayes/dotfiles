@@ -27,6 +27,5 @@ export KEYTIMEOUT=1  # corresponds to 10ms for zsh
 # Development settings
 export DEV_SCHEMA_PREFIX=mh
 
-# 1Password secrets are loaded on-demand via shell function wrappers
-# See opencode() in aliases.sh and ~/.dotfiles/opencode/opencode.env
-# This avoids prompting for auth when IDEs spawn shells
+# 1Password secrets are loaded at login via ~/.dotfiles/shell/secrets.sh
+# Cached in launchctl - auth once per macOS session, available to all processes

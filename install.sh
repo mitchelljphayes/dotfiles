@@ -90,7 +90,6 @@ link zed/settings.json  ~/.config/zed/settings.json
 link zed/keymap.json    ~/.config/zed/keymap.json
 
 # Terminal emulators
-link alacritty      ~/.config/alacritty
 link ghostty        ~/.config/ghostty
 link wezterm        ~/.config/wezterm
 
@@ -101,6 +100,7 @@ link tmux/tmux.conf ~/.tmux.conf
 # Tools
 link starship.toml  ~/.config/starship.toml
 link kanata         ~/.config/kanata
+link_darwin hammerspoon    ~/.hammerspoon
 link opencode       ~/.config/opencode
 link 1Password      ~/.config/1Password
 link ssh/config     ~/.ssh/config
@@ -131,6 +131,9 @@ link_darwin nu/env.nu       ~/Library/Application\ Support/nushell/env.nu
 link_darwin nu/aliases.nu   ~/Library/Application\ Support/nushell/aliases.nu
 link_darwin nu/scripts      ~/Library/Application\ Support/nushell/scripts
 link_darwin nu/vendor       ~/Library/Application\ Support/nushell/vendor
+
+# LaunchAgents (macOS)
+link_darwin launchagents/com.mjp.theme-monitor.plist ~/Library/LaunchAgents/com.mjp.theme-monitor.plist
 
 # Linux-specific (add as needed)
 # link_linux nu/config.nu   ~/.config/nushell/config.nu
