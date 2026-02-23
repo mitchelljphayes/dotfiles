@@ -2,7 +2,14 @@
 // For documentation: https://zed.dev/docs/configuring-zed
 {
   // Theme - matching nvim onedark
-  "theme": "One Dark - Darkened",
+  "edit_predictions": {
+    "provider": "copilot"
+  },
+  "theme": {
+    "mode": "system",
+    "light": "One Light",
+    "dark": "One Dark - Darkened"
+  },
 
   // Vim mode
   "vim_mode": true,
@@ -33,10 +40,6 @@
   },
 
   // Copilot - matching your copilot.lua setup
-  "features": {
-    "edit_prediction_provider": "copilot"
-  },
-
   // Agent panel position
   "agent": {
     "default_model": {

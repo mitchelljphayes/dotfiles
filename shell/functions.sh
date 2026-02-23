@@ -66,6 +66,22 @@ elif [[ -n "$BASH_VERSION" ]]; then
     PROMPT_COMMAND="_tmux_update_window_name${PROMPT_COMMAND:+;$PROMPT_COMMAND}"
 fi
 
+# Manually refresh tmux theme based on current system appearance
+# Normally this happens automatically via mode 2031 signals from Ghostty
+tmux-theme() {
+    if [[ -n "$TMUX" ]]; then
+        if defaults read -g AppleInterfaceStyle &>/dev/null; then
+            ~/.config/tmux/theme-dark.sh
+            echo "tmux theme: dark"
+        else
+            ~/.config/tmux/theme-light.sh
+            echo "tmux theme: light"
+        fi
+    else
+        echo "Not in a tmux session"
+    fi
+}
+
 update_terminfo () {
     local x ncdir terms
     ncdir="/opt/homebrew/opt/ncurses"
@@ -94,4 +110,14 @@ update_terminfo () {
         fi
     fi
     cd - > /dev/null
+}
+
+# Kill all running opencode instances
+kill-opencode() {
+    if pgrep -f opencode >/dev/null 2>&1; then
+        echo "Killing opencode processes: $(pgrep -f opencode | tr '\n' ' ')"
+        pkill -f opencode
+    else
+        echo "No opencode instances running"
+    fi
 }
