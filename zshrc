@@ -1,3 +1,5 @@
+# 1Password secrets (cached at session level - auth once per login)
+source ~/.shell/secrets.sh
 
 # Functions
 source ~/.shell/functions.sh

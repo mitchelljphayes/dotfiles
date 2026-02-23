@@ -12,47 +12,85 @@
 - **Python**: Follow ruff/black formatting (line-length 88), always add type hints, descriptive names
 - **Imports**: Standard library first, third-party, then local imports (ruff handles sorting)
 - **Shell scripts**: Use `#!/usr/bin/env bash`, `set -e` for error handling, check exit codes
-- **YAML**: 2-space indentation, consistent with install.conf.yaml structure
+- **YAML**: 2-space indentation
 - **Config files**: Prefer TOML format, follow existing patterns in repo
 - **Naming**: Prefer explicit over implicit, use descriptive variable/function names
 
 ## Repository Structure & Conventions
-- Dotbot-managed dotfiles with submodules for plugins (zsh, vim, zsh-completions)
-- Shell configs split by function (aliases.sh, functions.sh, env.sh, etc.)
-- Neovim config in Lua, separate directories for each editor (vim/, nvim/, ghostty/)
-- Use absolute paths when reading/writing files, verify directories exist first
-- Never create documentation files unless explicitly requested
-- Test configuration changes with `./install` before committing
 
-## Symlink Structure (Important!)
-Config files live in this repo and are symlinked to their destinations by Dotbot.
-**Always edit files in ~/.dotfiles/, not the symlinked locations.**
+This is the canonical source for ALL dotfiles and tool configs on this machine.
+Everything lives in `~/.dotfiles/` and is symlinked to its destination by `install.sh`.
 
-Key symlink mappings (see install.conf.yaml for full list):
+**Always edit files in `~/.dotfiles/`, not the symlinked locations.**
+
+Key directories:
+- `shell/` — Shell configs split by function (aliases.sh, functions.sh, env.sh, etc.)
+- `nvim/` — Neovim config (Lua)
+- `opencode/` — OpenCode config, MCP servers, agents, commands, skills
+- `Claude/` — Claude Desktop settings
+- `claude/` — Claude Code settings (settings.json only)
+- `agents/` — Agent skills shared by Claude Code and OpenCode
+- `ghostty/`, `alacritty/`, `wezterm/` — Terminal emulators
+- `tmux/` — Tmux config
+- `zed/` — Zed editor settings
+- `kanata/` — Keyboard remapping
+- `nu/` — Nushell config
+
+## Symlink Mappings
+
+Managed by `install.sh` (not the legacy `install.conf.yaml`). Run `./install` to apply.
+
 | Repo Path | Symlinked To |
 |-----------|--------------|
+| `shell/` | `~/.shell` |
+| `zsh/` | `~/.zsh` |
+| `zshrc` | `~/.zshrc` |
+| `bash/` | `~/.bash` |
 | `nvim/` | `~/.config/nvim` |
+| `opencode/` | `~/.config/opencode` |
+| `Claude/` | `~/.config/Claude` |
 | `ghostty/` | `~/.config/ghostty` |
 | `alacritty/` | `~/.config/alacritty` |
 | `wezterm/` | `~/.config/wezterm` |
-| `Claude/` | `~/.config/Claude` |
-| `opencode/` | `~/.config/opencode` |
 | `tmux/` | `~/.config/tmux` |
-| `zed/` | `~/.config/zed` (individual files) |
+| `zed/settings.json` | `~/.config/zed/settings.json` |
+| `zed/keymap.json` | `~/.config/zed/keymap.json` |
 | `1Password/` | `~/.config/1Password` |
 | `kanata/` | `~/.config/kanata` |
 | `starship.toml` | `~/.config/starship.toml` |
-| `nu/` | `~/Library/Application Support/nushell` |
-| `shell/` | `~/.shell` |
-| `zsh/` | `~/.zsh` |
-| `claude/` | `~/.claude` (settings.json only) |
-| `agents/` | `~/.agents` (skills storage for npx skills CLI) |
-| `agents/skills/` | `~/.claude/skills` (via ~/.agents symlink) |
+| `nu/` | `~/Library/Application Support/nushell` (macOS) |
+| `gitconfig.toml` | `~/.gitconfig` |
+| `ssh/config` | `~/.ssh/config` |
+| `claude/settings.json` | `~/.claude/settings.json` |
 | `CLAUDE.md` | `~/.claude/CLAUDE.md` |
+| `agents/` | `~/.agents` |
+| `agents/skills/` | `~/.claude/skills` (via ~/.agents symlink) |
 
-To add new configs: create the directory/file in this repo, add symlink entry to `install.sh` (not the legacy YAML), run `./install`.
+To add new configs: create the directory/file in this repo, add a `link` entry to `install.sh`, run `./install`.
 
-**Note on Claude/MCP configs:** The main `~/.claude.json` file is NOT tracked because it contains API secrets for MCP servers. Only `settings.json` (UI preferences) is symlinked. MCP servers with secrets must be configured manually with `claude mcp add`.
+## MCP Server Configuration
+
+### Claude Code
+The main `~/.claude.json` is NOT tracked — it contains API secrets for MCP servers.
+Only `settings.json` (UI preferences) is symlinked. MCP servers with secrets are
+configured manually with `claude mcp add`.
+
+### OpenCode
+OpenCode config lives at `~/.dotfiles/opencode/` and is symlinked to `~/.config/opencode/`.
+- **`opencode.json`** — Main config including MCP server definitions
+- **`agent/`** — Agent definitions (research, build, review, etc.)
+- **`command/`** — Slash commands (/feature, /bug, /plan, etc.)
+- **`skills/`** — OpenCode-specific skills
+
+MCP servers in OpenCode use `{env:VAR_NAME}` syntax for secrets in headers.
+Secrets are managed in `~/.dotfiles/shell/secrets.sh` and cached via launchctl.
+
+### Secrets Management
+All 1Password secrets are defined in `~/.dotfiles/shell/secrets.sh`:
+- Sourced from `.zprofile` at login shell startup
+- Fetched from 1Password (auth once per macOS session)
+- Cached via `launchctl setenv` so all processes inherit them
+- To add a new secret, add an entry to the `SECRETS` array in `secrets.sh`
 
 ## Agent Skills
 
