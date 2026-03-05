@@ -5,7 +5,6 @@
 This is my personal Neovim configuration, built for modern development workflows with AI assistance, data science capabilities, and efficient editing.
 
 **Key Features:**
-* **AI-Powered Development** - GitHub Copilot integration
 * **Data Science Ready** - Jupyter notebook support with Molten.nvim
 * **Modern LSP Setup** - Full language server protocol support
 * **Efficient Navigation** - Oil.nvim for file management, Telescope for fuzzy finding
@@ -62,9 +61,6 @@ nvim/
 
 ### Key Features & Plugins
 
-#### AI Development
-- **GitHub Copilot** - AI code completion
-
 #### Data Science
 - **Molten.nvim** - Jupyter notebook support within Neovim
 - **Render-markdown.nvim** - Beautiful markdown rendering
@@ -117,12 +113,6 @@ return {
 - **Editor options:** Edit `lua/options.lua`
 - **Key mappings:** Edit `lua/keymaps.lua`
 - **Plugin configs:** Edit respective files in `lua/plugins/`
-
-### AI Setup
-
-To use the AI features, you'll need:
-1. **Claude API key** - Set `ANTHROPIC_API_KEY` environment variable
-2. **GitHub Copilot** - Run `:Copilot auth` to authenticate
 
 ### Data Science Setup
 
