@@ -1,7 +1,7 @@
 ---
 description: Code reviewer ensuring quality, security, and plan alignment
 mode: subagent
-model: anthropic/claude-sonnet-4-5
+model: anthropic/claude-sonnet-4-6
 tools:
   read: true
   glob: true

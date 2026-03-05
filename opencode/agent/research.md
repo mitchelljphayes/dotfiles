@@ -1,7 +1,7 @@
 ---
 description: Codebase researcher producing actionable insights for planning and implementation
 mode: subagent
-model: anthropic/claude-sonnet-4-5
+model: anthropic/claude-sonnet-4-6
 tools:
   read: true
   glob: true
