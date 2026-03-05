@@ -1,7 +1,7 @@
 ---
 description: Build and implement - handles code changes directly or via ACE workflow
 mode: primary
-model: anthropic/claude-opus-4-5
+model: anthropic/claude-opus-4-6
 tools:
   task: true
   read: true
