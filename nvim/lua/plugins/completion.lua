@@ -63,7 +63,6 @@ return {
             before = function(entry, vim_item)
               -- Show source
               vim_item.menu = ({
-                copilot = "[Copilot]",
                 nvim_lsp = "[LSP]",
                 luasnip = "[Snippet]",
                 buffer = "[Buffer]",
@@ -93,12 +92,9 @@ return {
             behavior = cmp.ConfirmBehavior.Replace,
             select = true, -- Select current item
           }),
-          -- Tab is now reserved for Copilot ghost text
-          -- S-Tab is now reserved for Copilot accept word
         }),
 
         sources = cmp.config.sources({
-          { name = 'copilot',                priority = 1100 },
           { name = 'nvim_lsp',               priority = 1000 },
           { name = 'nvim_lsp_signature_help' },
           { name = 'luasnip',                priority = 750 },
