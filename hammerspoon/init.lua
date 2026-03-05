@@ -1,6 +1,13 @@
 -- Enable CLI
 require("hs.ipc")
 
+-- Auto-reload on wake to fix eventtap issues
+hs.caffeinate.watcher.new(function(event)
+    if event == hs.caffeinate.watcher.systemDidWake then
+        hs.reload()
+    end
+end):start()
+
 -- Hammerspoon config for keyboard remapping
 -- Uses CGEventTap which works on internal keyboard!
 
