@@ -1,7 +1,7 @@
 ---
 description: Software engineer implementing solutions phase by phase following the plan
 mode: subagent
-model: anthropic/claude-sonnet-4-5
+model: anthropic/claude-sonnet-4-6
 tools:
   bash: true
   edit: true

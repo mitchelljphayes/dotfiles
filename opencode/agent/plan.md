@@ -1,7 +1,7 @@
 ---
 description: Strategic architect creating phase-based implementation plans from research
 mode: subagent
-model: anthropic/claude-opus-4-5
+model: anthropic/claude-opus-4-6
 tools:
   read: true
   glob: true

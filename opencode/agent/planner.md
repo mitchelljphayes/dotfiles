@@ -1,7 +1,7 @@
 ---
 description: Plan and specify - PRDs, projects, tickets, brainstorming, feature discovery
 mode: primary
-model: anthropic/claude-opus-4-5
+model: anthropic/claude-opus-4-6
 tools:
   task: true
   read: true
