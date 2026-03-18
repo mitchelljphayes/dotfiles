@@ -3,40 +3,33 @@
   "autoupdate": true,
   "small_model": "anthropic/claude-haiku-4-5",
   "permission": {
-    "google_search": "deny"
+    "websearch": "allow",
+    "bash": {
+      "gh pr merge *": "ask",
+      "gh pr merge": "ask",
+      "git push --force *": "ask",
+      "git push -f *": "ask",
+      "git push --force-with-lease *": "ask",
+      "git reset --hard *": "ask",
+      "git branch -D *": "ask",
+      "git clean -f *": "ask",
+      "git rebase *": "ask",
+      "git checkout -- *": "ask",
+      "gh pr close *": "ask",
+      "gh repo delete *": "deny",
+      "rm -rf *": "deny"
+    }
   },
   "instructions": ["AGENTS.md", "CLAUDE.md", ".cursor/rules/*.md"],
   "mcp": {
-    "linear": {
-      "type": "remote",
-      "url": "https://mcp.linear.app/mcp"
-    },
-    "atlassian": {
-      "type": "remote",
-      "url": "https://mcp.atlassian.com/v1/mcp"
-    },
-    "figma": {
-      "type": "remote",
-      "url": "https://mcp.figma.com/mcp"
-    },
-    "omni": {
-      "type": "remote",
-      "url": "https://ordermentum.omniapp.co/mcp/https",
-      "oauth": false,
-      "headers": {
-        "Authorization": "Bearer {env:OMNI_API_KEY}",
-        "X-MCP-Model-ID": "edaaed7c-65b3-43d9-8160-13937c33bdf7",
-        "Accept": "application/json, text/event-stream"
-      }
-    },
-    "granola": {
-      "type": "remote",
-      "url": "https://mcp.granola.ai/mcp"
-    },
     "playwright": {
       "type": "local",
-      "command": ["npx", "-y", "@playwright/mcp@latest"],
+      "command": ["npx", "-y", "@playwright/mcp@latest", "--output-dir", ".screenshots"],
       "timeout": 30000
+    },
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp"
     }
   },
   "provider": {

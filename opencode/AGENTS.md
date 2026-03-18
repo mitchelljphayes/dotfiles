@@ -124,6 +124,13 @@ These are global instructions that apply to all opencode sessions and projects.
 - Document complex algorithms or business logic
 - Include examples in documentation when helpful
 
+## Linear Defaults
+
+### Issue Creation
+- When creating Linear issues, set the initial status to **Backlog** (not Triage or To Do)
+- Use the status ID `7c3b083e-5264-4ede-938c-263593a2bb2e` for the Data Team Backlog status (the name "Backlog" is ambiguous with "Blocked" since both are backlog-type statuses)
+- Only use "To Do" or other statuses when explicitly requested
+
 ## Important Reminders
 
 - Think before acting - understand the codebase first
