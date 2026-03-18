@@ -43,8 +43,8 @@ link() {
 }
 
 # Link only on specific OS
-link_darwin() { [[ "$OS" == "Darwin" ]] && link "$1" "$2"; }
-link_linux() { [[ "$OS" == "Linux" ]] && link "$1" "$2"; }
+link_darwin() { [[ "$OS" == "Darwin" ]] && link "$1" "$2" || true; }
+link_linux() { [[ "$OS" == "Linux" ]] && link "$1" "$2" || true; }
 
 # Clean dead symlinks in a directory
 clean_dead_links() {
@@ -100,7 +100,7 @@ link tmux/tmux.conf ~/.tmux.conf
 # Tools
 link starship.toml  ~/.config/starship.toml
 link kanata         ~/.config/kanata
-link_darwin hammerspoon    ~/.hammerspoon
+link switcheroo     ~/.config/switcheroo
 link opencode       ~/.config/opencode
 link 1Password      ~/.config/1Password
 link ssh/config     ~/.ssh/config
@@ -131,6 +131,17 @@ link_darwin nu/env.nu       ~/Library/Application\ Support/nushell/env.nu
 link_darwin nu/aliases.nu   ~/Library/Application\ Support/nushell/aliases.nu
 link_darwin nu/scripts      ~/Library/Application\ Support/nushell/scripts
 link_darwin nu/vendor       ~/Library/Application\ Support/nushell/vendor
+
+# Ordermentum project-specific OpenCode config (symlink into each git repo)
+OM_DIR="$HOME/Developer/ordermentum"
+if [[ -d "$OM_DIR" ]]; then
+    info "Symlinking ordermentum opencode.json into project repos..."
+    for repo in "$OM_DIR"/*/; do
+        if [[ -d "$repo/.git" ]]; then
+            link ordermentum/opencode.json "$repo/opencode.json"
+        fi
+    done
+fi
 
 # LaunchAgents (macOS)
 link_darwin launchagents/com.mjp.theme-monitor.plist ~/Library/LaunchAgents/com.mjp.theme-monitor.plist
