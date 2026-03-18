@@ -1,6 +1,9 @@
 # Linux-specific SSH settings
 # Symlinked to ~/.ssh/config.local by install.sh
 
-Host *
+# Use 1Password SSH agent only if the socket exists (desktop with 1Password app)
+Match host * exec "test -S ~/.1password/agent.sock"
   IdentityAgent ~/.1password/agent.sock
+
+Host *
   AddKeysToAgent yes
