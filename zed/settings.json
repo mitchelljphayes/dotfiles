@@ -2,8 +2,53 @@
 // For documentation: https://zed.dev/docs/configuring-zed
 {
   // Theme - matching nvim onedark
+  "context_servers": {
+    "chrome-devtools-mcp-zed": {
+      "enabled": true,
+      "remote": false,
+      "settings": {
+        "browser_url": null,
+        "ws_endpoint": null,
+        "ws_headers": null,
+        "auto_connect": null,
+        "channel": null,
+        "headless": null,
+        "isolated": null,
+        "user_data_dir": null,
+        "viewport": null,
+        "executable_path": null,
+        "chrome_arg": [],
+        "proxy_server": null,
+        "accept_insecure_certs": null,
+        "category_emulation": null,
+        "category_performance": null,
+        "category_network": null,
+        "log_file": null,
+        "extra_args": []
+      }
+    },
+    "mcp-server-playwright": {
+      "enabled": true,
+      "remote": false,
+      "settings": {}
+    }
+  },
+  "agent_servers": {
+    "claude-acp": {
+      "type": "registry"
+    },
+    "opencode": {
+      "favorite_models": [
+        "anthropic/claude-opus-4-6",
+        "anthropic/claude-sonnet-4-6",
+        "opencode/claude-opus-4-6"
+      ],
+      "type": "registry"
+    }
+  },
+  "disable_ai": false,
   "edit_predictions": {
-    "provider": "copilot"
+    "provider": "none"
   },
   "theme": {
     "mode": "system",
@@ -46,7 +91,7 @@
       "provider": "anthropic",
       "model": "claude-sonnet-4-5-latest"
     },
-    "dock": "left"
+    "dock": "right"
   },
 
   // Formatting - matching your conform/autoformat setup
