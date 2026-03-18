@@ -2,6 +2,11 @@
 # One Dark theme colors for tmux
 # Triggered by client-dark-theme hook (mode 2031)
 
+# Set default pane colors so tmux reports correct bg/fg via OSC 10/11
+# (needed for apps like OpenCode that detect light/dark mode)
+tmux set -g window-style "bg=#282c34,fg=#abb2bf"
+tmux set -g window-active-style "bg=#282c34,fg=#abb2bf"
+
 tmux set -g pane-border-style "fg=#5c6370"
 tmux set -g pane-active-border-style "fg=#61afef"
 tmux set -g message-style "bg=#3e4452,fg=#abb2bf"
