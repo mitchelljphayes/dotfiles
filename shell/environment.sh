@@ -27,5 +27,11 @@ export KEYTIMEOUT=1  # corresponds to 10ms for zsh
 # Development settings
 export DEV_SCHEMA_PREFIX=mh
 
+# OpenCode settings
+export OPENCODE_ENABLE_EXA=1
+
+# Databricks settings
+export DATABRICKS_HOST="https://dbc-664c297c-acf0.cloud.databricks.com"
+
 # 1Password secrets are loaded at login via ~/.dotfiles/shell/secrets.sh
 # Cached in launchctl - auth once per macOS session, available to all processes

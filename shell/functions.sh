@@ -112,6 +112,24 @@ update_terminfo () {
     cd - > /dev/null
 }
 
+# Refresh Databricks token from CLI auth
+# Tokens expire hourly - call this before starting tools that need DATABRICKS_TOKEN
+databricks-token() {
+    local token
+    token=$(databricks auth token --profile ordermentum 2>/dev/null | python3 -c "import sys,json; print(json.load(sys.stdin)['access_token'])" 2>/dev/null)
+    if [[ -n "$token" ]]; then
+        export DATABRICKS_TOKEN="$token"
+        # Cache in launchctl so GUI apps (opencode, etc.) can pick it up
+        if [[ "$OSTYPE" == darwin* ]]; then
+            launchctl setenv DATABRICKS_TOKEN "$token"
+        fi
+        echo "Databricks token refreshed (expires in ~1 hour)"
+    else
+        echo "Failed to get Databricks token. Run: databricks auth login --profile ordermentum" >&2
+        return 1
+    fi
+}
+
 # Kill all running opencode instances
 kill-opencode() {
     if pgrep -f opencode >/dev/null 2>&1; then
