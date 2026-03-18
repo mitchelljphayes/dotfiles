@@ -51,6 +51,10 @@
 	upgrade-submodules = submodule update --init --remote
 	empty-tree-hash = hash-object -t tree /dev/null
 	root = rev-parse --show-toplevel
+	# Difftastic: structural/syntax-aware diffs
+	dft = "!GIT_EXTERNAL_DIFF='difft' git diff"
+	dfts = "!GIT_EXTERNAL_DIFF='difft' git diff --staged"
+	dftl = "!GIT_EXTERNAL_DIFF='difft' git log -p --ext-diff"
 	ctags = ! "ctg() { trap \"rm -f .git/tags.$$\" EXIT; ctags --tag-relative -Rf.git/tags.$$ --exclude=.git; mv .git/tags.$$ .git/tags; }; ctg"
 	tar = ! "tar() { git archive --format tar --prefix=\"${PWD##*/}/\" HEAD -o ${1}; }; tar"
 	targz = ! "targz() { git archive --format tar.gz --prefix=\"${PWD##*/}/\" HEAD -o ${1}; }; targz"

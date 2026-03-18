@@ -51,6 +51,20 @@ Host williams
   ServerAliveInterval 60
   ServerAliveCountMax 10
 
+Host sietch
+  User mitch
+  HostName 100.81.50.90
+  Port 2222
+  ServerAliveInterval 60
+  ServerAliveCountMax 10
+
+Host arrakeen
+  User mitch
+  HostName 100.91.56.98
+  Port 2222
+  ServerAliveInterval 60
+  ServerAliveCountMax 10
+
 Host github
   User git
   HostName github.com
