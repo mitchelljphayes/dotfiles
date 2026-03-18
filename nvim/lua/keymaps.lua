@@ -36,13 +36,13 @@ vim.keymap.set("n", "<leader>q", "<CMD>q<CR>", { desc = "Close window" })
 -- Claude Code positioning
 vim.keymap.set("n", "<leader>cl", "<CMD>ClaudeCodeLeft<CR>", { desc = "Move Claude Code to left" })
 
--- Diffview
-vim.keymap.set("n", "<leader>dv", "<CMD>DiffviewOpen<CR>", { desc = "Open diffview" })
+-- Diffview: working tree
+vim.keymap.set("n", "<leader>dv", "<CMD>DiffviewOpen<CR>", { desc = "Diffview (working tree)" })
 vim.keymap.set("n", "<leader>dh", "<CMD>DiffviewFileHistory %<CR>", { desc = "File history (current file)" })
 vim.keymap.set("n", "<leader>dH", "<CMD>DiffviewFileHistory<CR>", { desc = "File history (all files)" })
 vim.keymap.set("n", "<leader>dc", "<CMD>DiffviewClose<CR>", { desc = "Close diffview" })
 
--- Delta diff viewer (requires delta to be installed)
+-- Delta: working tree diffs
 vim.keymap.set("n", "<leader>dd", function()
   local file = vim.fn.expand("%:p")
   if file ~= "" then
@@ -51,12 +51,86 @@ vim.keymap.set("n", "<leader>dd", function()
     vim.cmd("tabnew | terminal git diff")
   end
   vim.cmd("startinsert")
-end, { desc = "View current file diff in delta" })
+end, { desc = "Delta diff (current file)" })
 
 vim.keymap.set("n", "<leader>da", function()
   vim.cmd("tabnew | terminal git diff")
   vim.cmd("startinsert")
-end, { desc = "View all diffs in delta" })
+end, { desc = "Delta diff (all files)" })
+
+-- Difftastic: working tree structural diffs
+vim.keymap.set("n", "<leader>ds", function()
+  local file = vim.fn.expand("%:p")
+  local cmd = "GIT_EXTERNAL_DIFF='difft --color=always' git diff"
+  if file ~= "" then
+    cmd = cmd .. " -- " .. vim.fn.shellescape(file)
+  end
+  vim.cmd("tabnew | terminal " .. cmd)
+  vim.cmd("startinsert")
+end, { desc = "Structural diff (current file)" })
+
+vim.keymap.set("n", "<leader>dS", function()
+  vim.cmd("tabnew | terminal GIT_EXTERNAL_DIFF='difft --color=always' git diff")
+  vim.cmd("startinsert")
+end, { desc = "Structural diff (all files)" })
+
+-- ── Branch review (review agent work against base branch) ──────────
+-- Finds the merge-base automatically so you see only what the branch added.
+
+--- Get the merge-base between HEAD and a target branch.
+--- Tries origin/main, main, origin/develop, develop in order.
+local function get_base_ref()
+  local candidates = { "origin/main", "main", "origin/develop", "develop" }
+  for _, ref in ipairs(candidates) do
+    local result = vim.fn.systemlist("git merge-base HEAD " .. ref .. " 2>/dev/null")
+    if vim.v.shell_error == 0 and result[1] then
+      return ref
+    end
+  end
+  return nil
+end
+
+-- Diffview: review branch against base (file panel + side-by-side navigation)
+vim.keymap.set("n", "<leader>dr", function()
+  local base = get_base_ref()
+  if not base then
+    vim.notify("Could not find base branch (tried main/develop)", vim.log.levels.WARN)
+    return
+  end
+  vim.cmd("DiffviewOpen " .. base .. "...HEAD")
+end, { desc = "Review branch (diffview vs base)" })
+
+-- Diffview: review branch commit history
+vim.keymap.set("n", "<leader>dl", function()
+  local base = get_base_ref()
+  if not base then
+    vim.notify("Could not find base branch (tried main/develop)", vim.log.levels.WARN)
+    return
+  end
+  vim.cmd("DiffviewFileHistory --range=" .. base .. "...HEAD")
+end, { desc = "Review branch commits (diffview)" })
+
+-- Delta: review branch in terminal (scrollable, syntax-highlighted)
+vim.keymap.set("n", "<leader>dR", function()
+  local base = get_base_ref()
+  if not base then
+    vim.notify("Could not find base branch (tried main/develop)", vim.log.levels.WARN)
+    return
+  end
+  vim.cmd("tabnew | terminal git diff " .. base .. "...HEAD")
+  vim.cmd("startinsert")
+end, { desc = "Review branch (delta vs base)" })
+
+-- Difftastic: review branch structurally
+vim.keymap.set("n", "<leader>dT", function()
+  local base = get_base_ref()
+  if not base then
+    vim.notify("Could not find base branch (tried main/develop)", vim.log.levels.WARN)
+    return
+  end
+  vim.cmd("tabnew | terminal GIT_EXTERNAL_DIFF='difft --color=always' git diff " .. base .. "...HEAD")
+  vim.cmd("startinsert")
+end, { desc = "Review branch (difftastic vs base)" })
 
 -- Oil diagnostic refresh
 vim.keymap.set("n", "<leader>or", function()

@@ -13,22 +13,54 @@ return {
     "DiffviewFileHistory",
   },
   config = function()
-    -- Try to force unified diff view
     vim.opt.diffopt:append("internal")
     vim.opt.diffopt:append("algorithm:patience")
     vim.opt.diffopt:append("indent-heuristic")
-    
+
+    -- Toggle between unified (single pane) and side-by-side layouts
+    local side_by_side = false
+
+    local function current_layout()
+      return side_by_side and "diff2_horizontal" or "diff1_plain"
+    end
+
+    local function toggle_layout()
+      side_by_side = not side_by_side
+      require("diffview").setup({
+        view = {
+          default = { layout = current_layout(), disable_diagnostics = true },
+          merge_tool = { layout = "diff3_horizontal", disable_diagnostics = true },
+          file_history = { layout = current_layout() },
+        },
+      })
+      -- Reopen current diffview to apply the new layout
+      local info = require("diffview.lib").get_current_view()
+      if info then
+        local cmd = info.adapter and info.adapter.ctx and info.adapter.ctx.toplevel
+        vim.cmd("DiffviewClose")
+        vim.schedule(function()
+          vim.cmd("DiffviewOpen")
+        end)
+      end
+      local mode = side_by_side and "side-by-side" or "unified"
+      vim.notify("Diffview layout: " .. mode, vim.log.levels.INFO)
+    end
+
+    vim.api.nvim_create_user_command("DiffviewToggleLayout", toggle_layout, { desc = "Toggle unified/side-by-side" })
+    vim.keymap.set("n", "<leader>d2", toggle_layout, { desc = "Toggle diff layout (unified/split)" })
+
     require("diffview").setup({
       view = {
-        -- Configure the layout and behavior of different types of views.
         default = {
-          -- Config for changed files, and staged files in diff views.
-          layout = "diff1_plain", -- Unified diff in single window
-          disable_win_separator = true,
+          layout = current_layout(),
+          disable_diagnostics = true,
+        },
+        merge_tool = {
+          layout = "diff3_horizontal",
+          disable_diagnostics = true,
         },
         file_history = {
-          -- Config for changed files in file history views.
-          layout = "diff1_plain",
+          layout = current_layout(),
         },
       },
       diff_binaries = false,
