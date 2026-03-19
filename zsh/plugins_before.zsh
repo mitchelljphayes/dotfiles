@@ -10,6 +10,11 @@ fpath=(~/.zsh/plugins/zsh-completions/src $fpath)
 
 source ~/.orbstack/shell/init.zsh 2>/dev/null || :
 
+# fnm (Fast Node Manager)
+if command -v fnm &> /dev/null; then
+    eval "$(fnm env --use-on-cd --shell zsh)"
+fi
+
 eval "$(zoxide init zsh)"
 
 
