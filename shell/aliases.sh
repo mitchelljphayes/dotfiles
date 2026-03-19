@@ -64,7 +64,7 @@ alias xcse='umount -f ~/CSE'
 # Update dotfiles
 dfu() {
     (
-        builtin cd ~/.dotfiles && git pull --ff-only && ./install.sh -q
+        builtin cd ~/.dotfiles && git pull --ff-only && ./install -q
     )
 }
 
