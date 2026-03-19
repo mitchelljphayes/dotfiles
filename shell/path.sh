@@ -13,6 +13,7 @@ path_prepend "$HOME/.opencode/bin"
 path_prepend "$HOME/.claude/local"
 
 # Language-specific paths
+path_append "$HOME/.local/share/fnm"  # fnm binary (Linux manual install)
 path_append "$HOME/.npm-global/bin"
 
 # pnpm (defined in environment.sh, add to PATH if not already present)
