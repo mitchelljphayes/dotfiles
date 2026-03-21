@@ -132,16 +132,54 @@ link_darwin nu/aliases.nu   ~/Library/Application\ Support/nushell/aliases.nu
 link_darwin nu/scripts      ~/Library/Application\ Support/nushell/scripts
 link_darwin nu/vendor       ~/Library/Application\ Support/nushell/vendor
 
-# Ordermentum project-specific OpenCode config (symlink into each git repo)
-OM_DIR="$HOME/Developer/ordermentum"
-if [[ -d "$OM_DIR" ]]; then
-    info "Symlinking ordermentum opencode.json into project repos..."
-    for repo in "$OM_DIR"/*/; do
-        if [[ -d "$repo/.git" ]]; then
-            link ordermentum/opencode.json "$repo/opencode.json"
+# Workspace-specific OpenCode configs
+# Each workspace gets its own opencode.json symlinked into every git repo's .opencode/ dir.
+# Config files live in dotfiles as opencode/{workspace}_opencode.json.
+# Directory names are the same on both systems, only the base path differs:
+#
+#   Mac:   ~/Developer/{workspace}/
+#   Linux: ~/projects/{workspace}/
+#
+#   Workspace   Directory
+#   om          ordermentum
+#   walden      walden-data
+#   sh          superhelpful
+#   lab         lab
+
+if [[ "$OS" == "Darwin" ]]; then
+    WORKSPACE_BASE="$HOME/Developer"
+else
+    WORKSPACE_BASE="$HOME/projects"
+fi
+
+declare -A WORKSPACE_DIRS=(
+    [om]="ordermentum"
+    [walden]="walden-data"
+    [sh]="superhelpful"
+    [lab]="lab"
+)
+
+for workspace in "${!WORKSPACE_DIRS[@]}"; do
+    config="opencode/${workspace}_opencode.json"
+    dir_name="${WORKSPACE_DIRS[$workspace]}"
+    workspace_dir="$WORKSPACE_BASE/$dir_name"
+
+    if [[ ! -f "$DOTFILES/$config" ]]; then
+        warn "No config for workspace '$workspace' at $config — skipping"
+        continue
+    fi
+
+    if [[ ! -d "$workspace_dir" ]]; then
+        continue
+    fi
+
+    info "Symlinking $workspace opencode.json into $workspace_dir repos..."
+    for repo in "$workspace_dir"/*/; do
+        if [[ -d "$repo/.git" || -d "$repo/.jj" ]]; then
+            link "$config" "$repo/.opencode/opencode.json"
         fi
     done
-fi
+done
 
 # LaunchAgents (macOS)
 link_darwin launchagents/com.mjp.theme-monitor.plist ~/Library/LaunchAgents/com.mjp.theme-monitor.plist
