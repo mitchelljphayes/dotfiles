@@ -69,7 +69,6 @@ APT_PACKAGES=(
     kubectl                 # Kubernetes CLI (via apt repo)
 
     # Utilities
-    htop                    # Process viewer
     gnupg                   # GPG
     wget                    # File downloader
     ffmpeg                  # Media processing
