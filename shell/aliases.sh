@@ -191,4 +191,20 @@ alias dc='docker-compose'
 # DBT aliases support
 alias dbtf="$HOME/.local/bin/dbt"
 
+# OpenCode attach shortcuts for sietch instances (Tailscale, no auth)
+oc() {
+    local instance="${1:-code}"
+    shift 2>/dev/null
+    case "$instance" in
+        code|om|walden|sh)
+            opencode attach "https://${instance}.mjph.dev" "$@"
+            ;;
+        *)
+            echo "Unknown instance: $instance"
+            echo "Available: code, om, walden, sh"
+            return 1
+            ;;
+    esac
+}
+
 
