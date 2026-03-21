@@ -202,8 +202,11 @@ install_delta() {
         return
     fi
     info "Installing git-delta..."
-    DELTA_VERSION=$(curl -s "https://api.github.com/repos/dandavison/delta/releases/latest" | jq -r '.tag_name')
-    curl -Lo /tmp/git-delta.deb "https://github.com/dandavison/delta/releases/download/${DELTA_VERSION}/git-delta_${DELTA_VERSION}_amd64.deb"
+    local release_json
+    release_json=$(curl -s "https://api.github.com/repos/dandavison/delta/releases/latest")
+    DELTA_VERSION=$(echo "$release_json" | jq -r '.tag_name')
+    DELTA_URL=$(echo "$release_json" | jq -r '.assets[] | select(.name | test("amd64\\.deb$")) | .browser_download_url' | head -1)
+    curl -Lo /tmp/git-delta.deb "$DELTA_URL"
     $SUDO dpkg -i /tmp/git-delta.deb
     rm -f /tmp/git-delta.deb
     success "git-delta ${DELTA_VERSION} installed"
@@ -215,8 +218,12 @@ install_bottom() {
         return
     fi
     info "Installing bottom (btm)..."
-    BTM_VERSION=$(curl -s "https://api.github.com/repos/ClementTsang/bottom/releases/latest" | jq -r '.tag_name')
-    curl -Lo /tmp/bottom.deb "https://github.com/ClementTsang/bottom/releases/download/${BTM_VERSION}/bottom_${BTM_VERSION}-1_amd64.deb"
+    local release_json
+    release_json=$(curl -s "https://api.github.com/repos/ClementTsang/bottom/releases/latest")
+    BTM_VERSION=$(echo "$release_json" | jq -r '.tag_name')
+    # Prefer non-musl .deb, fall back to musl
+    BTM_URL=$(echo "$release_json" | jq -r '[.assets[] | select(.name | test("amd64\\.deb$"))] | sort_by(.name | contains("musl")) | .[0].browser_download_url')
+    curl -Lo /tmp/bottom.deb "$BTM_URL"
     $SUDO dpkg -i /tmp/bottom.deb
     rm -f /tmp/bottom.deb
     success "bottom ${BTM_VERSION} installed"
