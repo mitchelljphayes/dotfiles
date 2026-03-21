@@ -52,7 +52,6 @@ APT_PACKAGES=(
     bat                     # Better cat with syntax highlighting
     eza                     # Modern ls replacement
     fd-find                 # Fast find alternative (binary: fdfind)
-    fzf                     # Fuzzy finder
     ripgrep                 # Fast grep
     tmux                    # Terminal multiplexer
     tree                    # Directory tree viewer
@@ -133,6 +132,25 @@ install_apt_packages() {
 }
 
 # ─── Binary installers (not in apt or apt version too old) ────────────────────
+
+install_fzf() {
+    # Remove old apt version if present (too old for --zsh flag)
+    if dpkg -s fzf &>/dev/null 2>&1; then
+        info "Removing outdated apt fzf..."
+        $SUDO apt remove -y fzf >/dev/null
+    fi
+    if already_installed fzf; then
+        success "fzf already installed ($(fzf --version | awk '{print $1}'))"
+        return
+    fi
+    info "Installing fzf..."
+    FZF_VERSION=$(curl -s "https://api.github.com/repos/junegunn/fzf/releases/latest" | jq -r '.tag_name' | sed 's/^v//')
+    curl -Lo /tmp/fzf.tar.gz "https://github.com/junegunn/fzf/releases/download/v${FZF_VERSION}/fzf-${FZF_VERSION}-linux_amd64.tar.gz"
+    tar xf /tmp/fzf.tar.gz -C /tmp fzf
+    $SUDO install /tmp/fzf /usr/local/bin
+    rm -f /tmp/fzf /tmp/fzf.tar.gz
+    success "fzf ${FZF_VERSION} installed"
+}
 
 install_zoxide() {
     if already_installed zoxide; then
@@ -337,6 +355,7 @@ main() {
 
     echo ""
     info "Installing tools from binary releases..."
+    install_fzf
     install_zoxide
     install_starship
     install_uv
