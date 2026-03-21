@@ -1,0 +1,47 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "om_linear": {
+      "type": "remote",
+      "url": "https://mcp.linear.app/mcp"
+    },
+    "atlassian": {
+      "type": "remote",
+      "url": "https://mcp.atlassian.com/v1/mcp"
+    },
+    "figma": {
+      "type": "remote",
+      "url": "https://mcp.figma.com/mcp"
+    },
+    "omni": {
+      "type": "remote",
+      "url": "https://callbacks.omniapp.co/callback/mcp"
+    },
+    "granola": {
+      "type": "remote",
+      "url": "https://mcp.granola.ai/mcp"
+    },
+    "motherduck": {
+      "type": "remote",
+      "url": "https://api.motherduck.com/mcp"
+    },
+    "databricks-sql": {
+      "type": "local",
+      "command": [
+        "npx", "-y", "mcp-remote",
+        "https://dbc-664c297c-acf0.cloud.databricks.com/api/2.0/mcp/sql",
+        "--static-oauth-client-info",
+        "{ \"client_id\": \"9a94539e-b679-4689-a557-50862e2d7299\" }"
+      ]
+    },
+    "databricks-uc-functions": {
+      "type": "local",
+      "command": [
+        "npx", "-y", "mcp-remote",
+        "https://dbc-664c297c-acf0.cloud.databricks.com/api/2.0/mcp/functions/system/ai",
+        "--static-oauth-client-info",
+        "{ \"client_id\": \"9a94539e-b679-4689-a557-50862e2d7299\" }"
+      ]
+    }
+  }
+}
