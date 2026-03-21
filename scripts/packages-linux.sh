@@ -102,11 +102,7 @@ setup_apt_repos() {
     fi
 
     # Git Delta (via GitHub releases, not apt — handled below)
-    # Neovim stable PPA for latest version
-    if ! apt-cache policy neovim 2>/dev/null | grep -q neovim-ppa; then
-        info "Adding Neovim stable PPA..."
-        $SUDO add-apt-repository -y ppa:neovim-ppa/stable
-    fi
+    # Neovim — installed from GitHub releases below (PPA is too old)
 }
 
 # ─── Install APT packages ────────────────────────────────────────────────────
@@ -121,7 +117,7 @@ install_apt_packages() {
     fi
 
     info "Installing apt packages..."
-    $SUDO apt install -y "${APT_PACKAGES[@]}" gh neovim
+    $SUDO apt install -y "${APT_PACKAGES[@]}" gh
 
     # fd-find installs as fdfind — symlink to fd
     if command -v fdfind &>/dev/null && ! command -v fd &>/dev/null; then
@@ -131,6 +127,35 @@ install_apt_packages() {
 }
 
 # ─── Binary installers (not in apt or apt version too old) ────────────────────
+
+install_neovim() {
+    if already_installed nvim; then
+        local current_ver
+        current_ver=$(nvim --version | head -1 | sed 's/NVIM v//')
+        # Check if version is 0.10+
+        local major minor
+        major=$(echo "$current_ver" | cut -d. -f1)
+        minor=$(echo "$current_ver" | cut -d. -f2)
+        if [[ "$major" -gt 0 || "$minor" -ge 10 ]] && [[ "$UPGRADE" != true ]]; then
+            success "neovim already installed (v${current_ver})"
+            return
+        fi
+        info "Neovim v${current_ver} is too old, upgrading to latest stable..."
+    fi
+    info "Installing Neovim from GitHub releases..."
+    # Remove apt version if present (too old)
+    if dpkg -s neovim &>/dev/null 2>&1; then
+        info "Removing outdated apt neovim..."
+        $SUDO apt remove -y neovim >/dev/null 2>&1 || true
+    fi
+    NVIM_VERSION=$(curl -s "https://api.github.com/repos/neovim/neovim/releases/latest" | jq -r '.tag_name')
+    curl -Lo /tmp/nvim-linux-x86_64.tar.gz "https://github.com/neovim/neovim/releases/download/${NVIM_VERSION}/nvim-linux-x86_64.tar.gz"
+    $SUDO rm -rf /opt/nvim
+    $SUDO tar -C /opt -xzf /tmp/nvim-linux-x86_64.tar.gz
+    $SUDO ln -sf /opt/nvim-linux-x86_64/bin/nvim /usr/local/bin/nvim
+    rm -f /tmp/nvim-linux-x86_64.tar.gz
+    success "neovim ${NVIM_VERSION} installed"
+}
 
 install_fzf() {
     # Remove old apt version if present (too old for --zsh flag)
@@ -361,6 +386,7 @@ main() {
 
     echo ""
     info "Installing tools from binary releases..."
+    install_neovim
     install_fzf
     install_zoxide
     install_starship
