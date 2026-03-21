@@ -44,6 +44,11 @@ if [ "$(command -v bat)" ]; then
     alias cat='bat -pp --theme="OneHalfDark"'
 fi
 
+# btm (bottom) - modern htop replacement
+if command -v btm &>/dev/null; then
+    alias htop='btm'
+fi
+
 # Aliases to protect against overwriting
 alias cp='cp -i'
 alias mv='mv -i'
