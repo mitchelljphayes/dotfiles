@@ -192,12 +192,21 @@ alias dc='docker-compose'
 alias dbtf="$HOME/.local/bin/dbt"
 
 # OpenCode attach shortcuts for sietch instances (Tailscale, no auth)
+# Usage: oc <instance> [subdir] [extra flags...]
+#   oc walden                  → attach to walden instance
+#   oc om data-pipeline        → attach to om instance in ~/projects/om/data-pipeline
 oc() {
     local instance="${1:-code}"
     shift 2>/dev/null
+    local dir_flag=()
+    # If next arg doesn't start with --, treat it as a subdirectory
+    if [[ -n "${1:-}" && "${1}" != --* ]]; then
+        dir_flag=(--dir "/home/mitch/projects/${instance}/${1}")
+        shift
+    fi
     case "$instance" in
         code|om|walden|sh)
-            opencode attach "https://${instance}.mjph.dev" "$@"
+            opencode attach "https://${instance}.mjph.dev" "${dir_flag[@]}" "$@"
             ;;
         *)
             echo "Unknown instance: $instance"
