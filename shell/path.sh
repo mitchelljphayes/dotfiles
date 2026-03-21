@@ -15,6 +15,7 @@ path_prepend "$HOME/.claude/local"
 # Language-specific paths
 path_append "$HOME/.local/share/fnm"  # fnm binary (Linux manual install)
 path_append "$HOME/.npm-global/bin"
+path_append "/usr/local/go/bin"       # Go toolchain (Linux manual install)
 
 # pnpm (defined in environment.sh, add to PATH if not already present)
 case ":$PATH:" in
@@ -22,17 +23,12 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 
-# Database tools
-path_append "/opt/homebrew/opt/postgresql@17/bin"
-
-# Java tools
-path_append "/opt/homebrew/opt/openjdk/bin"
-
-# Python tools (dbt and other pip-installed tools)
-# .local/bin already prepended above
-
-# TeX Live tools
-path_append "/usr/local/texlive/2025/bin/universal-darwin"
+# macOS-specific paths (Homebrew)
+if [[ -d /opt/homebrew ]]; then
+    path_append "/opt/homebrew/opt/postgresql@17/bin"
+    path_append "/opt/homebrew/opt/openjdk/bin"
+    path_append "/usr/local/texlive/2025/bin/universal-darwin"
+fi
 
 # Export final PATH
 export PATH

@@ -24,6 +24,9 @@ export KEYTIMEOUT=1  # corresponds to 10ms for zsh
 # Java location (uncomment if needed)
 # export JAVA_HOME="$(/usr/libexec/java_home)"
 
+# Go - install binaries to ~/.local/bin (already on PATH)
+export GOBIN="$HOME/.local/bin"
+
 # Development settings
 export DEV_SCHEMA_PREFIX=mh
 

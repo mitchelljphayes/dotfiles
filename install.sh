@@ -160,5 +160,30 @@ else
     git -C "$DOTFILES" submodule update --init --recursive
 fi
 
+# Package installation (OS-specific)
+# Usage: ./install.sh --packages          # install missing packages
+#        ./install.sh --packages --upgrade # upgrade all to latest
+echo ""
+INSTALL_PACKAGES=false
+UPGRADE_FLAG=""
+for arg in "$@"; do
+    case "$arg" in
+        --packages|-p) INSTALL_PACKAGES=true ;;
+        --upgrade|-u)  UPGRADE_FLAG="--upgrade" ;;
+    esac
+done
+
+if [[ "$INSTALL_PACKAGES" == true ]]; then
+    if [[ "$OS" == "Darwin" ]]; then
+        info "Running macOS package installer..."
+        bash "$DOTFILES/scripts/packages-macos.sh"
+    elif [[ "$OS" == "Linux" ]]; then
+        info "Running Linux package installer..."
+        bash "$DOTFILES/scripts/packages-linux.sh" $UPGRADE_FLAG
+    fi
+else
+    info "Skipping package installation (run with --packages to install)"
+fi
+
 echo ""
 success "Dotfiles installation complete!"
