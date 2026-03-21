@@ -15,9 +15,10 @@ if command -v direnv &> /dev/null; then
     eval "$(direnv hook zsh)"
 fi
 
-# if command -v zoxide &> /dev/null; then
-    # eval "$(zoxide init zsh)"
-# fi
+# zoxide - smart cd (must be after path.sh adds ~/.local/bin)
+if command -v zoxide &>/dev/null; then
+    eval "$(zoxide init zsh)"
+fi
 # ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
 #
 # if [[ "$(tput colors)" == "256" ]]; then
