@@ -5,7 +5,6 @@
 - **Python linting**: `ruff check .` (configured in ruff.toml, target Python 3.11)
 - **Python formatting**: `ruff format .` (line-length: 88, matches Black)
 - **SQL linting**: `sqlfluff lint` (postgres dialect, trailing commas required)
-- **Single test**: For dotbot tests: `cd dotbot && python -m pytest tests/test_<name>.py`
 - **Python execution**: Use `uv run` instead of `python` or `python3`
 
 ## Code Style Guidelines
@@ -37,7 +36,7 @@ Key directories:
 
 ## Symlink Mappings
 
-Managed by `install.sh` (not the legacy `install.conf.yaml`). Run `./install` to apply.
+Managed by `install.sh`. Run `./install` to apply.
 
 | Repo Path | Symlinked To |
 |-----------|--------------|

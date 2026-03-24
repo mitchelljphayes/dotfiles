@@ -13,7 +13,7 @@ This file contains instructions for Claude Code when working on this machine. Cl
 ### Shell Environment
 
 - User's default shell is zsh (Claude runs in bash)
-- Dotfiles are managed via this repository with Dotbot
+- Dotfiles are managed via this repository with `install.sh`
 - Shell aliases are defined in `~/.dotfiles/shell/aliases.sh`
 
 ### Useful Development Environment Tools

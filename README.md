@@ -1,6 +1,6 @@
 # Dotfiles
 
-My personal dotfiles managed with [Dotbot](https://github.com/anishathalye/dotbot).
+My personal dotfiles managed with a simple bash install script.
 
 ## Features
 
@@ -44,7 +44,7 @@ brew bundle
 ├── wezterm/        # WezTerm configuration
 ├── ghostty/        # Ghostty terminal config
 ├── ssh/            # SSH configuration
-└── install         # Dotbot installer script
+└── install         # Installer script (runs install.sh)
 ```
 
 ## Key Features
@@ -82,7 +82,7 @@ All terminals configured with:
 ### Adding New Dotfiles
 
 1. Add your configuration file to the repository
-2. Update `install.conf.yaml` to create the symlink
+2. Add a `link` entry in `install.sh` to create the symlink
 3. Run `./install` to apply changes
 
 ### Shell Selection
@@ -131,7 +131,7 @@ chmod 600 ~/.gnupg/*
 ```
 
 ### Symlink Conflicts
-The installer uses `force: true` for most links. Backup important configs before installing.
+The installer will overwrite existing symlinks. Backup important configs before installing.
 
 ### Missing Commands
 Ensure Homebrew packages are installed:
@@ -142,7 +142,7 @@ brew bundle install
 
 ## Credits
 
-Initial shell configuration inspired by [anishathalye/dotfiles](https://github.com/anishathalye/dotfiles).
+Initial shell configuration inspired by various dotfile setups.
 
 ## License
 
