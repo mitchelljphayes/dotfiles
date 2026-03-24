@@ -33,7 +33,6 @@ Key directories:
 - `ghostty/`, `alacritty/`, `wezterm/` — Terminal emulators
 - `tmux/` — Tmux config
 - `zed/` — Zed editor settings
-- `kanata/` — Keyboard remapping
 - `nu/` — Nushell config
 
 ## Symlink Mappings
@@ -56,7 +55,6 @@ Managed by `install.sh` (not the legacy `install.conf.yaml`). Run `./install` to
 | `zed/settings.json` | `~/.config/zed/settings.json` |
 | `zed/keymap.json` | `~/.config/zed/keymap.json` |
 | `1Password/` | `~/.config/1Password` |
-| `kanata/` | `~/.config/kanata` |
 | `starship.toml` | `~/.config/starship.toml` |
 | `nu/` | `~/Library/Application Support/nushell` (macOS) |
 | `gitconfig.toml` | `~/.gitconfig` |
