@@ -99,7 +99,6 @@ link tmux/tmux.conf ~/.tmux.conf
 
 # Tools
 link starship.toml  ~/.config/starship.toml
-link kanata         ~/.config/kanata
 link switcheroo     ~/.config/switcheroo
 link opencode       ~/.config/opencode
 link 1Password      ~/.config/1Password
@@ -132,54 +131,23 @@ link_darwin nu/aliases.nu   ~/Library/Application\ Support/nushell/aliases.nu
 link_darwin nu/scripts      ~/Library/Application\ Support/nushell/scripts
 link_darwin nu/vendor       ~/Library/Application\ Support/nushell/vendor
 
-# Workspace-specific OpenCode configs
-# Each workspace gets its own opencode.json symlinked into every git repo's .opencode/ dir.
-# Config files live in dotfiles as opencode/{workspace}_opencode.json.
-# Directory names are the same on both systems, only the base path differs:
-#
-#   Mac:   ~/Developer/{workspace}/
-#   Linux: ~/projects/{workspace}/
-#
-#   Workspace   Directory
-#   om          ordermentum
-#   walden      walden-data
-#   sh          superhelpful
-#   lab         lab
-
+# Ordermentum workspace — symlink opencode config into each repo's .opencode/ dir.
+# OM repos are shared with the team so we don't commit .opencode/opencode.json there.
+# Personal repos (lab, walden, sh) commit their configs directly.
 if [[ "$OS" == "Darwin" ]]; then
-    WORKSPACE_BASE="$HOME/Developer"
+    OM_DIR="$HOME/Developer/ordermentum"
 else
-    WORKSPACE_BASE="$HOME/projects"
+    OM_DIR="$HOME/projects/ordermentum"
 fi
 
-declare -A WORKSPACE_DIRS=(
-    [om]="ordermentum"
-    [walden]="walden-data"
-    [sh]="superhelpful"
-    [lab]="lab"
-)
-
-for workspace in "${!WORKSPACE_DIRS[@]}"; do
-    config="opencode/${workspace}_opencode.json"
-    dir_name="${WORKSPACE_DIRS[$workspace]}"
-    workspace_dir="$WORKSPACE_BASE/$dir_name"
-
-    if [[ ! -f "$DOTFILES/$config" ]]; then
-        warn "No config for workspace '$workspace' at $config — skipping"
-        continue
-    fi
-
-    if [[ ! -d "$workspace_dir" ]]; then
-        continue
-    fi
-
-    info "Symlinking $workspace opencode.json into $workspace_dir repos..."
-    for repo in "$workspace_dir"/*/; do
+if [[ -d "$OM_DIR" ]]; then
+    info "Symlinking OM opencode.json into repos..."
+    for repo in "$OM_DIR"/*/; do
         if [[ -d "$repo/.git" || -d "$repo/.jj" ]]; then
-            link "$config" "$repo/.opencode/opencode.json"
+            link opencode/om_opencode.json "$repo/.opencode/opencode.json"
         fi
     done
-done
+fi
 
 # LaunchAgents (macOS)
 link_darwin launchagents/com.mjp.theme-monitor.plist ~/Library/LaunchAgents/com.mjp.theme-monitor.plist
