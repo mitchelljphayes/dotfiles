@@ -20,4 +20,4 @@ starship init nu > ~/.dotfiles/nu/vendor/autoload/starship.nu
 
 ## Note
 
-This directory is symlinked from `~/Library/Application Support/nushell/vendor` via dotbot.
+This directory is symlinked from `~/Library/Application Support/nushell/vendor` via `install.sh`.

@@ -33,7 +33,7 @@ This is my Ghostty terminal configuration with a clean, minimal setup.
 
 ## Installation
 
-The configuration is automatically symlinked by dotbot to `~/.config/ghostty/config`.
+The configuration is automatically symlinked by `install.sh` to `~/.config/ghostty/config`.
 
 To apply changes, either:
 1. Restart Ghostty
