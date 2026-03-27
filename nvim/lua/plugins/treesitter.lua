@@ -16,11 +16,12 @@ return {
       })
 
       -- Install parsers for these languages automatically on first encounter
+      local parsers = require('nvim-treesitter.parsers')
       vim.api.nvim_create_autocmd('FileType', {
         callback = function(args)
           local ft = args.match
           local lang = vim.treesitter.language.get_lang(ft)
-          if lang and not pcall(vim.treesitter.language.inspect, lang) then
+          if lang and parsers[lang] and not pcall(vim.treesitter.language.inspect, lang) then
             require('nvim-treesitter').install({ lang })
           end
         end,
@@ -37,24 +38,30 @@ return {
     branch = 'main',
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
     config = function()
+      require('nvim-treesitter-textobjects').setup {
+        select = {
+          lookahead = true,
+        },
+        move = {
+          set_jumps = true,
+        },
+      }
+
       -- Selection
-      require('nvim-treesitter-textobjects').select.setup()
-      vim.keymap.set({ 'x', 'o' }, 'sa', function() require('nvim-treesitter-textobjects.select').select('@parameter.outer') end)
-      vim.keymap.set({ 'x', 'o' }, 'si', function() require('nvim-treesitter-textobjects.select').select('@parameter.inner') end)
-      vim.keymap.set({ 'x', 'o' }, 'af', function() require('nvim-treesitter-textobjects.select').select('@function.outer') end)
-      vim.keymap.set({ 'x', 'o' }, 'if', function() require('nvim-treesitter-textobjects.select').select('@function.inner') end)
-      vim.keymap.set({ 'x', 'o' }, 'ac', function() require('nvim-treesitter-textobjects.select').select('@class.outer') end)
-      vim.keymap.set({ 'x', 'o' }, 'ic', function() require('nvim-treesitter-textobjects.select').select('@class.inner') end)
+      vim.keymap.set({ 'x', 'o' }, 'sa', function() require('nvim-treesitter-textobjects.select').select_textobject('@parameter.outer') end)
+      vim.keymap.set({ 'x', 'o' }, 'si', function() require('nvim-treesitter-textobjects.select').select_textobject('@parameter.inner') end)
+      vim.keymap.set({ 'x', 'o' }, 'af', function() require('nvim-treesitter-textobjects.select').select_textobject('@function.outer') end)
+      vim.keymap.set({ 'x', 'o' }, 'if', function() require('nvim-treesitter-textobjects.select').select_textobject('@function.inner') end)
+      vim.keymap.set({ 'x', 'o' }, 'ac', function() require('nvim-treesitter-textobjects.select').select_textobject('@class.outer') end)
+      vim.keymap.set({ 'x', 'o' }, 'ic', function() require('nvim-treesitter-textobjects.select').select_textobject('@class.inner') end)
 
       -- Movement
-      require('nvim-treesitter-textobjects').move.setup()
       vim.keymap.set({ 'n', 'x', 'o' }, ']m', function() require('nvim-treesitter-textobjects.move').goto_next_start('@function.outer') end)
       vim.keymap.set({ 'n', 'x', 'o' }, ']M', function() require('nvim-treesitter-textobjects.move').goto_next_end('@function.outer') end)
       vim.keymap.set({ 'n', 'x', 'o' }, '[m', function() require('nvim-treesitter-textobjects.move').goto_previous_start('@function.outer') end)
       vim.keymap.set({ 'n', 'x', 'o' }, '[M', function() require('nvim-treesitter-textobjects.move').goto_previous_end('@function.outer') end)
 
       -- Swap
-      require('nvim-treesitter-textobjects').swap.setup()
       vim.keymap.set('n', '<leader>s', function() require('nvim-treesitter-textobjects.swap').swap_next('@parameter.inner') end)
       vim.keymap.set('n', '<leader>S', function() require('nvim-treesitter-textobjects.swap').swap_previous('@parameter.inner') end)
     end,
