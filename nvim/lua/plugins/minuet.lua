@@ -1,5 +1,6 @@
 return {
   "milanglacier/minuet-ai.nvim",
+  enabled = false, -- Disabled until new AI provider is configured
   event = "InsertEnter",
   dependencies = {
     "nvim-lua/plenary.nvim",
