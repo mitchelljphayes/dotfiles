@@ -55,3 +55,6 @@ alias dbtf=/Users/mjp/.local/bin/dbt
 
 # Added by Antigravity
 export PATH="/Users/mjp/.antigravity/antigravity/bin:$PATH"
+
+# Added by GitButler installer
+eval "$(but completions zsh)"
