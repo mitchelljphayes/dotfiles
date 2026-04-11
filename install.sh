@@ -151,6 +151,7 @@ fi
 
 # LaunchAgents (macOS)
 link_darwin launchagents/com.mjp.theme-monitor.plist ~/Library/LaunchAgents/com.mjp.theme-monitor.plist
+link_darwin launchagents/com.mjp.databricks-mcp-refresh.plist ~/Library/LaunchAgents/com.mjp.databricks-mcp-refresh.plist
 
 # Linux-specific (add as needed)
 # link_linux nu/config.nu   ~/.config/nushell/config.nu
