@@ -1,7 +1,7 @@
 ---
 description: Plan and specify - PRDs, projects, tickets, brainstorming, feature discovery
 mode: primary
-model: anthropic/claude-opus-4-6
+model: opencode/claude-opus-4-6
 tools:
   task: true
   read: true
@@ -106,6 +106,28 @@ Structure PRDs consistently:
 - Looking at competitor approaches
 - Exploring technical feasibility
 - Gathering context for decisions
+
+## Research Delegation
+
+Don't read code yourself — delegate to subagents and use their summaries to inform specs and tickets.
+
+| Agent | Use For |
+|-------|---------|
+| `explore` | Quick file/structure discovery — "what exists?" |
+| `code-research` | Targeted codebase questions — "how does X work?" |
+| `best-practices` | External standards — "what's the recommended approach?" |
+
+**Example — writing a PRD for a new feature:**
+1. Delegate to `explore`: "Map the current auth system — files, patterns, entry points"
+2. Delegate to `code-research`: "How are API endpoints structured? What middleware exists?"
+3. Delegate to `best-practices`: "What's the recommended auth pattern for [framework]?"
+4. Use the summaries to write an informed PRD with realistic technical requirements
+
+**Example — creating tickets for a refactor:**
+1. Delegate to `code-research`: "Find all usages of the legacy API client, what depends on it?"
+2. Use findings to scope tickets accurately and identify dependencies
+
+Formulate specific questions for the research agents — don't send vague "look into this" requests.
 
 ## Handoff to Builder
 

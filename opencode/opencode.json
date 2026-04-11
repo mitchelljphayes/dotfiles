@@ -6,6 +6,8 @@
   "permission": {
     "websearch": "allow",
     "bash": {
+      "* /tmp/*": "allow",
+      "* /private/tmp/*": "allow",
       "gh pr merge *": "ask",
       "gh pr merge": "ask",
       "git push --force *": "ask",
@@ -24,7 +26,35 @@
       "rm -rf *": "ask",
       "rm -r *": "ask",
       "rm -f *": "ask",
-      "rmdir *": "ask"
+      "rmdir *": "ask",
+      "but setup": "allow",
+      "but teardown": "ask",
+      "but status *": "allow",
+      "but status": "allow",
+      "but diff *": "allow",
+      "but diff": "allow",
+      "but show *": "allow",
+      "but branch *": "allow",
+      "but branch": "allow",
+      "but commit *": "allow",
+      "but rub *": "allow",
+      "but stage *": "allow",
+      "but absorb *": "allow",
+      "but absorb": "allow",
+      "but mark *": "allow",
+      "but unmark *": "allow",
+      "but unmark": "allow",
+      "but push *": "allow",
+      "but push": "allow",
+      "but pull *": "allow",
+      "but pull": "allow",
+      "but pr *": "allow",
+      "but squash *": "allow",
+      "but oplog": "allow",
+      "but oplog snapshot *": "allow",
+      "but undo": "ask",
+      "but oplog restore *": "ask",
+      "but resolve *": "ask"
     }
   },
   "instructions": ["AGENTS.md", "CLAUDE.md", ".cursor/rules/*.md"],
@@ -48,103 +78,6 @@
   "provider": {
     "google": {
       "models": {
-        "antigravity-gemini-3-pro": {
-          "name": "Gemini 3 Pro (Antigravity)",
-          "limit": {
-            "context": 1048576,
-            "output": 65535
-          },
-          "modalities": {
-            "input": ["text", "image", "pdf"],
-            "output": ["text"]
-          },
-          "variants": {
-            "low": {
-              "thinkingLevel": "low"
-            },
-            "high": {
-              "thinkingLevel": "high"
-            }
-          }
-        },
-        "antigravity-gemini-3.1-pro": {
-          "name": "Gemini 3.1 Pro (Antigravity)",
-          "limit": {
-            "context": 1048576,
-            "output": 65535
-          },
-          "modalities": {
-            "input": ["text", "image", "pdf"],
-            "output": ["text"]
-          },
-          "variants": {
-            "low": {
-              "thinkingLevel": "low"
-            },
-            "high": {
-              "thinkingLevel": "high"
-            }
-          }
-        },
-        "antigravity-gemini-3-flash": {
-          "name": "Gemini 3 Flash (Antigravity)",
-          "limit": {
-            "context": 1048576,
-            "output": 65536
-          },
-          "modalities": {
-            "input": ["text", "image", "pdf"],
-            "output": ["text"]
-          },
-          "variants": {
-            "minimal": {
-              "thinkingLevel": "minimal"
-            },
-            "low": {
-              "thinkingLevel": "low"
-            },
-            "medium": {
-              "thinkingLevel": "medium"
-            },
-            "high": {
-              "thinkingLevel": "high"
-            }
-          }
-        },
-        "antigravity-claude-sonnet-4-6": {
-          "name": "Claude Sonnet 4.6 (Antigravity)",
-          "limit": {
-            "context": 200000,
-            "output": 64000
-          },
-          "modalities": {
-            "input": ["text", "image", "pdf"],
-            "output": ["text"]
-          }
-        },
-        "antigravity-claude-opus-4-6-thinking": {
-          "name": "Claude Opus 4.6 Thinking (Antigravity)",
-          "limit": {
-            "context": 200000,
-            "output": 64000
-          },
-          "modalities": {
-            "input": ["text", "image", "pdf"],
-            "output": ["text"]
-          },
-          "variants": {
-            "low": {
-              "thinkingConfig": {
-                "thinkingBudget": 8192
-              }
-            },
-            "max": {
-              "thinkingConfig": {
-                "thinkingBudget": 32768
-              }
-            }
-          }
-        },
         "gemini-2.5-flash": {
           "name": "Gemini 2.5 Flash (Gemini CLI)",
           "limit": {

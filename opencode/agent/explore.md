@@ -1,7 +1,7 @@
 ---
 description: Fast codebase exploration and file discovery
 mode: subagent
-model: anthropic/claude-haiku-4-5
+model: opencode/big-pickle
 temperature: 0.1
 tools:
   write: false
