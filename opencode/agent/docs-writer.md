@@ -1,7 +1,7 @@
 ---
 description: Technical documentation writer for clear, comprehensive docs
 mode: subagent
-model: anthropic/claude-sonnet-4-6
+model: opencode/big-pickle
 temperature: 0.3
 tools:
   write: true

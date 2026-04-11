@@ -1,7 +1,7 @@
 ---
 description: Analyzes test failures and suggests fixes
 mode: subagent
-model: anthropic/claude-sonnet-4-6
+model: opencode/big-pickle
 temperature: 0.1
 tools:
   write: false
