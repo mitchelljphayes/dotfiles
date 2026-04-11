@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.mjp.databricks-mcp-refresh</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/python3</string>
+        <string>/Users/mjp/.dotfiles/scripts/databricks-mcp-refresh.py</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>StartInterval</key>
+    <integer>2700</integer>
+    <key>StandardOutPath</key>
+    <string>/tmp/databricks-mcp-refresh.log</string>
+    <key>StandardErrorPath</key>
+    <string>/tmp/databricks-mcp-refresh.err</string>
+</dict>
+</plist>
