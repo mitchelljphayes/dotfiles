@@ -54,6 +54,42 @@
       "skillFolderHash": "9bd4ce34e627ef1cebb8d61f1a5e12e27032bd14",
       "installedAt": "2026-02-04T03:19:26.226Z",
       "updatedAt": "2026-02-04T03:19:26.226Z"
+    },
+    "gitbutler-virtual-branches": {
+      "source": "outfitter-dev/agents",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/outfitter-dev/agents.git",
+      "skillPath": "plugins/but/skills/virtual-branches/SKILL.md",
+      "skillFolderHash": "84aea3d2f7800eb85f328d2c26fc9a97da04ef1a",
+      "installedAt": "2026-03-30T05:50:58.640Z",
+      "updatedAt": "2026-03-30T05:50:58.640Z"
+    },
+    "gitbutler-stacks": {
+      "source": "outfitter-dev/agents",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/outfitter-dev/agents.git",
+      "skillPath": "plugins/but/skills/stacks/SKILL.md",
+      "skillFolderHash": "70727a14a0c445731ecb0e4672e2f6d477b60dc8",
+      "installedAt": "2026-03-30T05:50:58.680Z",
+      "updatedAt": "2026-03-30T05:50:58.680Z"
+    },
+    "gitbutler-complete-branch": {
+      "source": "outfitter-dev/agents",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/outfitter-dev/agents.git",
+      "skillPath": "plugins/but/skills/complete-branch/SKILL.md",
+      "skillFolderHash": "430d2ffbb481e6f8c8fe5ec3cb58cbbe4aa09b79",
+      "installedAt": "2026-03-30T05:50:59.193Z",
+      "updatedAt": "2026-03-30T05:50:59.193Z"
+    },
+    "gitbutler-multi-agent": {
+      "source": "outfitter-dev/agents",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/outfitter-dev/agents.git",
+      "skillPath": "plugins/but/skills/multi-agent/SKILL.md",
+      "skillFolderHash": "26ca5a123fae1c799b9d95221109caebc0e2f18c",
+      "installedAt": "2026-03-30T05:51:00.053Z",
+      "updatedAt": "2026-03-30T05:51:00.053Z"
     }
   },
   "dismissed": {}
