@@ -2,6 +2,7 @@
 // For documentation: https://zed.dev/docs/configuring-zed
 {
   // Theme - matching nvim onedark
+  "diff_view_style": "unified",
   "context_servers": {
     "chrome-devtools-mcp-zed": {
       "enabled": true,
