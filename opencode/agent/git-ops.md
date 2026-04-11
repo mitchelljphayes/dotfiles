@@ -1,7 +1,7 @@
 ---
 description: Git operations expert for commits, branches, and troubleshooting (Git + GitButler)
 mode: subagent
-model: anthropic/claude-sonnet-4-6
+model: opencode/big-pickle
 temperature: 0.2
 tools:
   write: false
@@ -11,6 +11,7 @@ tools:
   glob: true
   grep: true
   list: true
+  skill: true
 ---
 
 # Git Operations Agent
@@ -33,52 +34,37 @@ fi
 
 ## GitButler Workflows
 
-### Key Concepts
-- **Virtual branches**: Multiple branches active simultaneously
-- **Parallel branches**: Independent work streams
-- **Stacked branches**: Dependent branches (base must merge first)
-- **Rubbing**: Assigning files to branches (`but rub`)
-- **Shortcodes**: 2-character file/branch IDs
+**Load the GitButler skills for full CLI reference and workflows.** The skills are the source of truth and are updated when the CLI changes.
 
-### Commands Reference
+### Skills to load (via the `skill` tool):
+| Skill | When to use |
+|-------|-------------|
+| `gitbutler-virtual-branches` | Core workflow: branches, rub, commit, status |
+| `gitbutler-complete-branch` | Pushing, PRs, merging to main, cleanup |
+| `gitbutler-stacks` | Dependent/stacked branches |
+| `gitbutler-multi-agent` | Multi-agent coordination |
+
+**Always load the relevant skill before running GitButler commands.** The skill will provide the current command syntax, patterns, and safety rules.
+
+### Quick Reference (basics only — load skills for full docs)
 
 | Command | Purpose |
 |---------|---------|
 | `but status` | Show branches and unassigned changes |
 | `but status -f` | Include file details |
 | `but branch new <name>` | Create parallel branch |
-| `but branch new -a <anchor> <name>` | Create stacked branch |
-| `but branch list` | List all branches |
-| `but rub <files> <branch>` | Assign files to branch |
-| `but commit -m "msg" <branch>` | Commit to branch |
-| `but commit -o -m "msg" <branch>` | Commit ONLY assigned files |
-| `but push` | Push all branches |
-| `but push <branch>` | Push specific branch |
+| `but rub <source> <target>` | Assign files/commits to branches |
+| `but commit <branch> -m "msg"` | Commit to branch |
+| `but push <branch>` | Push branch to remote |
+| `but pr new <branch>` | Create/update PR |
+| `but undo` | Undo last operation |
+| `but oplog snapshot -m "msg"` | Safety snapshot |
 
-### Assign Changes (Rubbing)
-```bash
-# By shortcode
-but rub xw,ie feature-auth
-
-# By path
-but rub src/models/ data-layer
-
-# View what needs assigning
-but status -f  # Look for "Unassigned" section
-```
-
-### Commit Strategies
-```bash
-# Commit all unassigned + branch files
-but commit -m "feat: add auth" feature-auth
-
-# Commit ONLY assigned files (leave unassigned alone)
-but commit -o -m "feat: add auth" feature-auth
-```
-
-### Stacked vs Parallel
-- **Parallel**: `but branch new feature-a` - Independent, merge anytime
-- **Stacked**: `but branch new -a feature-a feature-b` - Depends on feature-a
+### Key Rules
+- **Always detect environment first** (check for `.git/gitbutler`)
+- **Never use `git add`/`git commit`/`git checkout`** in a GitButler repo
+- **Always snapshot before risky operations**: `but oplog snapshot -m "..."`
+- **Assign files before committing**: `but rub <id> <branch>`
 
 ---
 

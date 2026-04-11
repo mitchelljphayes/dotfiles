@@ -1,12 +1,16 @@
 ---
 description: Performs security audits and identifies vulnerabilities
 mode: subagent
-model: anthropic/claude-sonnet-4-6
+model: opencode/big-pickle
 temperature: 0.1
 tools:
+  read: true
+  glob: true
+  grep: true
+  list: true
+  bash: true
   write: false
   edit: false
-  bash: true
 ---
 
 You are a security expert. Your role is to identify potential security issues in the codebase.
