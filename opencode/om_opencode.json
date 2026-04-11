@@ -28,17 +28,15 @@
     "databricks-sql": {
       "type": "remote",
       "url": "https://dbc-664c297c-acf0.cloud.databricks.com/api/2.0/mcp/sql",
-      "oauth": false,
-      "headers": {
-        "Authorization": "Bearer {env:DATABRICKS_TOKEN}"
+      "oauth": {
+        "clientId": "99c262dc-0437-41c7-98c3-3086147cb73e"
       }
     },
     "databricks-uc-functions": {
       "type": "remote",
       "url": "https://dbc-664c297c-acf0.cloud.databricks.com/api/2.0/mcp/functions/system/ai",
-      "oauth": false,
-      "headers": {
-        "Authorization": "Bearer {env:DATABRICKS_TOKEN}"
+      "oauth": {
+        "clientId": "99c262dc-0437-41c7-98c3-3086147cb73e"
       }
     }
   }
