@@ -46,15 +46,6 @@ fi
 if [ -f ~/.zshrc_local_after ]; then
     source ~/.zshrc_local_after
 fi
-# Added by dbt Fusion extension (ensure dbt binary dir on PATH)
-if [[ ":$PATH:" != *":/Users/mjp/.local/bin:"* ]]; then
-  export PATH=/Users/mjp/.local/bin:"$PATH"
-fi
-# Added by dbt Fusion extension
-alias dbtf=/Users/mjp/.local/bin/dbt
 
-# Added by Antigravity
-export PATH="/Users/mjp/.antigravity/antigravity/bin:$PATH"
-
-# Added by GitButler installer
+# Added by GitButler
 eval "$(but completions zsh)"
