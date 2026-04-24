@@ -108,9 +108,12 @@ link_linux  ssh/config.linux   ~/.ssh/config.local
 link gpg.conf       ~/.gnupg/gpg.conf
 link yarnrc         ~/.yarnrc
 link kaggle         ~/.kaggle
-link terminfo.src   ~/.terminfo.src
+link Brewfile        ~/.Brewfile
+link ruff.toml      ~/.config/ruff/ruff.toml
 link CLAUDE.md              ~/.claude/CLAUDE.md
 link claude/settings.json  ~/.claude/settings.json
+link claude/commands        ~/.claude/commands
+link claude/agents          ~/.claude/agents
 link agents                 ~/.agents
 link Claude                 ~/.config/Claude
 
