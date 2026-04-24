@@ -195,5 +195,13 @@ else
     info "Skipping package installation (run with --packages to install)"
 fi
 
+# Post-install tasks
+echo ""
+if ! [[ -d "$HOME/.terminfo" ]]; then
+    info "Compiling terminfo entries (first run)..."
+    source "$DOTFILES/shell/functions.sh"
+    update_terminfo
+fi
+
 echo ""
 success "Dotfiles installation complete!"
