@@ -4,14 +4,14 @@ mode: subagent
 model: opencode/claude-opus-4-6
 tools:
   read: true
+  write: true
+  edit: false
   glob: true
   grep: true
   list: true
   webfetch: true
   todowrite: true
   todoread: true
-  write: true
-  edit: false
 ---
 
 # Plan Agent

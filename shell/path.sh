@@ -30,5 +30,10 @@ if [[ -d /opt/homebrew ]]; then
     path_append "/usr/local/texlive/2025/bin/universal-darwin"
 fi
 
+# Tool-specific paths (conditional on binary existence)
+if [[ -d "$HOME/.antigravity/antigravity/bin" ]]; then
+    path_prepend "$HOME/.antigravity/antigravity/bin"
+fi
+
 # Export final PATH
 export PATH

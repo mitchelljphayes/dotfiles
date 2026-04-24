@@ -58,14 +58,6 @@ alias gag='git exec ag'
 alias gc='git commit -m'
 alias gca='git commit -am'
 
-# run homebrew under rosetta 2
-alias ibrew='arch -x86_64 /usr/local/bin/brew'
-
-# mount cse
-alias cse='sshfs -o idmap=user -C z5384479@login9.cse.unsw.edu.au: ~/CSE'
-alias xcse='umount -f ~/CSE'
-
-
 # Update dotfiles
 dfu() {
     (

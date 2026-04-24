@@ -40,6 +40,19 @@ opencode/tui.json
 opencode/antigravity.json
 OPENCODE_CONFIG_CONTENT
 
+# Python
+.venv/
+
+# Node
+node_modules/
+
+# Cache
+.ruff_cache/
+
+# Generated/Runtime
+terminfo.src
+*.log
+
 # Installed skills (managed by npx skills, not version controlled)
 opencode/skills/dagster-best-practices
 opencode/skills/interface-design/
