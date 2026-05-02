@@ -1,7 +1,7 @@
 ---
 description: Git operations expert for commits, branches, and troubleshooting (Git + GitButler)
 mode: subagent
-model: opencode/big-pickle
+model: opencode-go-mmx/minimax-m2.5
 temperature: 0.2
 tools:
   write: false

@@ -2,6 +2,15 @@
 // For documentation: https://zed.dev/docs/configuring-zed
 {
   // Theme - matching nvim onedark
+  "outline_panel": {
+    "dock": "right"
+  },
+  "collaboration_panel": {
+    "dock": "right"
+  },
+  "git_panel": {
+    "dock": "right"
+  },
   "diff_view_style": "unified",
   "context_servers": {
     "chrome-devtools-mcp-zed": {
@@ -88,11 +97,13 @@
   // Copilot - matching your copilot.lua setup
   // Agent panel position
   "agent": {
+    "thinking_display": "always_expanded",
+    "single_file_review": true,
     "default_model": {
       "provider": "anthropic",
       "model": "claude-sonnet-4-5-latest"
     },
-    "dock": "right"
+    "dock": "left"
   },
 
   // Formatting - matching your conform/autoformat setup
@@ -152,7 +163,7 @@
 
   // Project panel (similar to oil/neotree)
   "project_panel": {
-    "dock": "left",
+    "dock": "right",
     "git_status": true
   },
 

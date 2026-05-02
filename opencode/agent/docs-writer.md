@@ -1,7 +1,7 @@
 ---
 description: Technical documentation writer for clear, comprehensive docs
 mode: subagent
-model: opencode/big-pickle
+model: opencode-go/qwen3.6-plus
 temperature: 0.3
 tools:
   write: true

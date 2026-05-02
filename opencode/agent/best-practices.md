@@ -1,7 +1,7 @@
 ---
 description: Researches external best practices, framework docs, and standards for a given task
 mode: subagent
-model: opencode/big-pickle
+model: opencode-go/glm-5.1
 tools:
   read: true
   glob: true

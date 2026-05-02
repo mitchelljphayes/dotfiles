@@ -1,7 +1,7 @@
 ---
 description: Strategic architect synthesizing research into phased implementation plans
 mode: subagent
-model: opencode/claude-opus-4-6
+model: ollama/deepseek-v4-pro:cloud
 tools:
   read: true
   write: true

@@ -1,7 +1,7 @@
 ---
 description: Code reviewer ensuring quality, security, and plan alignment
 mode: subagent
-model: opencode/claude-opus-4-6
+model: ollama/deepseek-v4-pro:cloud
 tools:
   read: true
   glob: true
