@@ -1,7 +1,7 @@
 ---
 description: Software engineer implementing solutions phase by phase following the plan
 mode: subagent
-model: opencode/glm-5
+model: ollama/deepseek-v4-flash:cloud
 tools:
   bash: true
   edit: true

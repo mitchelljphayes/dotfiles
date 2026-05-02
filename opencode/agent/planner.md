@@ -1,7 +1,7 @@
 ---
 description: Plan and specify - PRDs, projects, tickets, brainstorming, feature discovery
 mode: primary
-model: opencode/claude-opus-4-6
+model: ollama/kimi-k2.6:cloud
 tools:
   task: true
   read: true

@@ -1,7 +1,7 @@
 ---
 description: Performs security audits and identifies vulnerabilities
 mode: subagent
-model: opencode/big-pickle
+model: opencode/claude-opus-4-6
 temperature: 0.1
 tools:
   read: true

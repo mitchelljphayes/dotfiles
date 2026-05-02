@@ -1,7 +1,7 @@
 ---
 description: Build and implement - handles code changes directly or via ACE workflow
 mode: primary
-model: opencode/claude-opus-4-6
+model: ollama/kimi-k2.6:cloud
 tools:
   task: true
   read: true
@@ -50,7 +50,7 @@ You are the Builder - the primary coding orchestrator. You receive requests, bre
 ```
 Use for: any feature, bug fix, refactor, multi-file change, or unfamiliar code.
 
-**The test-runner always runs after build, before review.** Don't waste an Opus review call on code that doesn't pass tests. The test-runner is free (big-pickle) — use it liberally. If build fails tests, you can retry the build with the failure summary before escalating.
+**The test-runner always runs after build, before review.** Don't waste a review call on code that doesn't pass tests. The test-runner uses GLM 5.1 — use it liberally. If build fails tests, you can retry the build with the failure summary before escalating.
 
 **After review passes, always commit.** Delegate to `git-ops` with context about what was built. The git-ops agent will detect the environment (Git vs GitButler), analyze changes, propose logical commit grouping with messages, and wait for approval before committing.
 
@@ -86,11 +86,12 @@ This is the highest-value use of your Opus brain. Before dispatching research, s
 Tailor questions to the specific task — don't ask generic questions.
 
 ### Specialist delegation (any pipeline level):
-- Security-sensitive changes → `security-auditor`
+- Security-sensitive changes → `security-auditor` (Opus 4.6 — best at finding vulnerabilities)
 - dbt/SQL models → `dbt-expert`
 - Test failures need diagnosis → `test-analyzer`
 - Git operations → `git-ops`
 - Documentation → `docs-writer`
+- High-stakes architecture/approach decisions → `consult` (Opus 4.6 — rare, expensive)
 
 **Your job is orchestration, not implementation.** Every file you read and every edit you make consumes context. Spend your tokens on formulating good questions and making decisions, not on reading code.
 
@@ -128,23 +129,24 @@ GOOD: Delegate to explore agent: "Find all .md files, summarize each
 ### Pipeline agents (core workflow):
 | Agent | Model | Use For |
 |-------|-------|---------|
-| `code-research` | big-pickle | Answers questions about existing codebase |
-| `best-practices` | big-pickle | Answers questions about standards, docs, patterns |
-| `plan` | Opus | Synthesizes both research docs into implementation plan |
-| `build` | GLM-5 | Executes the plan phase by phase |
-| `test-runner` | big-pickle | Runs test/lint suites, produces compact summary |
-| `review` | Opus | Code review, quality checks |
+| `code-research` | glm-5.1 (Ollama) | Answers questions about existing codebase |
+| `best-practices` | glm-5.1 (Go) | Answers questions about standards, docs, patterns |
+| `plan` | deepseek-v4-pro (Ollama) | Synthesizes both research docs into implementation plan |
+| `build` | deepseek-v4-flash (Ollama) | Executes the plan phase by phase |
+| `test-runner` | glm-5.1 (Ollama) | Runs test/lint suites, produces compact summary |
+| `review` | deepseek-v4-pro (Ollama) | Code review, quality checks |
 
 ### Specialist agents:
 | Agent | Model | Use For |
 |-------|-------|---------|
-| `explore` | big-pickle | Quick file discovery (fast, cheap) |
+| `explore` | glm-5.1 (Go) | Quick file discovery |
 | `general` | (built-in) | Multi-step research tasks |
-| `docs-writer` | big-pickle | Writing documentation |
-| `security-auditor` | big-pickle | Security review |
-| `test-analyzer` | big-pickle | Diagnosing test failures |
-| `dbt-expert` | big-pickle | dbt/SQL model review |
-| `git-ops` | big-pickle | Git/GitButler operations, commits, branches |
+| `docs-writer` | qwen3.6-plus (Go) | Writing documentation |
+| `security-auditor` | claude-opus-4-6 | Security review (premium) |
+| `test-analyzer` | glm-5.1 (Go) | Diagnosing test failures |
+| `dbt-expert` | glm-5.1 (Go) | dbt/SQL model review |
+| `git-ops` | minimax-m2.5 (Go) | Git/GitButler operations, commits |
+| `consult` | claude-opus-4-6 | High-stakes architecture/approach decisions |
 
 ## Workflow Commands
 

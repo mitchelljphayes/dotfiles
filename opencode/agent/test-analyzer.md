@@ -1,7 +1,7 @@
 ---
 description: Analyzes test failures and suggests fixes
 mode: subagent
-model: opencode/big-pickle
+model: opencode-go/glm-5.1
 temperature: 0.1
 tools:
   write: false

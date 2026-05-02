@@ -1,10 +1,10 @@
 #!/usr/bin/python3
-"""Refresh Databricks MCP OAuth tokens in OpenCode's mcp-auth.json.
+"""Inject Databricks access token into OpenCode's mcp-auth.json.
 
-OpenCode can't auto-refresh Databricks tokens because Databricks serves
-OAuth metadata at /oidc/.well-known/... instead of /.well-known/... which
-the MCP SDK expects. This script calls the token endpoint directly using
-the stored refresh tokens.
+Uses the token already maintained by databricks-token-refresh.sh (via the
+Databricks CLI). This avoids maintaining a separate OAuth session which
+conflicts with the CLI's session (Databricks revokes old refresh tokens
+when a new auth grant is issued).
 
 Run via launchd every 45 minutes (access tokens expire after 60 min).
 """
@@ -13,100 +13,98 @@ import json
 import os
 import sys
 import time
-import urllib.parse
-import urllib.request
 
 AUTH_FILE = os.path.expanduser("~/.local/share/opencode/mcp-auth.json")
-TOKEN_ENDPOINT = "https://dbc-664c297c-acf0.cloud.databricks.com/oidc/v1/token"
-CLIENT_ID = "99c262dc-0437-41c7-98c3-3086147cb73e"
+TOKEN_CACHE = os.path.expanduser("~/.cache/databricks-token")
 
-# MCP server entries in mcp-auth.json that need Databricks token refresh
+# MCP server entries in mcp-auth.json that need Databricks token injection
 SERVERS = ["databricks-sql", "databricks-uc-functions"]
 
-# Skip refresh if token has more than this many seconds remaining
+# Skip update if token has more than this many seconds remaining
 REFRESH_THRESHOLD = 900  # 15 minutes
+
+# Databricks access tokens last ~60 minutes
+TOKEN_LIFETIME = 3600
 
 
 def log(msg):
     print(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] {msg}")
 
 
-def refresh_server(server_name, data):
-    """Refresh the OAuth token for one Databricks MCP server entry.
+def get_cli_token():
+    """Read the access token cached by databricks-token-refresh.sh."""
+    if not os.path.exists(TOKEN_CACHE):
+        return None
+
+    # Check staleness — if the cache file is older than 70 min, it's stale
+    age = time.time() - os.path.getmtime(TOKEN_CACHE)
+    if age > 4200:  # 70 minutes
+        log(f"  Token cache is stale ({age / 60:.0f} min old)")
+        return None
+
+    with open(TOKEN_CACHE) as f:
+        token = f.read().strip()
+
+    return token if token else None
+
+
+def update_server(server_name, data, token):
+    """Update the access token for one MCP server entry.
 
     Mutates ``data[server_name]`` in place. Returns True if tokens were updated.
     """
     entry = data.get(server_name)
-    if not entry or not entry.get("tokens", {}).get("refreshToken"):
-        log(f"  {server_name}: no refresh token — skipping")
-        return False
+    if not entry:
+        # Create a minimal entry if it doesn't exist
+        data[server_name] = {"tokens": {}}
+        entry = data[server_name]
 
-    # Don't refresh tokens that are still fresh
+    if "tokens" not in entry:
+        entry["tokens"] = {}
+
+    # Don't update tokens that are still fresh
     expires_at = entry["tokens"].get("expiresAt", 0)
     remaining = expires_at - time.time()
     if remaining > REFRESH_THRESHOLD:
-        log(f"  {server_name}: still valid ({remaining / 60:.0f} min left)")
-        return False
+        current_token = entry["tokens"].get("accessToken", "")
+        # Still update if the actual token value differs (CLI got a new one)
+        if current_token == token:
+            log(f"  {server_name}: still valid ({remaining / 60:.0f} min left)")
+            return False
 
-    refresh_token = entry["tokens"]["refreshToken"]
+    # Inject the CLI token — no refresh token needed since the CLI manages that
+    entry["tokens"]["accessToken"] = token
+    entry["tokens"]["expiresAt"] = time.time() + TOKEN_LIFETIME
+    # Remove stale refresh token to avoid confusion
+    entry["tokens"].pop("refreshToken", None)
 
-    params = urllib.parse.urlencode(
-        {
-            "grant_type": "refresh_token",
-            "client_id": CLIENT_ID,
-            "refresh_token": refresh_token,
-        }
-    ).encode()
-
-    req = urllib.request.Request(TOKEN_ENDPOINT, data=params, method="POST")
-    req.add_header("Content-Type", "application/x-www-form-urlencoded")
-
-    try:
-        with urllib.request.urlopen(req, timeout=30) as resp:
-            result = json.loads(resp.read())
-    except urllib.error.HTTPError as e:
-        body = e.read().decode("utf-8", errors="replace")
-        log(f"  {server_name}: HTTP {e.code} — {body}")
-        return False
-    except Exception as e:
-        log(f"  {server_name}: request failed — {e}")
-        return False
-
-    if "error" in result:
-        log(
-            f"  {server_name}: {result['error']}: {result.get('error_description', '')}"
-        )
-        return False
-
-    # Update tokens in place
-    entry["tokens"]["accessToken"] = result["access_token"]
-    entry["tokens"]["expiresAt"] = time.time() + result.get("expires_in", 3600)
-    if "refresh_token" in result:
-        entry["tokens"]["refreshToken"] = result["refresh_token"]
-    if "scope" in result:
-        entry["tokens"]["scope"] = result["scope"]
-
-    expires_min = result.get("expires_in", 3600) / 60
-    log(f"  {server_name}: refreshed (expires in {expires_min:.0f} min)")
+    expires_min = TOKEN_LIFETIME / 60
+    log(f"  {server_name}: updated (expires in {expires_min:.0f} min)")
     return True
 
 
 def main():
-    if not os.path.exists(AUTH_FILE):
-        log(f"Auth file not found: {AUTH_FILE}")
+    token = get_cli_token()
+    if not token:
+        log("No valid token from CLI — is databricks-token-refresh running?")
         sys.exit(1)
 
-    with open(AUTH_FILE) as f:
-        data = json.load(f)
+    if not os.path.exists(AUTH_FILE):
+        log(f"Auth file not found: {AUTH_FILE} — creating it")
+        data = {}
+    else:
+        with open(AUTH_FILE) as f:
+            data = json.load(f)
 
     updated = False
     for server in SERVERS:
-        if refresh_server(server, data):
+        if update_server(server, data, token):
             updated = True
 
     if updated:
-        # Write atomically via temp file to avoid corrupting mcp-auth.json
+        # Write atomically via temp file
         tmp = AUTH_FILE + ".tmp"
+        os.makedirs(os.path.dirname(AUTH_FILE), exist_ok=True)
         with open(tmp, "w") as f:
             json.dump(data, f, indent=4)
         os.replace(tmp, AUTH_FILE)

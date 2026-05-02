@@ -1,7 +1,8 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "snapshot": false,
   "autoupdate": true,
-  "small_model": "opencode/gpt-5-nano",
+  "small_model": "opencode-go-mmx/minimax-m2.5",
   "plugin": ["@ex-machina/opencode-anthropic-auth"],
   "permission": {
     "websearch": "allow",
@@ -142,6 +143,82 @@
           "modalities": {
             "input": ["text", "image", "pdf"],
             "output": ["text"]
+          }
+        }
+      }
+    },
+    "ollama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama Cloud",
+      "options": {
+        "baseURL": "http://localhost:11434/v1"
+      },
+      "models": {
+        "deepseek-v4-pro:cloud": {
+          "name": "DeepSeek V4 Pro (Ollama Cloud)",
+          "limit": {
+            "context": 1048576,
+            "output": 65536
+          }
+        },
+        "deepseek-v4-flash:cloud": {
+          "name": "DeepSeek V4 Flash (Ollama Cloud)",
+          "limit": {
+            "context": 1048576,
+            "output": 65536
+          }
+        },
+        "glm-5.1:cloud": {
+          "name": "GLM 5.1 (Ollama Cloud)",
+          "limit": {
+            "context": 1048576,
+            "output": 65536
+          }
+        },
+        "kimi-k2.6:cloud": {
+          "name": "Kimi K2.6 (Ollama Cloud)",
+          "limit": {
+            "context": 1048576,
+            "output": 65536
+          }
+        }
+      }
+    },
+    "opencode-go": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "OpenCode Go",
+      "options": {
+        "baseURL": "https://opencode.ai/zen/go/v1"
+      },
+      "models": {
+        "glm-5.1": {
+          "name": "GLM 5.1 (Go)",
+          "limit": {
+            "context": 202752,
+            "output": 65536
+          }
+        },
+        "qwen3.6-plus": {
+          "name": "Qwen 3.6 Plus (Go)",
+          "limit": {
+            "context": 262144,
+            "output": 65536
+          }
+        }
+      }
+    },
+    "opencode-go-mmx": {
+      "npm": "@ai-sdk/anthropic",
+      "name": "OpenCode Go (MiniMax)",
+      "options": {
+        "baseURL": "https://opencode.ai/zen/go"
+      },
+      "models": {
+        "minimax-m2.5": {
+          "name": "MiniMax M2.5 (Go)",
+          "limit": {
+            "context": 202752,
+            "output": 65536
           }
         }
       }
