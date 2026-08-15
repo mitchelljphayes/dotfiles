@@ -15,9 +15,11 @@ security find-generic-password -s "Claude Code-credentials" -a "$(whoami)" -w | 
 
 Look for the Figma entry with `clientId` and `clientSecret`.
 
-As of Jan 2026:
-- **clientId**: `REDACTED_FIGMA_CLIENT_ID`
-- **clientSecret**: `REDACTED_FIGMA_CLIENT_SECRET`
+**Do not hardcode these values.** Always retrieve them from Keychain at runtime:
+```bash
+FIGMA_CLIENT_ID=$(security find-generic-password -s "Claude Code-credentials" -a "$(whoami)" -w | jq -r '.mcpOAuth.figma.clientId')
+FIGMA_CLIENT_SECRET=$(security find-generic-password -s "Claude Code-credentials" -a "$(whoami)" -w | jq -r '.mcpOAuth.figma.clientSecret')
+```
 
 ## Step 2: Generate PKCE Values and Auth URL
 
@@ -28,7 +30,7 @@ CODE_CHALLENGE=$(printf '%s' "$CODE_VERIFIER" | openssl sha256 -binary | base64 
 echo "Save this CODE_VERIFIER: $CODE_VERIFIER"
 echo ""
 echo "Open this URL in browser:"
-echo "https://www.figma.com/oauth/mcp?client_id=REDACTED_FIGMA_CLIENT_ID&redirect_uri=http://localhost:8080/callback&scope=mcp:connect&response_type=code&state=opencode&code_challenge=${CODE_CHALLENGE}&code_challenge_method=S256"
+echo "https://www.figma.com/oauth/mcp?client_id=${FIGMA_CLIENT_ID}&redirect_uri=http://localhost:8080/callback&scope=mcp:connect&response_type=code&state=opencode&code_challenge=${CODE_CHALLENGE}&code_challenge_method=S256"
 ```
 
 ## Step 3: Authorize and Get Code
@@ -45,8 +47,8 @@ Replace `YOUR_CODE` and `YOUR_CODE_VERIFIER`:
 ```bash
 curl -s -X POST "https://api.figma.com/v1/oauth/token" \
   -H "Content-Type: application/x-www-form-urlencoded" \
-  -d "client_id=REDACTED_FIGMA_CLIENT_ID" \
-  -d "client_secret=REDACTED_FIGMA_CLIENT_SECRET" \
+  -d "client_id=${FIGMA_CLIENT_ID}" \
+  -d "client_secret=${FIGMA_CLIENT_SECRET}" \
   -d "redirect_uri=http://localhost:8080/callback" \
   -d "code=YOUR_CODE" \
   -d "grant_type=authorization_code" \
@@ -68,8 +70,8 @@ cat ~/.local/share/opencode/mcp-auth.json | jq \
   --argjson exp "$EXPIRES_AT" \
   '.figma = {
     "clientInfo": {
-      "clientId": "REDACTED_FIGMA_CLIENT_ID",
-      "clientSecret": "REDACTED_FIGMA_CLIENT_SECRET",
+      "clientId": "'"$FIGMA_CLIENT_ID"'",
+      "clientSecret": "'"$FIGMA_CLIENT_SECRET"'",
       "clientIdIssuedAt": 1736500000
     },
     "serverUrl": "https://mcp.figma.com/mcp",
@@ -91,8 +93,8 @@ Ensure `opencode.json` has:
   "type": "remote",
   "url": "https://mcp.figma.com/mcp",
   "oauth": {
-    "clientId": "REDACTED_FIGMA_CLIENT_ID",
-    "clientSecret": "REDACTED_FIGMA_CLIENT_SECRET"
+    "clientId": "{env:FIGMA_CLIENT_ID}",
+    "clientSecret": "{env:FIGMA_CLIENT_SECRET}"
   }
 }
 ```
