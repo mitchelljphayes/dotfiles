@@ -46,7 +46,19 @@ Shell configs are split by purpose: `aliases.sh`, `functions.sh`, `environment.s
 All secrets come from 1Password CLI via `shell/secrets.sh`:
 - Fetched once per macOS session, cached via `launchctl setenv`
 - Never stored in plaintext or committed to git
-- Add new secrets to the `SECRETS` array in `secrets.sh`
+- Add personal secrets to the `SECRETS` array in `secrets.sh`
+- Work-specific secrets live in the private [dotfiles-work](https://github.com/mitchelljphayes/dotfiles-work) repo
+
+## Work-Specific Configs
+
+Employer-specific configs (AWS SSO, Databricks, internal MCP servers, etc.) live in a separate private repo:
+
+```bash
+git clone git@github.com:mitchelljphayes/dotfiles-work.git ~/.dotfiles-work
+~/.dotfiles-work/install.sh
+```
+
+The public `install.sh` will detect and run the work install automatically if `~/.dotfiles-work` exists.
 
 ## Agent Skills
 

@@ -27,14 +27,10 @@ export KEYTIMEOUT=1  # corresponds to 10ms for zsh
 # Go - install binaries to ~/.local/bin (already on PATH)
 export GOBIN="$HOME/.local/bin"
 
-# Development settings
-export DEV_SCHEMA_PREFIX=mh
-
 # OpenCode settings
 export OPENCODE_ENABLE_EXA=1
 
-# Databricks settings
-export DATABRICKS_HOST="https://dbc-664c297c-acf0.cloud.databricks.com"
-
-# 1Password secrets are loaded at login via ~/.dotfiles/shell/secrets.sh
+# 1Password secrets are loaded at login via ~/.shell/secrets.sh
 # Cached in launchctl - auth once per macOS session, available to all processes
+# Work-specific secrets and environment overrides come from
+# the private dotfiles-work repo (sourced after this file if installed)
