@@ -103,14 +103,6 @@ Global instructions for Claude Code across all projects on this machine.
 - `Makefile` — Build and development commands
 - `.github/workflows/` — CI/CD configuration
 
-## GitButler (Virtual Branches)
-
-Projects may use GitButler (`but` CLI) for parallel branch development. When a repo has been set up with `but setup`, use `but` commands instead of `git` for branching, committing, and pushing.
-
-Key commands: `but status`, `but branch new <name>`, `but rub <source> <target>`, `but commit <branch> -m "msg"`, `but push`.
-
-**NEVER** use `git add`/`git commit`/`git checkout` in a GitButler-managed repo — it breaks the virtual branch state. See the `gitbutler-virtual-branches` skill for full details.
-
 ## Git Branch Naming
 
 - Use feature branch names based on issue identifiers, not usernames

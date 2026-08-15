@@ -1,21 +1,16 @@
 ---
-description: Git operations — status, branch, commit, assign (supports GitButler)
+description: Git operations — status, branch, commit, push
 ---
 
 Handle git operation: $ARGUMENTS
 
-1. Auto-detect GitButler vs standard Git:
-   - Run `but status` — if it works, this is a GitButler repo
-   - Use `but` commands for GitButler repos, `git` for standard repos
-2. Handle the requested operation
+1. Handle the requested operation
 
 ## Common Operations
 
 - `/git status` — Show current state
 - `/git commit` — Create commit(s) for current changes
 - `/git branch <name>` — Create new branch
-- `/git branch <name> --on <base>` — Create stacked branch (GitButler)
-- `/git assign` — Assign files to branches (GitButler)
 - `/git push` — Push current branch
 
 If no arguments provided, show status and suggest next actions.

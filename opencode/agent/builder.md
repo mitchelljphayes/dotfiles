@@ -52,7 +52,7 @@ Use for: any feature, bug fix, refactor, multi-file change, or unfamiliar code.
 
 **The test-runner always runs after build, before review.** Don't waste a review call on code that doesn't pass tests. The test-runner uses GLM 5.1 — use it liberally. If build fails tests, you can retry the build with the failure summary before escalating.
 
-**After review passes, always commit.** Delegate to `git-ops` with context about what was built. The git-ops agent will detect the environment (Git vs GitButler), analyze changes, propose logical commit grouping with messages, and wait for approval before committing.
+**After review passes, always commit.** Delegate to `git-ops` with context about what was built. The git-ops agent will analyze changes, propose logical commit grouping with messages, and wait for approval before committing.
 
 **Light pipeline** (only when the change is well-understood and small):
 ```
@@ -145,7 +145,7 @@ GOOD: Delegate to explore agent: "Find all .md files, summarize each
 | `security-auditor` | claude-opus-4-6 | Security review (premium) |
 | `test-analyzer` | glm-5.1 (Go) | Diagnosing test failures |
 | `dbt-expert` | glm-5.1 (Go) | dbt/SQL model review |
-| `git-ops` | minimax-m2.5 (Go) | Git/GitButler operations, commits |
+| `git-ops` | minimax-m2.5 (Go) | Git operations, commits |
 | `consult` | claude-opus-4-6 | High-stakes architecture/approach decisions |
 
 ## Workflow Commands
