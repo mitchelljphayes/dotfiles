@@ -29,14 +29,16 @@
       "type": "remote",
       "url": "https://dbc-664c297c-acf0.cloud.databricks.com/api/2.0/mcp/sql",
       "oauth": {
-        "clientId": "99c262dc-0437-41c7-98c3-3086147cb73e"
+        "clientId": "99c262dc-0437-41c7-98c3-3086147cb73e",
+        "redirectUri": "http://127.0.0.1:19876/mcp/oauth/callback"
       }
     },
     "databricks-uc-functions": {
       "type": "remote",
       "url": "https://dbc-664c297c-acf0.cloud.databricks.com/api/2.0/mcp/functions/system/ai",
       "oauth": {
-        "clientId": "99c262dc-0437-41c7-98c3-3086147cb73e"
+        "clientId": "99c262dc-0437-41c7-98c3-3086147cb73e",
+        "redirectUri": "http://127.0.0.1:19876/mcp/oauth/callback"
       }
     }
   }
