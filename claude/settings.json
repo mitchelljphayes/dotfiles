@@ -7,5 +7,21 @@
   "feedbackSurveyState": {
     "lastShownTime": 1754194786480
   },
-  "editorMode": "vim"
+  "editorMode": "vim",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.dotfiles/claude/hooks/block-generated-branch-push.sh",
+            "timeout": 10,
+            "statusMessage": "Checking branch name before push"
+          }
+        ]
+      }
+    ]
+  },
+  "skipWorkflowUsageWarning": true
 }
