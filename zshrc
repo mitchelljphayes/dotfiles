@@ -47,5 +47,4 @@ if [ -f ~/.zshrc_local_after ]; then
     source ~/.zshrc_local_after
 fi
 
-# Added by GitButler
-eval "$(but completions zsh)"
+

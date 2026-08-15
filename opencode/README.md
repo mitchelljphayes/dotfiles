@@ -101,7 +101,7 @@ These are **structured documents** that become the source of truth for your proj
 | Agent | Model | Purpose |
 |-------|-------|---------|
 | explore | Haiku 4.5 | Fast file/pattern discovery |
-| git-ops | Sonnet 4.5 | Git operations, commits, GitButler support |
+| git-ops | Sonnet 4.5 | Git operations, commits |
 | security-auditor | Sonnet 4.5 | Security analysis |
 | dbt-expert | Sonnet 4.5 | dbt project reviews |
 | test-analyzer | Sonnet 4.5 | Test failure diagnosis |
@@ -348,71 +348,3 @@ For issues with opencode or this ACE implementation, see:
 - OpenCode docs: https://opencode.ai/docs
 - GitHub issues: https://github.com/sst/opencode/issues
 - OpenCode feedback: https://github.com/sst/opencode/issues/new
-
-## GitButler Integration
-
-OpenCode has first-class support for GitButler's virtual branch workflow.
-
-### GitButler Commands
-
-| Command | Description |
-|---------|-------------|
-| `/gb-status` | Show virtual branches and unassigned changes |
-| `/gb-commit` | Commit changes to a specific virtual branch |
-| `/gb-branch` | Create parallel or stacked branches |
-| `/gb-assign` | Assign file changes to branches |
-
-### Standard vs GitButler
-
-The `/commit` and `/pr` commands auto-detect GitButler repositories and adapt:
-
-**Standard Git:**
-```bash
-/commit  → git add + git commit
-/pr      → gh pr create
-```
-
-**GitButler:**
-```bash
-/commit  → but commit (to virtual branch)
-/pr      → but push (creates stacked PRs)
-```
-
-### Virtual Branch Workflow
-
-```
-┌─────────────────────────────────────────┐
-│           Unassigned Changes            │
-│  (files not yet assigned to a branch)   │
-└──────────────────┬──────────────────────┘
-                   │ /gb-assign
-        ┌──────────┴──────────┐
-        ▼                     ▼
-┌───────────────┐     ┌───────────────┐
-│ feature-auth  │     │ feature-api   │
-│ (parallel)    │     │ (parallel)    │
-└───────┬───────┘     └───────────────┘
-        │ stacked on
-        ▼
-┌───────────────┐
-│ feature-ui    │
-│ (stacked)     │
-└───────────────┘
-```
-
-### Key Concepts
-
-- **Virtual Branches**: Multiple branches active simultaneously in your workspace
-- **Parallel Branches**: Independent work streams, merge in any order
-- **Stacked Branches**: Dependent branches that must merge in sequence
-- **Rubbing**: Assigning file changes to specific branches before committing
-- **Unassigned Changes**: Changes not yet assigned to any branch
-
-### Installation
-
-```bash
-# Install via Homebrew
-brew install gitbutler
-
-# Or install CLI from GitButler desktop app settings
-```

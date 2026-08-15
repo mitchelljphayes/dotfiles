@@ -147,11 +147,3 @@
 
 [gpg]
   format = ssh
-[gitbutler]
-	aiModelProvider = anthropic
-	signCommits = true
-	gitbutlerCommitter = 0
-	aiAnthropicKeyOption = bringYourOwn
-	aiAnthropicModelName = claude-sonnet-4-0
-	diffLengthLimit = 10000
-	aiOpenAIKeyOption = butlerAPI
