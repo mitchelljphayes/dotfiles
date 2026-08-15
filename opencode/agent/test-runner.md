@@ -1,7 +1,7 @@
 ---
 description: Runs test and lint suites, produces compact pass/fail summaries for the orchestrator
 mode: subagent
-model: ollama/glm-5.1:cloud
+model: ollama/glm-5.2:cloud
 temperature: 0.1
 tools:
   bash: true

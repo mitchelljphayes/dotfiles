@@ -1,7 +1,7 @@
 ---
 description: Researches external best practices, framework docs, and standards for a given task
 mode: subagent
-model: opencode-go/glm-5.1
+model: ollama/glm-5.2:cloud
 tools:
   read: true
   glob: true

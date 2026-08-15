@@ -1,7 +1,7 @@
 ---
 description: Premium advisor for high-stakes architecture, security, and approach decisions
 mode: subagent
-model: opencode/claude-opus-4-6
+model: openai/gpt-5.6-sol
 tools:
   read: true
   glob: true

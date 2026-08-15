@@ -1,7 +1,7 @@
 ---
 description: Analyzes test failures and suggests fixes
 mode: subagent
-model: opencode-go/glm-5.1
+model: ollama/glm-5.2:cloud
 temperature: 0.1
 tools:
   write: false

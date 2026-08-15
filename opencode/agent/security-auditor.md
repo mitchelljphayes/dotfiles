@@ -1,7 +1,7 @@
 ---
 description: Performs security audits and identifies vulnerabilities
 mode: subagent
-model: opencode/claude-opus-4-6
+model: openai/gpt-5.6-sol
 temperature: 0.1
 tools:
   read: true

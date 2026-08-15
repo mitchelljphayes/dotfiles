@@ -1,7 +1,7 @@
 ---
 description: Reviews dbt projects for best practices, structure, and performance
 mode: subagent
-model: opencode-go/glm-5.1
+model: ollama/glm-5.2:cloud
 temperature: 0.1
 tools:
   read: true
