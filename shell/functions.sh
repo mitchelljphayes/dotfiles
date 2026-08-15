@@ -112,28 +112,33 @@ update_terminfo () {
     cd - > /dev/null
 }
 
-# Refresh Databricks token for the current shell.
-# Tokens expire hourly. The launchd agent auto-refreshes for new processes,
-# but existing shells need this to pick up a fresh token.
-databricks-token() {
-    local token
-    # Try CLI first (fetches a fresh token using the cached refresh token)
-    token=$(databricks auth token --profile ordermentum 2>/dev/null | python3 -c "import sys,json; print(json.load(sys.stdin)['access_token'])" 2>/dev/null)
-    # Fall back to the cache file written by the launchd refresh script
-    if [[ -z "$token" && -f "$HOME/.cache/databricks-token" ]]; then
-        token=$(cat "$HOME/.cache/databricks-token")
-    fi
-    if [[ -n "$token" ]]; then
-        export DATABRICKS_TOKEN="$token"
-        if [[ "$OSTYPE" == darwin* ]]; then
-            launchctl setenv DATABRICKS_TOKEN "$token"
-        fi
-        echo "$HOME/.cache/databricks-token" > /dev/null  # touch for freshness check
-        echo "Databricks token refreshed (expires in ~1 hour)"
-    else
-        echo "Failed to get Databricks token. Run: databricks auth login --profile ordermentum" >&2
+# Clear stale Databricks MCP OAuth credentials from OpenCode's auth store.
+# Workaround for https://github.com/anomalyco/opencode/issues/13998
+# After running this, do: opencode mcp auth databricks-sql
+databricks-mcp-reset() {
+    local auth_file="$HOME/.local/share/opencode/mcp-auth.json"
+    if [[ ! -f "$auth_file" ]]; then
+        echo "No auth file found at $auth_file"
         return 1
     fi
+    python3 -c "
+import json, sys
+with open('$auth_file') as f:
+    data = json.load(f)
+removed = []
+for key in list(data):
+    if 'databricks' in key:
+        del data[key]
+        removed.append(key)
+if removed:
+    with open('$auth_file', 'w') as f:
+        json.dump(data, f, indent=2)
+    print(f'Cleared: {', '.join(removed)}')
+    print('Now run: opencode mcp auth databricks-sql')
+    print('Then:    opencode mcp auth databricks-uc-functions')
+else:
+    print('No databricks entries found')
+"
 }
 
 # Kill all running opencode instances
