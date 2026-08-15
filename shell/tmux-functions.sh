@@ -49,7 +49,7 @@ tl() {
 }
 
 # Rename current tmux session
-tr() {
+tmr() {
   if [ -n "$TMUX" ]; then
     tmux rename-session "$1"
   else
