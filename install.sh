@@ -134,22 +134,15 @@ link_darwin nu/aliases.nu   ~/Library/Application\ Support/nushell/aliases.nu
 link_darwin nu/scripts      ~/Library/Application\ Support/nushell/scripts
 link_darwin nu/vendor       ~/Library/Application\ Support/nushell/vendor
 
-# Ordermentum workspace — symlink opencode config into each repo's .opencode/ dir.
-# OM repos are shared with the team so we don't commit .opencode/opencode.json there.
-# Personal repos (lab, walden, sh) commit their configs directly.
-if [[ "$OS" == "Darwin" ]]; then
-    OM_DIR="$HOME/Developer/ordermentum"
+# Work-specific dotfiles (private repo)
+# If dotfiles-work is cloned, run its install script and source work overrides
+WORK_DIR="$HOME/.dotfiles-work"
+if [[ -d "$WORK_DIR" ]]; then
+    info "Found dotfiles-work, running work install..."
+    bash "$WORK_DIR/install.sh"
 else
-    OM_DIR="$HOME/projects/ordermentum"
-fi
-
-if [[ -d "$OM_DIR" ]]; then
-    info "Symlinking OM opencode.json into repos..."
-    for repo in "$OM_DIR"/*/; do
-        if [[ -d "$repo/.git" || -d "$repo/.jj" ]]; then
-            link opencode/om_opencode.json "$repo/.opencode/opencode.json"
-        fi
-    done
+    info "No dotfiles-work found (optional). Clone with:"
+    info "  git clone git@github.com:mitchelljphayes/dotfiles-work.git ~/.dotfiles-work"
 fi
 
 # LaunchAgents (macOS)

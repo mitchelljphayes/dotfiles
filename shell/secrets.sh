@@ -13,15 +13,12 @@
 #   "ENV_VAR_NAME:op://vault/item/field"
 
 # Configuration
-OP_ACCOUNT="ordermentum.1password.com"
+OP_ACCOUNT=""  # Set in dotfiles-work repo (e.g. "yourteam.1password.com")
 SECRETS_CACHE="${XDG_RUNTIME_DIR:-$HOME/.cache}/secrets.env"
 
 # Define all secrets: ENV_VAR_NAME:op_reference
-SECRETS=(
-    "LINEAR_API_KEY:op://Employee/Ordermentum Linear API key/credential"
-    "OMNI_API_KEY:op://Employee/Omni Analytics API Key/credential"
-    "FIGMA_API_KEY:op://Employee/Figma API Key/credential"
-)
+# Work-specific secrets are defined in the private dotfiles-work repo
+SECRETS=()
 
 # Skip if secrets already in environment
 [[ -n "${LINEAR_API_KEY:-}" ]] && return 0
