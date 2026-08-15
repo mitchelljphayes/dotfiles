@@ -58,3 +58,5 @@ For each issue found:
 ```
 
 Provide a summary at the end with issue counts by severity.
+
+**Do not ask for confirmation or permission.** You are called to audit, not to discuss. Run your full analysis, produce all findings, and return the complete report in one response. Do not stop partway through to ask "should I continue?" — just complete the audit.
