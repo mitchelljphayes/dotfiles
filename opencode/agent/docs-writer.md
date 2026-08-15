@@ -1,7 +1,7 @@
 ---
 description: Technical documentation writer for clear, comprehensive docs
 mode: subagent
-model: opencode-go/qwen3.6-plus
+model: ollama/glm-5.2:cloud
 temperature: 0.3
 tools:
   write: true

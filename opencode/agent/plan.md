@@ -1,7 +1,7 @@
 ---
 description: Strategic architect synthesizing research into phased implementation plans
 mode: subagent
-model: ollama/deepseek-v4-pro:cloud
+model: ollama/glm-5.2:cloud
 tools:
   read: true
   write: true
