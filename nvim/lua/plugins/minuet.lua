@@ -33,7 +33,7 @@ return {
           end_point = "http://localhost:11434/v1/chat/completions",
           api_key = "TERM",
           name = "Ollama Cloud",
-          model = "deepseek-v4-flash:cloud",
+          model = "glm-5.2:cloud",
           stream = true,
           optional = {
             max_tokens = 256,
