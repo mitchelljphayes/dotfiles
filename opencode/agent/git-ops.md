@@ -1,7 +1,7 @@
 ---
 description: Git operations expert for commits, branches, and troubleshooting
 mode: subagent
-model: ollama/minimax-m2.7:cloud
+model: ollama/minimax-m3:cloud
 temperature: 0.2
 tools:
   write: false

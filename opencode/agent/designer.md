@@ -1,7 +1,7 @@
 ---
 description: Design and implement frontend - UI/UX, components, visual review with vision
 mode: primary
-model: ollama/kimi-k2.7-code:cloud
+model: ollama/kimi-k3:cloud
 tools:
   task: true
   read: true

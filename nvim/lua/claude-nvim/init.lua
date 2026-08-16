@@ -4,7 +4,7 @@ local M = {}
 -- Default configuration
 M.config = {
   api_key = os.getenv("ANTHROPIC_API_KEY"),
-  model = "claude-3-5-sonnet-20250514", -- Claude Sonnet 4
+  model = "claude-sonnet-4-6-20250801", -- Claude Sonnet 4.6
   max_tokens = 4096,
   temperature = 0,
   system_prompt = "You are a helpful coding assistant integrated into Neovim. Be concise and code-focused.",

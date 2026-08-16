@@ -1,7 +1,7 @@
 ---
 description: Analyzes test failures and suggests fixes
 mode: subagent
-model: ollama/glm-5.2:cloud
+model: ollama/kimi-k3:cloud
 temperature: 0.1
 tools:
   write: false
