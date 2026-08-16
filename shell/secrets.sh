@@ -13,12 +13,14 @@
 #   "ENV_VAR_NAME:op://vault/item/field"
 
 # Configuration
-OP_ACCOUNT=""  # Set in dotfiles-work repo (e.g. "yourteam.1password.com")
+OP_ACCOUNT="my.1password.com"  # Personal account; override in dotfiles-work for work account
 SECRETS_CACHE="${XDG_RUNTIME_DIR:-$HOME/.cache}/secrets.env"
 
 # Define all secrets: ENV_VAR_NAME:op_reference
 # Work-specific secrets are defined in the private dotfiles-work repo
-SECRETS=()
+SECRETS=(
+    "OPENAI_API_KEY:op://Code/OpenAI/credential"
+)
 
 # Skip if secrets already in environment
 [[ -n "${LINEAR_API_KEY:-}" ]] && return 0
