@@ -1,7 +1,7 @@
 ---
 description: Build and implement - handles code changes directly or via ACE workflow
 mode: primary
-model: ollama/kimi-k2.6:cloud
+model: openai/gpt-5.6-sol
 tools:
   task: true
   read: true
@@ -130,10 +130,10 @@ GOOD: Delegate to explore agent: "Find all .md files, summarize each
 |-------|-------|---------|
 | `code-research` | glm-5.2 (Ollama) | Answers questions about existing codebase |
 | `best-practices` | glm-5.2 (Ollama) | Answers questions about standards, docs, patterns |
-| `plan` | glm-5.2 (Ollama) | Synthesizes both research docs into implementation plan |
-| `build` | glm-5.2 (Ollama) | Executes the plan phase by phase |
-| `test-runner` | glm-5.2 (Ollama) | Runs test/lint suites, produces compact summary |
-| `review` | glm-5.2 (Ollama) | Code review, quality checks |
+| `plan` | K3 (Ollama) | Synthesizes both research docs into implementation plan |
+| `build` | GLM 5.2 (Ollama) | Executes the plan phase by phase |
+| `test-runner` | GLM 5.2 (Ollama) | Runs test/lint suites, produces compact summary |
+| `review` | K3 (Ollama) | Code review, quality checks |
 
 ### Specialist agents:
 | Agent | Model | Use For |
@@ -142,9 +142,9 @@ GOOD: Delegate to explore agent: "Find all .md files, summarize each
 | `general` | (built-in) | Multi-step research tasks |
 | `docs-writer` | glm-5.2 (Ollama) | Writing documentation |
 | `security-auditor` | gpt-5.6-sol (OpenAI) | Security review (premium) |
-| `test-analyzer` | glm-5.2 (Ollama) | Diagnosing test failures |
-| `dbt-expert` | glm-5.2 (Ollama) | dbt/SQL model review |
-| `git-ops` | minimax-m2.7 (Ollama) | Git operations, commits |
+| `test-analyzer` | K3 (Ollama) | Diagnosing test failures |
+| `dbt-expert` | GLM 5.2 (Ollama) | dbt/SQL model review |
+| `git-ops` | MiniMax M3 (Ollama) | Git operations, commits |
 | `consult` | gpt-5.6-sol (OpenAI) | High-stakes architecture/approach decisions |
 
 ## Workflow Commands
