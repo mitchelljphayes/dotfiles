@@ -19,7 +19,7 @@ SECRETS_CACHE="${XDG_RUNTIME_DIR:-$HOME/.cache}/secrets.env"
 # Define all secrets: ENV_VAR_NAME:op_reference
 # Work-specific secrets are defined in the private dotfiles-work repo
 SECRETS=(
-    "OPENAI_API_KEY:op://Code/OpenAI/credential"
+    "OPENAI_API_KEY:op://Code/OpenAI - Mitch - Local Machine/credential"
 )
 
 # Skip if secrets already in environment
