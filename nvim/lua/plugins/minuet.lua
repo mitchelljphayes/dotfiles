@@ -53,31 +53,8 @@ return {
       notify = "warn",
     })
 
-    -- Custom Tab handler: when no Minuet suggestion visible, use normal Tab
-    vim.keymap.set("i", "<Tab>", function()
-      local vt = require("minuet.virtualtext")
-      if vt.is_visible() then
-        vt.accept_line()
-      else
-        return vim.api.nvim_feedkeys(
-          vim.api.nvim_replace_termcodes("<Tab>", true, false, true),
-          "n",
-          false
-        )
-      end
-    end, { desc = "Accept Minuet line or normal Tab" })
-
-    vim.keymap.set("i", "<S-Tab>", function()
-      local vt = require("minuet.virtualtext")
-      if vt.is_visible() then
-        vt.accept()
-      else
-        return vim.api.nvim_feedkeys(
-          vim.api.nvim_replace_termcodes("<S-Tab>", true, false, true),
-          "n",
-          false
-        )
-      end
-    end, { desc = "Accept full Minuet suggestion" })
+    -- NOTE: Minuet handles its own keymaps internally via virtualtext.keymap config above.
+    -- Do NOT set custom <Tab>/<S-Tab> keymaps here — they shadow Minuet's built-in handlers
+    -- and break completion acceptance. The keymap table in setup() is the correct place to configure.
   end,
 }
