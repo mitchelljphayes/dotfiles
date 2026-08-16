@@ -43,7 +43,7 @@ return {
       },
 
       -- Performance tuning
-      request_timeout = 3,
+      request_timeout = 10,
       throttle = 1000,
       debounce = 400,
       context_window = 16000,
@@ -51,6 +51,10 @@ return {
 
       -- Don't notify on every request
       notify = "warn",
+
+      cmp = {
+        enable_auto_complete = true,
+      },
     })
 
     -- NOTE: Minuet handles its own keymaps internally via virtualtext.keymap config above.
