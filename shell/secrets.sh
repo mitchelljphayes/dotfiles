@@ -22,8 +22,8 @@ SECRETS=(
     "OPENAI_API_KEY:op://Code/OpenAI - Mitch - Local Machine/credential"
 )
 
-# Skip if secrets already in environment
-[[ -n "${LINEAR_API_KEY:-}" ]] && return 0
+# Skip if secrets already loaded in this shell session
+[[ -n "${DOTFILES_SECRETS_LOADED:-}" ]] && return 0
 
 # Find op binary
 _find_op() {
@@ -104,3 +104,6 @@ _secrets_from_1password() {
 
 # Main: try cache first, fall back to 1Password
 _secrets_from_cache || _secrets_from_1password
+
+# Mark secrets as loaded for this session
+export DOTFILES_SECRETS_LOADED=1
