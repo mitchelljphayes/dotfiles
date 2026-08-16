@@ -12,12 +12,9 @@ return {
         auto_trigger_ft = { "*" },
         auto_trigger_ignore_ft = { "env", "yaml", "markdown", "gitcommit", "NeogitCommitMessage" },
         keymap = {
-          -- Matches old Copilot setup:
-          -- Shift-Tab = accept full suggestion
-          accept = "<S-Tab>",
-          -- Tab = accept one line (closest to old accept_word behavior)
-          accept_line = "<Tab>",
-          -- Cycle suggestions
+          -- Disable minuet's built-in keymaps; we handle Tab/S-Tab ourselves
+          accept = nil,
+          accept_line = nil,
           next = "<M-]>",
           prev = "<M-[>",
           dismiss = "<C-]>",
@@ -34,7 +31,7 @@ return {
           api_key = "TERM",
           name = "Ollama Cloud",
           model = "glm-5.2:cloud",
-          stream = true,
+          stream = false, -- GLM 5.2 puts completions in reasoning field when streaming; use non-streaming
           optional = {
             max_tokens = 256,
             temperature = 0.2,
