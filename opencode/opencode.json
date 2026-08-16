@@ -3,7 +3,7 @@
   "snapshot": false,
   "autoupdate": true,
   "small_model": "ollama/minimax-m3:cloud",
-  "plugin": ["@ex-machina/opencode-anthropic-auth"],
+  "plugin": [],
   "permission": {
     "websearch": "allow",
     "bash": {

@@ -26,13 +26,13 @@ return {
         show_on_completion_menu = false,
       },
 
-      -- Claude Haiku for fast, cheap completions
-      provider = "claude",
+      -- GPT for completions
+      provider = "openai",
       provider_options = {
-        claude = {
-          model = "claude-haiku-4.6",
+        openai = {
+          model = "gpt-5.6-sol",
           max_tokens = 256,
-          api_key = "ANTHROPIC_API_KEY",
+          api_key = "OPENAI_API_KEY",
           stream = true,
         },
       },

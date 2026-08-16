@@ -1,4 +1,7 @@
 -- claude-nvim: A Neovim plugin for Claude AI integration
+-- NOTE: This plugin is Claude-specific. To use GPT, it needs to be
+-- rewritten to support OpenAI's API format, or replaced with a
+-- provider-agnostic alternative (e.g. minuet with openai provider).
 local M = {}
 
 -- Default configuration
