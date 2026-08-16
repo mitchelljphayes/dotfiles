@@ -26,14 +26,19 @@ return {
         show_on_completion_menu = false,
       },
 
-      -- GPT for completions
-      provider = "openai",
+      -- Ollama Cloud for completions
+      provider = "openai_compatible",
       provider_options = {
-        openai = {
-          model = "gpt-5.6-sol",
-          max_tokens = 256,
-          api_key = "OPENAI_API_KEY",
+        openai_compatible = {
+          end_point = "http://localhost:11434/v1/chat/completions",
+          api_key = "TERM",
+          name = "Ollama Cloud",
+          model = "deepseek-v4-flash:cloud",
           stream = true,
+          optional = {
+            max_tokens = 256,
+            temperature = 0.2,
+          },
         },
       },
 
