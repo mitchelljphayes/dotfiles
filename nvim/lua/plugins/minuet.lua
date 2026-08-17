@@ -30,8 +30,8 @@ return {
           end_point = "http://localhost:11434/v1/chat/completions",
           api_key = "TERM",
           name = "Ollama Cloud",
-          model = "glm-5.2:cloud",
-          stream = false, -- GLM 5.2 puts completions in reasoning field when streaming; use non-streaming
+          model = "qwen2.5-coder:7b",
+          stream = true,
           optional = {
             max_tokens = 256,
             temperature = 0.2,
