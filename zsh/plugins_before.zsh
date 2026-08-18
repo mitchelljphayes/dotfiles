@@ -7,8 +7,9 @@ fpath=(~/.zsh/plugins/zsh-completions/src $fpath)
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 # . /opt/homebrew/opt/asdf/libexec/asdf.sh
 
-
-source ~/.orbstack/shell/init.zsh 2>/dev/null || :
+# OrbStack init is sourced once from zprofile (login-once). Interactive
+# non-login children inherit ~/.orbstack/bin via the parent PATH, and
+# shell/path.sh's path_dedup cleans any inherited duplicates.
 
 # fnm (Fast Node Manager)
 if command -v fnm &> /dev/null; then
