@@ -12,6 +12,15 @@ path_prepend() {
     PATH="$1${PATH:+":$PATH"}"
 }
 
+# Strip every duplicate PATH entry, keeping the first occurrence (POSIX-sh).
+# Preserves first-occurrence ordering and skips empty segments. Safe under
+# bash and zsh; no zsh-isms (no `typeset -U`, no `path` array).
+path_dedup() {
+    PATH=$(printf '%s' "$PATH" \
+        | awk -v RS=: -v ORS=: '$0 != "" && !seen[$0]++' \
+        | sed 's/:$//')
+}
+
 here() {
     local loc
     if [ "$#" -eq 1 ]; then
