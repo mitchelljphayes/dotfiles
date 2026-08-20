@@ -110,10 +110,15 @@ link yarnrc         ~/.yarnrc
 link kaggle         ~/.kaggle
 link Brewfile        ~/.Brewfile
 link ruff.toml      ~/.config/ruff/ruff.toml
+# Cargo (Rust): sccache wrapper + bounded cache + lean debuginfo profiles.
+# sccache must be installed (via `./install.sh --packages`) for builds to work
+# once rustc-wrapper is active — see cargo/config.toml header for details.
+link cargo/config.toml ~/.cargo/config.toml
 link CLAUDE.md              ~/.claude/CLAUDE.md
 link claude/settings.json  ~/.claude/settings.json
 link claude/commands        ~/.claude/commands
 link claude/agents          ~/.claude/agents
+link claude/output-styles   ~/.claude/output-styles
 link agents                 ~/.agents
 link Claude                 ~/.config/Claude
 
