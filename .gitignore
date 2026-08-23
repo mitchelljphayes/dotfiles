@@ -39,6 +39,7 @@ opencode/*.bak
 opencode/tui.json
 opencode/antigravity.json
 OPENCODE_CONFIG_CONTENT
+.opencode/sessions/
 
 # Python
 .venv/

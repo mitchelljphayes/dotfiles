@@ -152,6 +152,9 @@ fi
 
 # LaunchAgents (macOS)
 link_darwin launchagents/com.mjp.theme-monitor.plist ~/Library/LaunchAgents/com.mjp.theme-monitor.plist
+# cargo-sweep daily cleanup (03:00). install.sh links the plist only; loading
+# is manual per repo convention: `launchctl load ~/Library/LaunchAgents/com.mjp.cargo-sweep.plist`
+link_darwin launchagents/com.mjp.cargo-sweep.plist ~/Library/LaunchAgents/com.mjp.cargo-sweep.plist
 
 # Linux-specific (add as needed)
 # link_linux nu/config.nu   ~/.config/nushell/config.nu

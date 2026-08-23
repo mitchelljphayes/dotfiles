@@ -1,0 +1,60 @@
+# Global Cargo configuration
+#
+# Symlinked to ~/.cargo/config.toml by install.sh. Project-level Cargo.toml
+# profiles override these global defaults (Cargo merges config.toml upward:
+# project > user ($CARGO_HOME/config.toml) > install).
+#
+# Requirements for this config to work:
+#   - sccache must be installed and on PATH before `rustc-wrapper` is effective.
+#     Install via: ./install.sh --packages  (Brewfile: `brew "sccache"`)
+#     If sccache is missing, EVERY cargo build breaks. Remove the
+#     `rustc-wrapper` line below (or uninstall this config) to restore builds.
+#
+# No global CARGO_TARGET_DIR is set here: per-project target/ dirs are kept to
+# avoid lock contention / artifact corruption under concurrent builds and to
+# keep `cargo clean` blast radius local. Cross-project compile reuse comes
+# from sccache (content-addressed, safe under concurrency), not a shared
+# target dir.
+
+[build]
+# Wrap rustc with sccache for content-addressed compilation caching.
+# sccache is installed via the Brewfile (`brew "sccache"`); see the note above
+# if it is ever missing.
+rustc-wrapper = "sccache"
+
+# Incremental compilation is intentionally LEFT UNSET here so the profile
+# default (true for `dev`) applies. Disabling it globally would kill the
+# interactive edit-rebuild loop for negligible sccache gain (sccache cannot
+# cache incremental crates anyway, but workspace-member incremental is what
+# makes `cargo check` fast after a one-line change).
+
+[env]
+# Bound the sccache on-disk cache to 5 GB (default is 10 GB). Halved given disk
+# pressure; a 5 GB LRU captures the bulk of repeated dependency compiles.
+# sccache reads this at server start; run `sccache --stop-server` then rebuild
+# to apply a change to an already-running server.
+SCCACHE_CACHE_SIZE = "5G"
+# SCCACHE_DIR is intentionally unset: use the macOS default
+# ~/Library/Caches/Mozilla.sccache. Set it here only to relocate the cache
+# (e.g. to a larger/external volume).
+
+# ── Profiles ─────────────────────────────────────────────────────────────────
+# Slim `target/debug/` without losing useful backtraces:
+#   - workspace members emit line-tables only (file:line in panic backtraces)
+#   - dependencies emit NO debuginfo (the biggest `target/` bloat source)
+# Opt into full debug via `cargo build --profile debugging` when a debugger
+# needs variables/types/stepping (requires a full rebuild to switch).
+#
+# NOTE: `[profile.dev.package."*"]` (all deps) — do NOT use `[""]` (root only).
+
+[profile.dev]
+debug = "line-tables-only"
+
+[profile.dev.package."*"]
+debug = false
+
+# Opt-in escape hatch: full debuginfo for everything.
+#   cargo build --profile debugging
+[profile.debugging]
+inherits = "dev"
+debug = true
