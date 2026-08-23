@@ -38,6 +38,10 @@ brew "python-lsp-server"      # Python LSP
 brew "r"                      # R language
 brew "rust"                   # Rust language
 brew "rust-analyzer"          # Rust LSP
+brew "sccache"                # Shared compilation cache (rustc-wrapper in ~/.cargo/config.toml)
+# cargo-sweep is NOT a brew formula; installed via cargo and pinned to 0.8.0:
+#   cargo install --locked --version 0.8.0 cargo-sweep
+# (unmaintained upstream; do not auto-upgrade. See scripts/cargo-sweep.sh)
 
 # Python Tools
 brew "ipython"                # Interactive Python
