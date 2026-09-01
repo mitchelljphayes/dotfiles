@@ -155,6 +155,18 @@ link_darwin launchagents/com.mjp.theme-monitor.plist ~/Library/LaunchAgents/com.
 # cargo-sweep daily cleanup (03:00). install.sh links the plist only; loading
 # is manual per repo convention: `launchctl load ~/Library/LaunchAgents/com.mjp.cargo-sweep.plist`
 link_darwin launchagents/com.mjp.cargo-sweep.plist ~/Library/LaunchAgents/com.mjp.cargo-sweep.plist
+# Switcheroo LaunchAgent (KeepAlive service). install.sh links the plist and
+# reloads the job so a re-install takes effect immediately. All launchctl
+# calls are guarded so install.sh stays idempotent on machines without the
+# binary or where Switcheroo is not yet set up.
+link_darwin launchagents/com.local.switcheroo.plist ~/Library/LaunchAgents/com.local.switcheroo.plist
+if [[ "$OS" == "Darwin" && -e "$HOME/Library/LaunchAgents/com.local.switcheroo.plist" ]]; then
+    # Load the plist if not already loaded; bootstrap is a no-op if loaded.
+    launchctl bootstrap gui/$(id -u) "$HOME/Library/LaunchAgents/com.local.switcheroo.plist" 2>/dev/null || true
+    # Force-restart from the (possibly updated) plist: SIGTERM (graceful hidutil
+    # cleanup) then respawn. Safe whether or not the job was running.
+    launchctl kickstart -k gui/$(id -u)/com.local.switcheroo 2>/dev/null || true
+fi
 
 # Linux-specific (add as needed)
 # link_linux nu/config.nu   ~/.config/nushell/config.nu
