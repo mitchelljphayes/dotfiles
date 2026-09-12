@@ -114,7 +114,10 @@ link ruff.toml      ~/.config/ruff/ruff.toml
 # sccache must be installed (via `./install.sh --packages`) for builds to work
 # once rustc-wrapper is active — see cargo/config.toml header for details.
 link cargo/config.toml ~/.cargo/config.toml
-link CLAUDE.md              ~/.claude/CLAUDE.md
+# Shared agent instructions and Codex configuration (runtime data stays local).
+link AGENTS.md              ~/.claude/CLAUDE.md
+link AGENTS.md              ~/.codex/AGENTS.md
+link codex/config.toml      ~/.codex/config.toml
 link claude/settings.json  ~/.claude/settings.json
 link claude/commands        ~/.claude/commands
 link claude/agents          ~/.claude/agents
