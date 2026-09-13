@@ -2,29 +2,41 @@
 
 This directory contains the orchestration system for Advanced Context Engineering (ACE) based on Dex Horthy's "Frequent Intentional Compaction" workflow principles.
 
-> **TL;DR**: Use `/feature`, `/bug`, `/refactor`, or `/explore` to start a structured workflow with research, planning, and implementation phases.
+> **TL;DR**: The default agent is **Builder** — direct end-to-end implementation (inspect → edit → test → report). For structured ceremony (research → plan → build → review with checkpoints), switch to **Pipeline** via `/agent pipeline` or the pipeline commands (`/feature`, `/bug`, `/refactor`, `/plan`, `/pickup`, `/resume`, `/compact`).
+
+## Primary Agents
+
+| Agent | Model | When to use |
+|-------|-------|-------------|
+| **Builder** (default) | GPT-5.6 Sol | Direct end-to-end implementation. Understands the request, inspects/reads/searches directly, implements, runs tests/lint/typecheck, fixes introduced failures, reports. Scales planning to uncertainty/risk. Delegates only bounded work that materially improves quality or time. No stage approvals. |
+| **Pipeline** | GPT-5.6 Sol | Structured orchestration with research, planning, build, and review phases, session artifacts, and human checkpoints after plan and PR. Use for complex or unfamiliar work that benefits from ceremony. Opt-in. |
+| **Planner** | GLM 5.2 | Product thinking: PRDs, specs, Linear tickets, brainstorming, feature discovery. Does not implement. |
+
+Builder is the default (`default_agent: "builder"` in `opencode.json`). Pipeline is opt-in. The two share the same model and tool surface; they differ in workflow ceremony, not capability.
 
 ## Quick Start
 
-### For New Features
+Builder is the default — just describe what you want built:
+
+```
+Add a dark mode toggle to the settings page
+```
+
+For structured ceremony (research → plan → build → review with checkpoints), use the opt-in pipeline commands:
+
+### Pipeline commands (opt-in)
 ```bash
 /feature "add dark mode toggle to settings"
-```
-
-### For Bug Fixes
-```bash
 /bug "login fails for gmail users with + in address"
-```
-
-### For Refactoring
-```bash
 /refactor "extract authentication module from monolith"
+/pickup WAL-142
 ```
 
-### For Understanding Code
-```bash
-/explore "how does the payment processing system work"
+### Understanding code (Builder)
 ```
+Explain how the payment processing system works
+```
+or `/explore "how does the payment processing system work"` (also Builder)
 
 ## How It Works
 
@@ -38,36 +50,34 @@ This directory contains the orchestration system for Advanced Context Engineerin
 
 ```
 ┌─────────────────────────────────────────┐
-│    Your Semantic Command                │
-│    (/feature, /bug, /refactor, /explore)│
+│    Your Semantic Command (opt-in)       │
+│    (/feature, /bug, /refactor, /pickup) │
 └──────────────────┬──────────────────────┘
                    │
                    ▼
           ┌─────────────────┐
-          │ ORCHESTRATE     │ (Opus 4.5)
-          │ (Project Mgr)   │ Coordinates workflow
+          │ PIPELINE         │ (orchestrator)
+          │ (GPT-5.6 Sol)    │ Coordinates workflow
           └────────┬────────┘
                    │
-         ┌─────────┴──────────┬──────────────┐
-         │                    │              │
-         ▼                    ▼              ▼
-    ┌─────────┐          ┌────────┐     ┌──────┐
-    │RESEARCH │          │ PLAN   │     │BUILD │
-    │Sonnet   │(Checkpoint)│Opus   │(Phases)│Sonnet│
-    │4.5      │          │4.5     │     │4.5   │
-    └────┬────┘          └────┬───┘     └──┬───┘
-         │ ✅ Approved       │ ✅ Approved │
-         └──────────────────┴─────────────┴─────────┐
+          ┌─────────┴──────────┬──────────────┐
+          │                    │              │
+          ▼                    ▼              ▼
+     ┌─────────┐          ┌────────┐     ┌──────┐
+     │RESEARCH │          │ PLAN   │     │BUILD │
+     │         │Checkpoint│        │Phases│
+     └────┬────┘          └────┬───┘     └──┬───┘
+          │ ✅ Approved       │ ✅ Approved │
+          └──────────────────┴─────────────┴─────────┐
+                                                     │
+                                                     ▼
+                                               ┌──────────┐
+                                               │ REVIEW   │
+                                               └────┬─────┘
                                                     │
-                                                    ▼
-                                              ┌──────────┐
-                                              │ REVIEW   │
-                                              │(Sonnet)  │
-                                              └────┬─────┘
-                                                   │
-                                     ┌─────────────┼─────────────┐
-                                     │             │             │
-                                   [test]      [commit]       [pr]
+                                      ┌─────────────┼─────────────┐
+                                      │             │             │
+                                    [test]      [commit]       [pr]
 ```
 
 ## Artifacts
@@ -77,34 +87,37 @@ Each workflow creates a session directory: `.opencode/sessions/<YYYY-MM-DD_HH-MM
 ### Files Created
 
 - **metadata.json**: Workflow state, phase tracking, checkpoint history
-- **research.md**: Codebase exploration findings
+- **code-research.md**: Codebase exploration findings
+- **best-practices.md**: Standards and patterns research
 - **plan.md**: Implementation strategy and phases
 - **build-log.md**: Build progress, errors, and context compactions
+- **test-results.md**: Test/lint summary
 - **review.md**: Quality review findings
 
 These are **structured documents** that become the source of truth for your project, not throwaway chat logs.
 
 ## Modes & Models
 
-### Modes
+### Modes (Pipeline phases)
+These phases apply to the Pipeline agent's structured workflow. Builder implements directly without these stage boundaries.
 
 | Mode | Model | Purpose | Cost |
 |------|-------|---------|------|
-| orchestrate | Opus 4.5 | Coordinate workflows | High |
-| research | Sonnet 4.5 | Explore codebase | Medium |
-| plan | Opus 4.5 | Design implementation | High |
-| build | Sonnet 4.5 | Execute phases | Medium |
-| review | Sonnet 4.5 | Verify quality | Medium |
+| orchestrate | GPT-5.6 Sol | Coordinate workflow (Pipeline) | High |
+| research | GLM 5.2 | Explore codebase | Medium |
+| plan | Kimi K3 | Design implementation | Medium |
+| build | GLM 5.2 | Execute phases | Medium |
+| review | Kimi K3 | Verify quality | Medium |
 
 ### Subagents
 
 | Agent | Model | Purpose |
 |-------|-------|---------|
-| explore | Haiku 4.5 | Fast file/pattern discovery |
-| git-ops | Sonnet 4.5 | Git operations, commits |
-| security-auditor | Sonnet 4.5 | Security analysis |
-| dbt-expert | Sonnet 4.5 | dbt project reviews |
-| test-analyzer | Sonnet 4.5 | Test failure diagnosis |
+| explore | GLM 5.2 | Fast file/pattern discovery |
+| git-ops | MiniMax M3 | Git operations, commits |
+| security-auditor | GPT-5.6 Sol | Security analysis |
+| dbt-expert | GLM 5.2 | dbt project reviews |
+| test-analyzer | Kimi K3 | Test failure diagnosis |
 
 ## Command Reference
 
@@ -146,7 +159,7 @@ These are **structured documents** that become the source of truth for your proj
 **Timeline**: 3-10 minutes
 - Comprehensive research only
 - No planning, no implementation
-- Just output research.md for reference
+- Builder summarizes findings directly
 
 ### Context Compaction
 ```bash
@@ -156,53 +169,35 @@ Save current workflow state mid-phase when context is getting full (>60%).
 
 ## Human Checkpoints
 
-The system pauses at critical decision points for your approval:
+The Pipeline pauses at two checkpoints only. Everything between them runs autonomously.
 
-### Research Checkpoint (After `/feature`, `/bug`, `/refactor`)
-```
-Research findings saved to: .opencode/sessions/<task>/research.md
-[Continue] [Provide feedback] [Abort]
-```
-**Your job**: Verify the research is accurate and complete
-
-### Plan Checkpoint (After `/feature`, `/bug`, `/refactor`)
+### Plan Checkpoint (After `/feature`, `/bug`, `/refactor`, `/pickup`)
 ```
 Implementation plan saved to: .opencode/sessions/<task>/plan.md
-[Continue] [Revise plan] [Abort]
+[continue] [revise plan] [abort]
 ```
-**Your job**: Approve the approach or suggest changes
+**Your job**: Approve the approach or suggest changes before build begins.
 
-### Build Phase Checkpoint (On failure)
+### Final Checkpoint (after build, test, review, commit/PR)
 ```
-Build failed with:
-[test failures]
-[Retry automatically] [Debug] [Abort]
+PR is open (if requested), summarize what shipped
+[done] [follow-up]
 ```
-**Your job**: Decide if auto-fix should retry or if human intervention needed
+**Your job**: Confirm what shipped or request follow-up.
 
-### Review Checkpoint (After `/feature`, `/bug`, `/refactor`)
-```
-Review complete: .opencode/sessions/<task>/review.md
-[Run tests] [Commit] [Create PR] [All] [Manual]
-```
-**Your job**: Choose next steps or review manually
+`/plan` is a plan-only command with a single checkpoint: the plan presentation (`[build] [revise] [done]`). Builder has no checkpoints.
 
 ## Integration with Git
 
-After any workflow completes:
+After any workflow, or directly with Builder:
 
 ```bash
-# Run tests
-/test
-
-# Create a commit
-/commit
-
-# Create a pull request
-/pr
+/test    # run tests and fix failures (Builder)
+/commit  # create a commit (Builder)
+/pr      # create a pull request (Builder)
 ```
 
-These commands integrate with the session and reference the research/plan docs.
+These are Builder commands. `/commit` waits for your approval before committing.
 
 ## Key Concepts
 
@@ -220,9 +215,8 @@ Don't wait for context to fill. Instead:
 
 - **Low leverage**: Reviewing 2000 lines of generated code
 - **High leverage**: Reviewing 200 lines of implementation plan
-- **High leverage**: Reviewing research findings before planning
 
-The system forces human review at high-leverage points (research, plan) not low-leverage points (code).
+The system puts human review at the high-leverage point — the plan, before build begins — and a final summary after the PR, not at low-leverage points (code).
 
 ### Context Budget
 
@@ -241,23 +235,25 @@ Each session creates permanent artifacts that:
 
 ## Architecture
 
-### Orchestrator Mode
-The "project manager" coordinating the workflow. It:
+### Orchestrator Mode (Pipeline)
+The Pipeline agent coordinates the structured workflow. It:
 - Routes requests to appropriate modes
 - Manages session artifacts
 - Implements checkpoint logic
 - Handles context compaction
+
+Builder, the default agent, skips this ceremony and implements directly end-to-end.
 
 ### Research Mode
 Deep codebase exploration using subagents for efficient discovery. It:
 - Uses Explore subagent for fast file discovery
 - Reads key files to understand architecture
 - Maps patterns and conventions
-- Produces research.md
+- Produces code-research.md
 
 ### Plan Mode
 Strategic architecture and implementation planning. It:
-- Reads research.md as input
+- Reads code-research.md and best-practices.md as input
 - Designs phase-based approach
 - Documents rollback strategy
 - Produces plan.md (200-400 lines)
@@ -280,31 +276,30 @@ Quality verification and specialized audits. It:
 
 ### ✅ DO
 
-- Use semantic commands (`/feature`, `/bug`, etc.) not generic chat
-- Let research/plan checkpoints catch misunderstandings early
+- Use semantic commands (`/feature`, `/bug`, etc.) for structured work, or plain prompts for Builder
+- Review the plan at the plan checkpoint before build begins
 - Compact context proactively when approaching 60%
-- Keep research/plan artifacts for future reference
+- Keep session artifacts for future reference
 - Run tests immediately after workflow
-- Use `/explore` to understand unfamiliar code before fixing it
+- Use `/explore` (Builder) to understand unfamiliar code before fixing it
 
 ### ❌ DON'T
 
-- Ignore checkpoints - review research and plans carefully
+- Ignore the plan checkpoint — review the plan carefully before build
 - Let context exceed 70% - compact proactively
 - Skip tests before committing
 - Delete session artifacts - they're documentation
-- Use generic modes when semantic commands are available
 - Trust build phase if research was rushed
 
 ## Troubleshooting
 
 ### Research seems incomplete
-→ Provide feedback at checkpoint and restart
-→ Or use `/compact` and restart research phase
+→ Provide feedback at the plan checkpoint and revise
+→ Or use `/compact` and restart the research phase
 
 ### Plan disagrees with my expectations
-→ Don't approve - provide feedback
-→ Orchestrator will create new plan based on your input
+→ Don't approve — request revisions
+→ Pipeline will create a new plan based on your input
 
 ### Build keeps failing at same place
 → After 2 auto-retries, research the error
@@ -313,16 +308,11 @@ Quality verification and specialized audits. It:
 
 ### Need to understand code quickly
 → Use `/explore "what does X do"` instead of full `/feature`
-→ It gives you research.md without planning/implementing
+→ It gives you research findings without planning/implementing
 
 ## Cost
 
-Monthly cost depends on usage:
-- **Light** (1-2 features/week): ~$40/month
-- **Medium** (5-10 features/week): ~$120/month  
-- **Heavy** (20+ features/week): ~$300-400/month
-
-Costs are for Opus (orchestrate, plan) + Sonnet (research, build, review) models. Haiku subagent exploration is negligible.
+Monthly cost depends on usage and the configured providers/models in `opencode.json`. Pipeline orchestration and planning use the high-cost model; research, build, and review use mid-cost models; Builder uses the high-cost model directly. See the agents' `model:` frontmatter for the exact assignments.
 
 ## Philosophy
 

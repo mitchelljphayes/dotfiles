@@ -1,6 +1,6 @@
 ---
 description: Fix a bug (focused research → plan → fix → verify)
-agent: builder
+agent: pipeline
 ---
 
 ## Bug Fix Workflow
@@ -16,17 +16,13 @@ Execute bug fix workflow for: **$ARGUMENTS**
 - Where similar code patterns exist (regression risk)
 - Existing tests related to this area
 
-Checkpoint A: Human reviews root cause analysis
-- Review `.opencode/sessions/<task>/research.md`
-- Options: [continue] [feedback] [abort]
-
 **Phase 2: PLAN (Light)**
 - Fix approach and test cases
 - Expected behavior after fix
 - Regression test plan
 - Document any side effects
 
-Checkpoint B: Human approves fix approach
+Checkpoint A: Human approves fix approach before build
 - Review `.opencode/sessions/<task>/plan.md`
 - Options: [continue] [revise] [abort]
 
@@ -40,9 +36,11 @@ Checkpoint B: Human approves fix approach
 - Check for similar issues elsewhere
 - Verify regression tests are comprehensive
 
-Checkpoint C: Review complete
-- Present review findings
-- Options: [commit] [test] [create-pr] [all] [manual]
+Between Checkpoint A and the final summary, the pipeline runs autonomously: build, test, review, and commit proceed without further approval prompts.
+
+Checkpoint B: Final summary
+- Confirm the PR (if opened) is up, summarize what shipped
+- Options: [done] [follow-up]
 
 ### Success Criteria
 
@@ -52,16 +50,8 @@ Checkpoint C: Review complete
 - No side effects or new bugs introduced
 - Similar code patterns checked for same issue
 
-### Cost & Timeline
-
-- Research: 3-5 minutes (Sonnet 4.5)
-- Plan: 2-3 minutes (Opus 4.5)
-- Build: 5-15 minutes (Sonnet 4.5, depends on fix complexity)
-- Review: 2-3 minutes (Sonnet 4.5)
-- **Total**: 12-25 minutes per bug fix
-
 ### Notes
 
 - Lighter workflow than features (faster research and planning)
+- Two checkpoints only: plan approval and final ship summary
 - Focus is on root cause and preventing regressions
-- Can immediately run `/test`, `/commit`, or `/pr` after completion

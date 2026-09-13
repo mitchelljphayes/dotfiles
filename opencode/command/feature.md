@@ -1,6 +1,6 @@
 ---
 description: Implement a new feature (research → plan → build → review)
-agent: builder
+agent: pipeline
 ---
 
 ## Feature Implementation Workflow
@@ -16,10 +16,6 @@ Execute full feature implementation workflow for: **$ARGUMENTS**
 - Discover testing conventions
 - Map all constraints and compatibility considerations
 
-Checkpoint A: Human reviews research
-- Review `.opencode/sessions/<task>/research.md`
-- Options: [continue] [feedback] [abort]
-
 **Phase 2: PLAN (Detailed)**
 - Design the feature architecture based on research
 - Create 2-5 focused implementation phases
@@ -27,7 +23,7 @@ Checkpoint A: Human reviews research
 - Document rollback strategy
 - Plan for comprehensive testing
 
-Checkpoint B: Human approves plan
+Checkpoint A: Human approves plan before build
 - Review `.opencode/sessions/<task>/plan.md`
 - Options: [continue] [revise] [abort]
 
@@ -43,9 +39,11 @@ Checkpoint B: Human approves plan
 - Delegate to specialized subagents as needed
 - Document findings
 
-Checkpoint C: Review complete
-- Present review findings
-- Options: [commit] [test] [create-pr] [all] [manual]
+Between Checkpoint A and the final summary, the pipeline runs autonomously: build, test, review, and commit proceed without further approval prompts.
+
+Checkpoint B: Final summary
+- Confirm the PR (if opened) is up, summarize what shipped
+- Options: [done] [follow-up]
 
 ### Success Criteria
 
@@ -55,17 +53,8 @@ Checkpoint C: Review complete
 - No breaking changes to existing functionality
 - Rollback strategy documented and verified
 
-### Cost & Timeline
-
-- Research: 3-7 minutes (Sonnet 4.5)
-- Plan: 5-10 minutes (Opus 4.5)
-- Build: 10-30 minutes (Sonnet 4.5, depends on feature complexity)
-- Review: 3-5 minutes (Sonnet 4.5)
-- **Total**: 20-50 minutes per feature
-
 ### Notes
 
-- You'll be prompted at checkpoints to review and approve progress
+- Two checkpoints only: plan approval (before build) and final ship summary
 - Each phase creates artifacts in `.opencode/sessions/<task>/`
-- If build phase fails, you'll be asked for guidance before retry
-- After completion, can immediately run `/test`, `/commit`, or `/pr`
+- If build phase fails after retries, escalate for guidance

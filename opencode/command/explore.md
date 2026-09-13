@@ -18,7 +18,7 @@ Execute exploration workflow to understand: **$ARGUMENTS**
 
 ### Output
 
-Generates `.opencode/sessions/<task>/research.md` with comprehensive findings
+Summarizes findings directly — no session artifacts, no planning, no implementation.
 
 ### Advantages
 

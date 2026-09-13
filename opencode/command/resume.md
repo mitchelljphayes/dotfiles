@@ -1,6 +1,6 @@
 ---
 description: Resume last workflow from checkpoint
-agent: builder
+agent: pipeline
 ---
 
 Resume the most recent workflow.

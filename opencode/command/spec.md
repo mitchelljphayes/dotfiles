@@ -93,4 +93,4 @@ Other approaches and why we didn't choose them.
 ### After Spec
 
 - Create implementation tickets (`/project`)
-- Hand off to Builder for implementation
+- Hand off to Builder for direct implementation, or to Pipeline (`/agent pipeline`, `/feature`, `/pickup`) for structured workflow

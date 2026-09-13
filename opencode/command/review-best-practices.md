@@ -130,9 +130,9 @@ Output: `.opencode/sessions/<task>/best-practices-review.md`
 
 ### Cost & Timeline
 
-- Internal Review: 3-5 minutes (Sonnet 4.5)
-- External Research: 3-5 minutes (Sonnet 4.5 with webfetch)
-- Synthesis: 2-3 minutes (Sonnet 4.5)
+- Internal Review: 3-5 minutes
+- External Research: 3-5 minutes (with webfetch)
+- Synthesis: 2-3 minutes
 - **Total**: 8-13 minutes per review
 
 ### Notes

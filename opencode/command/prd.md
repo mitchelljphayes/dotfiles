@@ -48,4 +48,4 @@ After PRD is drafted:
 Once PRD is approved:
 - Create Linear project with `/project`
 - Create individual tickets with `/ticket`
-- Hand off to Builder for implementation
+- Hand off to Builder for direct implementation, or to Pipeline (`/agent pipeline`, `/feature`, `/pickup`) for structured workflow
