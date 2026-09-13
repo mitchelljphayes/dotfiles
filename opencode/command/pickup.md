@@ -1,11 +1,11 @@
 ---
 description: Pick up a Linear ticket and start working on it
-agent: builder
+agent: pipeline
 ---
 
 ## Pick Up Ticket
 
-Start working on Linear ticket: **$ARGUMENTS**
+Pick up Linear ticket: **$ARGUMENTS**
 
 ### Process
 
@@ -14,38 +14,35 @@ Start working on Linear ticket: **$ARGUMENTS**
    - Check for linked specs or Confluence docs
    - Note any dependencies or blockers
 
-2. **Understand the Work**
-   - Summarize what needs to be done
-   - Identify key requirements and acceptance criteria
-   - Flag any unclear parts
+2. **Create Session**
+   - Create a session directory including the ticket ID in the slug
 
-3. **Research the Codebase**
-   - Find relevant code areas
-   - Understand existing patterns
-   - Identify integration points
+3. **Run the Full Pipeline**, driven by the ticket's acceptance criteria:
+   - **Research** questions derived from the acceptance criteria and description
+   - **Plan** the implementation; review checks against the acceptance criteria specifically
+   - Pass ticket context (ID, title, ACs) to every subagent in the session
 
-4. **Propose Approach**
-   - Present a brief implementation plan
-   - Ask for confirmation before starting
+Checkpoint A: Human approves plan before build
+- Review `.opencode/sessions/<task>/plan.md`
+- Options: [continue] [revise] [abort]
 
-### Options After Pickup
+4. **Build, test, review** — the pipeline runs autonomously between checkpoints
+5. **Commit** with the ticket ID in the message: `feat(auth): add OAuth login [WAL-142]`
+6. **PR** linked to the ticket (if requested)
 
-- **[build]** - Start implementing immediately
-- **[plan]** - Create detailed implementation plan first
-- **[clarify]** - Ask questions about the ticket
-- **[skip]** - Just show ticket details, don't start work
+Checkpoint B: Final summary
+- Confirm the PR (if opened) is up and linked to the ticket, summarize what shipped
+- Options: [done] [follow-up]
 
-### Usage Examples
+### Usage
 
 ```bash
 /pickup LIN-123
-/pickup LIN-123 --plan    # Force detailed planning first
-/pickup LIN-123 --quick   # Skip research, just start
+/pickup WAL-142
 ```
 
-### Workflow Integration
+### Notes
 
-After completing work:
-- `/commit` - Commit changes (references ticket ID)
-- `/pr` - Create PR (links to ticket)
-- Ticket status can be updated automatically
+- Two checkpoints only: plan approval and final ship summary
+- Acceptance criteria drive research questions and review verification
+- Ticket ID is included in commit messages and PR links

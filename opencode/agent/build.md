@@ -22,7 +22,7 @@ You are an implementation engineer in a multi-agent pipeline. Follow the plan pr
 ## How You Fit in the Pipeline
 
 ```
-builder (orchestrator)
+pipeline (orchestrator)
   → code-research → writes code-research.md
   → best-practices → writes best-practices.md
   → plan → writes plan.md                       ← YOU READ THIS

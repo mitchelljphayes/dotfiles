@@ -1,6 +1,6 @@
 ---
 description: Refactor code (extensive research → careful implementation)
-agent: builder
+agent: pipeline
 ---
 
 ## Refactor Workflow
@@ -16,10 +16,6 @@ Execute refactor workflow for: **$ARGUMENTS**
 - Migration path - how can we move from old to new?
 - Backward compatibility concerns
 
-Checkpoint A: Human reviews scope and impact analysis
-- Review `.opencode/sessions/<task>/research.md`
-- Options: [continue] [feedback] [abort]
-
 **Phase 2: DESIGN (Architecture)**
 - New structure and organization
 - Migration path from old to new
@@ -30,7 +26,7 @@ Checkpoint A: Human reviews scope and impact analysis
 - Compatibility guarantees
 - Testing approach (old code + new code coexisting)
 
-Checkpoint B: Human approves refactor plan
+Checkpoint A: Human approves refactor plan before build
 - Review `.opencode/sessions/<task>/plan.md`
 - Options: [continue] [revise] [abort]
 
@@ -45,9 +41,11 @@ Checkpoint B: Human approves refactor plan
 - Check all existing tests pass
 - Verify new structure is maintainable
 
-Checkpoint C: Review complete
-- Present review findings
-- Options: [commit] [test] [create-pr] [all] [manual]
+Between Checkpoint A and the final summary, the pipeline runs autonomously: build, test, review, and commit proceed without further approval prompts.
+
+Checkpoint B: Final summary
+- Confirm the PR (if opened) is up, summarize what shipped
+- Options: [done] [follow-up]
 
 ### Success Criteria
 
@@ -57,19 +55,10 @@ Checkpoint C: Review complete
 - Backward compatibility maintained throughout
 - Clear migration path documented
 
-### Cost & Timeline
-
-- Research: 5-10 minutes (Sonnet 4.5, extensive scope analysis)
-- Design: 3-5 minutes (included in plan phase)
-- Plan: 10-15 minutes (Opus 4.5, detailed incremental phases)
-- Build: 20-40 minutes (Sonnet 4.5, depends on refactor scope)
-- Review: 5-10 minutes (Sonnet 4.5, thorough verification)
-- **Total**: 40-80 minutes per refactor
-
 ### Notes
 
 - Most complex workflow (requires careful planning and verification)
+- Two checkpoints only: plan approval and final ship summary
 - Backward compatibility is non-negotiable
 - Each phase must maintain working state
 - All existing tests must pass after each phase
-- Can immediately run `/test`, `/commit`, or `/pr` after completion
