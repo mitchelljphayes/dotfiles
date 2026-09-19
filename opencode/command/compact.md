@@ -1,6 +1,6 @@
 ---
 description: Compact current context into structured artifact during workflow
-agent: builder
+agent: pipeline
 ---
 
 ## Context Compaction Command
@@ -21,7 +21,7 @@ Use this command when:
 2. **Current Status**: Where we are in the workflow
 3. **Remaining Work**: What's left to do
 4. **Key Findings**: Important context for next phase
-5. **Artifacts Updated**: research.md, plan.md, build-log.md, etc.
+5. **Artifacts Updated**: code-research.md, best-practices.md, plan.md, build-log.md, etc.
 
 ### How It Works
 
@@ -37,7 +37,7 @@ The orchestrator will:
    - What's in progress
    - What remains
 3. **Update relevant artifact**:
-   - If in research: update research.md with findings so far
+   - If in research: update code-research.md with findings so far
    - If in plan: update plan.md with designed phases
    - If in build: update build-log.md with implementation progress
 4. **Update metadata.json**:
@@ -58,9 +58,9 @@ The orchestrator will:
 → Research phase running...
 → [15 minutes later, context getting full]
 → /compact
-→ "Research phase compacted to research.md"
+→ "Research phase compacted to code-research.md"
 → "Findings: 12 files identified, 3 patterns discovered"
-→ "Next: Review research/2025-01-11_dark-mode.md, then continue with /plan"
+→ "Next: Review code-research.md, then continue with /plan"
 → [Context reset, ready for next phase]
 ```
 

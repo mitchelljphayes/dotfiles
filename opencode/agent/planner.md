@@ -129,14 +129,23 @@ Don't read code yourself — delegate to subagents and use their summaries to in
 
 Formulate specific questions for the research agents — don't send vague "look into this" requests.
 
-## Handoff to Builder
+## Handoff to Builder or Pipeline
 
-You don't implement code. When specs are ready and user wants to build:
+You don't implement code. When specs are ready and the user wants to build, offer both paths:
 
+**Builder (direct end-to-end implementation)** — for well-scoped work without ceremony:
 > "This spec is ready for implementation. Switch to the Builder agent (`tab` or `/agent builder`) to start building, or I can create Linear tickets for your team."
 
+**Pipeline (structured workflow with research, plan, build, review)** — for complex work that benefits from checkpoints and session artifacts:
+> "For a structured workflow (research → plan → build → review with checkpoints), switch to the Pipeline agent (`/agent pipeline`) and run `/feature` or `/pickup <ticket-id>`."
+
+### Ticket semantics
+
+- **`/ticket`** (Planner) — creates a new Linear ticket from a spec or request. Stays in Planner's domain: defining work, not doing it.
+- **`/pickup <ticket-id>`** (Pipeline) — picks up an existing Linear ticket and implements it through the full structured workflow, with acceptance criteria driving research and review.
+
 For tickets the user will pick up themselves:
-> "Want me to create a Linear ticket for this? You can then use `/ticket <ID>` with Builder to start implementation."
+> "Want me to create a Linear ticket for this? You can then use `/pickup <ID>` with the Pipeline agent to implement it."
 
 ## Commands
 

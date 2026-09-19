@@ -3,10 +3,7 @@ description: Git operations - status, branch, commit, push
 agent: builder
 ---
 
-Delegate to **git-ops agent** to handle: $ARGUMENTS
-
-The git-ops agent will:
-1. Handle the requested operation
+Handle: $ARGUMENTS
 
 ## Common Operations
 
