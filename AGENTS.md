@@ -114,7 +114,7 @@ Canonical global instructions for coding agents across all projects on this mach
 
 When creating branches from a base branch (like `develop` or `main`):
 
-1. **NEVER** use `git checkout -b <branch> origin/develop` — this sets up tracking to the remote and `git push` will push to develop!
+1. **NEVER** use `git checkout -b <branch> origin/develop`: the new branch tracks `origin/develop`, so `git pull` pulls develop and a bare `git push` fails under `push.default = simple` (set in `gitconfig.toml`).
 2. **ALWAYS** use this pattern:
    ```bash
    git fetch origin

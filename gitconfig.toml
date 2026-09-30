@@ -93,7 +93,7 @@
 
 [push]
   autoSetupRemote = true
-	default = upstream
+	default = simple
 
 [credential]
 	helper = osxkeychain
