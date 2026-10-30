@@ -1,7 +1,7 @@
 ---
 description: Analyzes test failures and suggests fixes
 mode: subagent
-model: ollama/kimi-k3:cloud
+model: ollama/deepseek-v4.1-flash:cloud
 temperature: 0.1
 tools:
   write: false

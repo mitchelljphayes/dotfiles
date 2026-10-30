@@ -15,6 +15,7 @@ Just:
 1. Understand what's needed
 2. Read relevant files
 3. Make the changes
-4. Briefly summarize what you did
+4. Run relevant tests/lint/type checks and fix introduced failures
+5. Briefly summarize the changes, verification, and any blockers
 
 This is for small, straightforward tasks where the full workflow is overkill.

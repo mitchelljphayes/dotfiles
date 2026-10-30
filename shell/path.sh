@@ -16,7 +16,6 @@ fi
 [[ -d "$HOME/.claude/local" ]] && path_prepend "$HOME/.claude/local"
 
 # Language-specific paths (appended; expected future / Linux manual installs)
-[[ -d "$HOME/.local/share/fnm" ]] && path_append "$HOME/.local/share/fnm"  # fnm binary (Linux manual install)
 [[ -d "$HOME/.npm-global/bin" ]]  && path_append "$HOME/.npm-global/bin"
 [[ -d "/usr/local/go/bin" ]]      && path_append "/usr/local/go/bin"        # Go toolchain (Linux manual install)
 
@@ -30,6 +29,8 @@ fi
 
 # macOS-specific paths (Homebrew kegs; guard each keg individually)
 if [[ -d /opt/homebrew ]]; then
+    # rustup is keg-only; prefer its proxies while keeping Cargo-installed tools.
+    [[ -d "/opt/homebrew/opt/rustup/bin" ]] && path_prepend "/opt/homebrew/opt/rustup/bin"
     [[ -d "/opt/homebrew/opt/postgresql@17/bin" ]] && path_append "/opt/homebrew/opt/postgresql@17/bin"
     [[ -d "/opt/homebrew/opt/openjdk/bin" ]]       && path_append "/opt/homebrew/opt/openjdk/bin"
     [[ -d "/usr/local/texlive/2025/bin/universal-darwin" ]] && path_append "/usr/local/texlive/2025/bin/universal-darwin"
@@ -39,6 +40,10 @@ fi
 if [[ -d "$HOME/.antigravity/antigravity/bin" ]]; then
     path_prepend "$HOME/.antigravity/antigravity/bin"
 fi
+
+# Resolve tools in scripts, login shells, and editors without interactive hooks.
+# Keep shims ahead of system runtimes; mise activation prefers real tool paths.
+[[ -d "$HOME/.local/share/mise/shims" ]] && path_prepend "$HOME/.local/share/mise/shims"
 
 # Collapse any duplicates (inherited from parent, path_helper reorders, or
 # repeated sourcing of this file) while preserving first-occurrence order.

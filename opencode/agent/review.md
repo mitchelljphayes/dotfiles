@@ -1,7 +1,7 @@
 ---
 description: Code reviewer ensuring quality, security, and plan alignment
 mode: subagent
-model: ollama/kimi-k3:cloud
+model: ollama/deepseek-v4.1-flash:cloud
 tools:
   read: true
   glob: true

@@ -27,11 +27,13 @@ Blocked: "$branch" is an auto-generated worktree branch name.
 
 Rename the branch before pushing, per the Git Branch Naming rules in CLAUDE.md:
 
-    git branch -m <issue-id>-<short-description>
-    git push -u origin <issue-id>-<short-description>
+    git branch -m <type>/<short-description>
+    git push -u origin <type>/<short-description>
 
-Use the Linear issue ID when there is one (e.g. data-2304-trunk-based-deploy),
-otherwise <type>-<short-description> where type is fix, feat, chore, or refactor.
+Type is feat, fix, chore, refactor, or docs. When there is a Linear issue, put
+its ID after the slash (e.g. feat/data-2304-trunk-based-deploy).
+Run the rename as its own command: this hook reads the branch before the command
+runs, so a rename and push in one command is still blocked.
 Rename before the first push, never after: renaming a pushed branch means
 deleting the remote branch and breaks any open PR.
 EOF

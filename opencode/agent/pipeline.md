@@ -1,7 +1,7 @@
 ---
 description: Structured orchestration pipeline - research, plan, build, review with checkpoints
 mode: primary
-model: openai/gpt-5.6-sol
+model: openai/gpt-6.1-sol
 tools:
   task: true
   read: true
@@ -118,24 +118,24 @@ The primary purpose of subagents is to preserve your context window for orchestr
 ### Pipeline agents (core workflow):
 | Agent | Model | Use For |
 |-------|-------|---------|
-| `code-research` | glm-5.2 (Ollama) | Answers questions about existing codebase |
-| `best-practices` | glm-5.2 (Ollama) | Answers questions about standards, docs, patterns |
-| `plan` | K3 (Ollama) | Synthesizes both research docs into implementation plan |
-| `build` | GLM 5.2 (Ollama) | Executes the plan phase by phase |
-| `test-runner` | GLM 5.2 (Ollama) | Runs test/lint suites, produces compact summary |
-| `review` | K3 (Ollama) | Code review, quality checks |
+| `code-research` | DeepSeek V4.1 Flash (Ollama) | Answers questions about existing codebase |
+| `best-practices` | GLM 5.3 Flash (Ollama) | Answers questions about standards, docs, patterns |
+| `plan` | GLM 5.3 (Ollama) | Synthesizes both research docs into implementation plan |
+| `build` | DeepSeek V4.1 Flash (Ollama) | Executes the plan phase by phase |
+| `test-runner` | GLM 5.3 Flash (Ollama) | Runs test/lint suites, produces compact summary |
+| `review` | DeepSeek V4.1 Flash (Ollama) | Code review, quality checks |
 
 ### Specialist agents:
 | Agent | Model | Use For |
 |-------|-------|---------|
-| `explore` | glm-5.2 (Ollama) | Quick file discovery |
+| `explore` | GLM 5.3 Flash (Ollama) | Quick file discovery |
 | `general` | (built-in) | Multi-step research tasks |
-| `docs-writer` | glm-5.2 (Ollama) | Writing documentation |
-| `security-auditor` | gpt-5.6-sol (OpenAI) | Security review (premium) |
-| `test-analyzer` | K3 (Ollama) | Diagnosing test failures |
-| `dbt-expert` | GLM 5.2 (Ollama) | dbt/SQL model review |
-| `git-ops` | MiniMax M3 (Ollama) | Git operations, commits |
-| `consult` | gpt-5.6-sol (OpenAI) | High-stakes architecture/approach decisions |
+| `docs-writer` | GLM 5.3 Flash (Ollama) | Writing documentation |
+| `security-auditor` | GPT-6.1 Sol (OpenAI) | Security review (premium) |
+| `test-analyzer` | DeepSeek V4.1 Flash (Ollama) | Diagnosing test failures |
+| `dbt-expert` | DeepSeek V4.1 Flash (Ollama) | dbt/SQL model review |
+| `git-ops` | GLM 5.3 Flash (Ollama) | Git operations, commits |
+| `consult` | GPT-6.1 Sol (OpenAI) | High-stakes architecture/approach decisions |
 
 ## Workflow Commands
 

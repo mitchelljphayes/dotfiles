@@ -23,6 +23,11 @@ source ~/.shell/environment.sh
 # PATH management  
 source ~/.shell/path.sh
 
+# Interactive project switching; non-interactive shells use path.sh's shims.
+if [[ $- == *i* ]] && command -v mise &> /dev/null; then
+    eval "$(mise activate bash)"
+fi
+
 # External settings
 source ~/.shell/external.sh
 

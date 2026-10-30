@@ -1,14 +1,23 @@
 notify = ["/Users/mjp/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient", "turn-ended"]
-model = "gpt-6-astra"
-model_reasoning_effort = "medium"
+model = "gpt-6.1-sol"
+model_reasoning_effort = "low"
 service_tier = "default"
 
 [desktop]
 followUpQueueMode = "steer"
-conversationDetailMode = "STEPS_PROSE"
+conversationDetailMode = "STEPS_COMMANDS"
 sansFontSize = 14
 codeFontSize = 13
 ambient-suggestions-enabled = true
+composerPlainTextMode = true
+show-context-window-usage = true
+composerEnterBehavior = "cmdAlways"
+git-branch-prefix = ""
+git-pull-request-merge-method = "squash"
+git-always-force-push = true
+
+[desktop.open-in-target-preferences]
+global = "zed"
 
 [marketplaces.openai-bundled]
 source_type = "local"
@@ -30,9 +39,6 @@ enabled = true
 [plugins."visualize@openai-bundled"]
 enabled = true
 
-[plugins."sites@openai-bundled"]
-enabled = true
-
 [plugins."computer-use@openai-bundled"]
 enabled = true
 
@@ -51,6 +57,9 @@ enabled = true
 [plugins."template-creator@openai-primary-runtime"]
 enabled = true
 
+[plugins."code-review@openai-bundled"]
+enabled = true
+
 [mcp_servers.node_repl]
 args = []
 command = "/Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node_repl"
@@ -62,16 +71,16 @@ NODE_REPL_NODE_MODULE_DIRS = "/Applications/ChatGPT.app/Contents/Resources/cua_n
 NODE_REPL_NODE_PATH = "/Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node"
 NODE_REPL_TRUSTED_CODE_PATHS = "/Users/mjp/.codex:/Applications/ChatGPT.app/Contents/Resources/cua_node/lib/node_modules"
 CODEX_HOME = "/Users/mjp/.codex"
-BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
+BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab,mcpapps"
 BROWSER_USE_TINYSKY_ENABLED = "1"
 NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = ""
 NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = ""
 NODE_REPL_INSTRUCTIONS_USE_CASE_COMPUTER_USE = ""
 BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
-BROWSER_USE_CODEX_APP_VERSION = "26.901.41600"
-NODE_REPL_TRUSTED_SERVICES = '{"browser":"/Users/mjp/.codex/plugins/cache/openai-bundled/browser/26.901.41600/scripts/browser-service.mjs","sky":"@oai/sky/service"}'
+BROWSER_USE_CODEX_APP_VERSION = "26.1013.40934"
+NODE_REPL_TRUSTED_SERVICES = '{"browser":"/Users/mjp/.codex/plugins/cache/openai-bundled/browser/26.1013.40934/scripts/browser-service.mjs","sky":"@oai/sky/service"}'
 SKY_CUA_SERVICE_PATH = "/Users/mjp/.codex/computer-use/Codex Computer Use.app"
-CODEX_CLI_PATH = "/Applications/ChatGPT.app/Contents/Resources/codex"
+CODEX_CLI_PATH = "/Applications/ChatGPT.app/Contents/Resources/codex-cli/CodexCLI.app/Contents/MacOS/codex"
 
 [mcp_servers.computer-use]
 command = "./Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient"
@@ -86,4 +95,19 @@ trust_level = "trusted"
 trust_level = "trusted"
 
 [projects."/Users/mjp/Documents/ChatGPT/superhelpful"]
+trust_level = "trusted"
+
+[projects."/Users/mjp/Developer/superhelpful/words-for-humans-cloud"]
+trust_level = "trusted"
+
+[projects."/Users/mjp/Documents/Codex/2026-09-15/i"]
+trust_level = "trusted"
+
+[projects."/Users/mjp/Documents/Codex/2026-09-16/wha"]
+trust_level = "trusted"
+
+[projects."/Users/mjp/Documents/Codex/2026-09-19/ca"]
+trust_level = "trusted"
+
+[projects."/Users/mjp/Developer/consulting/feedwell/feedmate"]
 trust_level = "trusted"

@@ -1,7 +1,7 @@
 ---
 description: Strategic architect synthesizing research into phased implementation plans
 mode: subagent
-model: ollama/kimi-k3:cloud
+model: ollama/glm-5.3:cloud
 tools:
   read: true
   write: true

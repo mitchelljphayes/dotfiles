@@ -147,3 +147,15 @@
 
 [gpg]
   format = ssh
+[safe]
+	directory = /Users/mjp/Developer/ordermentum/data-apps/.claude/worktrees/quality-gates
+	directory = /Users/mjp/Developer/ordermentum/data-apps/.claude/worktrees/quality-gates
+	directory = /Users/mjp/Developer/ordermentum/data-apps/.claude/worktrees/quality-gates
+	directory = /Users/mjp/Developer/ordermentum/data-apps/.claude/worktrees/quality-gates
+	directory = /Users/mjp/Developer/ordermentum/data-apps/.claude/worktrees/quality-gates
+	directory = /Users/mjp/Developer/ordermentum/data-apps/.claude/worktrees/quality-gates
+	directory = /Users/mjp/Developer/ordermentum/data-apps/.claude/worktrees/quality-gates
+	directory = /Users/mjp/Developer/ordermentum/data-apps/.claude/worktrees/quality-gates
+	directory = /Users/mjp/Developer/ordermentum/data-apps/.claude/worktrees/quality-gates
+	directory = /Users/mjp/Developer/ordermentum/data-apps/.claude/worktrees/quality-gates
+	directory = /Users/mjp/Developer/ordermentum/data-apps/.claude/worktrees/quality-gates

@@ -5,16 +5,14 @@ agent: builder
 
 Generate or update documentation for: $ARGUMENTS
 
-**Delegate to docs-writer agent** to:
+1. Read the relevant implementation and existing documentation directly.
+2. Update existing docs where appropriate; create new files only for the requested
+   documentation. Follow the project's layout or the user's specified path.
+3. Explain purpose, usage, contracts, and configuration as relevant. Include useful
+   examples without duplicating obvious code or inventing unsupported behaviour.
+4. Verify examples and references against the implementation and run the project's
+   documentation checks when available.
+5. Summarize the changes and verification.
 
-1. Understand what needs documenting
-2. Research the code/feature
-3. Write clear documentation with:
-   - Overview/purpose
-   - Usage examples
-   - API reference if applicable
-   - Configuration options
-4. Place docs in appropriate location
-
-For session workflows, write to `.opencode/sessions/<task>/`.
-For project docs, write to `docs/` or appropriate location.
+Write directly by default. Use `docs-writer` only for a bounded task where it
+materially helps. Don't create pipeline session artifacts unless requested.

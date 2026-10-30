@@ -21,6 +21,11 @@ source ~/.shell/environment.sh
 # PATH management
 source ~/.shell/path.sh
 
+# Project-aware tool versions (after PATH setup, before the prompt).
+if command -v mise &> /dev/null; then
+    eval "$(mise activate zsh)"
+fi
+
 # Aliases
 source ~/.shell/aliases.sh
 
@@ -48,3 +53,7 @@ if [ -f ~/.zshrc_local_after ]; then
 fi
 
 
+
+# Added by deepsource CLI (shell completions)
+fpath=(~/.zsh/completions $fpath)
+autoload -Uz compinit && compinit

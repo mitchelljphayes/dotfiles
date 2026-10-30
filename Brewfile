@@ -31,12 +31,12 @@ brew "watchexec"              # File watcher
 
 # Languages & Runtimes
 brew "go"                     # Go language
-brew "n"                      # Node version manager
+brew "mise"                   # Tool version manager (Node; Python stays with uv)
 brew "nushell"                # Modern shell
 brew "openjdk@21"             # Java
 brew "python-lsp-server"      # Python LSP
 brew "r"                      # R language
-brew "rust"                   # Rust language
+brew "rustup"                 # Rust toolchain manager (rustc and Cargo via rustup)
 brew "rust-analyzer"          # Rust LSP
 brew "sccache"                # Shared compilation cache (rustc-wrapper in ~/.cargo/config.toml)
 # cargo-sweep is NOT a brew formula; installed via cargo and pinned to 0.8.0:

@@ -1,0 +1,7 @@
+# Keep Python with uv and Rust with rustup/Cargo; mise manages Node here.
+[tools]
+node = "24"
+
+[settings]
+# Respect the team's existing .node-version / .nvmrc files.
+idiomatic_version_file_enable_tools = ["node"]

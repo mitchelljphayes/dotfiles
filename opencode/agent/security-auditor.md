@@ -1,7 +1,7 @@
 ---
 description: Performs security audits and identifies vulnerabilities
 mode: subagent
-model: openai/gpt-5.6-sol
+model: openai/gpt-6.1-sol
 temperature: 0.1
 tools:
   read: true

@@ -118,3 +118,6 @@ nu_indicator = ''
 unknown_indicator = 'mystery shell'
 style = 'cyan bold'
 disabled = true
+
+[gcloud]
+disabled = true

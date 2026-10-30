@@ -1,7 +1,7 @@
 ---
 description: Premium advisor for high-stakes architecture, security, and approach decisions
 mode: subagent
-model: openai/gpt-5.6-sol
+model: openai/gpt-6.1-sol
 tools:
   read: true
   glob: true

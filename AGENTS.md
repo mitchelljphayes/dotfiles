@@ -105,10 +105,10 @@ Canonical global instructions for coding agents across all projects on this mach
 
 ## Git Branch Naming
 
-- Use feature branch names based on issue identifiers, not usernames
-- Format: `<issue-id>-<short-description>` (e.g., `wal-136-implement-auth-login`)
+- Format: `<type>/<short-description>`, where type is `feat`, `fix`, `chore`, `refactor`, or `docs` (e.g., `chore/add-logging`)
+- When there is an issue, put its ID after the slash: `<type>/<issue-id>-<short-description>` (e.g., `feat/wal-136-implement-auth-login`)
 - Do NOT include usernames or personal identifiers in branch names
-- When Linear provides a `gitBranchName`, extract the issue ID and create a cleaner name
+- When Linear provides a `gitBranchName`, extract the issue ID and build the name in this format
 
 ## Git Branch Creation (IMPORTANT)
 
