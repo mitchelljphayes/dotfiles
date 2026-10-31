@@ -53,4 +53,3 @@ function M._setup_keymaps()
 end
 
 return M
-

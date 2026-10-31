@@ -44,6 +44,15 @@
     }
   },
   "agent_servers": {
+    "codex-acp": {
+      "type": "registry"
+    },
+    "opencode": {
+      "default_config_options": {
+        "model": "openai/gpt-6.1-sol"
+      },
+      "type": "registry"
+    },
     "openai": {
       "favorite_models": [
         "openai/gpt-5.6-sol"
@@ -95,8 +104,10 @@
     "thinking_display": "always_expanded",
     "single_file_review": true,
     "default_model": {
+      "effort": "medium",
+      "enable_thinking": true,
       "provider": "openai",
-      "model": "gpt-5.6-sol"
+      "model": "gpt-6.1-sol"
     },
     "dock": "left"
   },

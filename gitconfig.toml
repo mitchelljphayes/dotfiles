@@ -93,7 +93,7 @@
 
 [push]
   autoSetupRemote = true
-	default = upstream
+	default = simple
 
 [credential]
 	helper = osxkeychain
@@ -147,3 +147,15 @@
 
 [gpg]
   format = ssh
+[safe]
+	directory = /Users/mjp/Developer/ordermentum/data-apps/.claude/worktrees/quality-gates
+	directory = /Users/mjp/Developer/ordermentum/data-apps/.claude/worktrees/quality-gates
+	directory = /Users/mjp/Developer/ordermentum/data-apps/.claude/worktrees/quality-gates
+	directory = /Users/mjp/Developer/ordermentum/data-apps/.claude/worktrees/quality-gates
+	directory = /Users/mjp/Developer/ordermentum/data-apps/.claude/worktrees/quality-gates
+	directory = /Users/mjp/Developer/ordermentum/data-apps/.claude/worktrees/quality-gates
+	directory = /Users/mjp/Developer/ordermentum/data-apps/.claude/worktrees/quality-gates
+	directory = /Users/mjp/Developer/ordermentum/data-apps/.claude/worktrees/quality-gates
+	directory = /Users/mjp/Developer/ordermentum/data-apps/.claude/worktrees/quality-gates
+	directory = /Users/mjp/Developer/ordermentum/data-apps/.claude/worktrees/quality-gates
+	directory = /Users/mjp/Developer/ordermentum/data-apps/.claude/worktrees/quality-gates

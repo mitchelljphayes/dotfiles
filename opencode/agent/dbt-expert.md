@@ -1,7 +1,7 @@
 ---
 description: Reviews dbt projects for best practices, structure, and performance
 mode: subagent
-model: ollama/glm-5.2:cloud
+model: ollama/deepseek-v4.1-flash:cloud
 temperature: 0.1
 tools:
   read: true

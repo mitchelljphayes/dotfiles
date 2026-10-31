@@ -26,6 +26,8 @@ Temporary Items
 
 # Security - sensitive files
 kaggle/kaggle.json
+# Raycast exports can contain private data, even when encrypted.
+*.rayconfig
 
 # Vim
 .netrwhist
@@ -36,6 +38,7 @@ kaggle/kaggle.json
 
 # OpenCode
 opencode/*.bak
+opencode/service.json
 opencode/tui.json
 opencode/antigravity.json
 OPENCODE_CONFIG_CONTENT

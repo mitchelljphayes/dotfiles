@@ -16,19 +16,16 @@ return {
       end
     end
 
-    -- Helper to write escape sequences (with tmux passthrough if needed)
+    -- Send to the immediate terminal: tmux 3.6+ handles theme updates per pane.
+    -- DCS passthrough would change Ghostty's subscription instead, and cleanup
+    -- on Neovim exit would disable theme updates for the entire tmux client.
     local function write_escape(seq)
-      if vim.env.TMUX then
-        -- Wrap in tmux DCS passthrough sequence
-        io.stdout:write("\027Ptmux;" .. seq:gsub("\027", "\027\027") .. "\027\\")
-      else
-        io.stdout:write(seq)
-      end
+      io.stdout:write(seq)
       io.stdout:flush()
     end
 
     -- Enable mode 2031 - request unsolicited theme change notifications
-    -- Ghostty will send DSR when system theme changes
+    -- The terminal (or tmux) sends DSR when its theme changes
     write_escape("\027[?2031h")
 
     -- Detect initial theme from terminal (OSC 11 query)
@@ -36,7 +33,7 @@ return {
     apply_theme()
 
     -- Listen for background changes from terminal (mode 2031)
-    -- Ghostty sends notifications when system theme changes
+    -- The terminal (or tmux) sends notifications when its theme changes
     vim.api.nvim_create_autocmd("OptionSet", {
       pattern = "background",
       callback = apply_theme,

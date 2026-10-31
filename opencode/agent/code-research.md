@@ -1,7 +1,7 @@
 ---
 description: Codebase researcher answering specific questions about existing code, architecture, and patterns
 mode: subagent
-model: ollama/glm-5.2:cloud
+model: ollama/deepseek-v4.1-flash:cloud
 tools:
   read: true
   glob: true

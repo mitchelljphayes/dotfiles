@@ -1,7 +1,7 @@
 ---
 description: Technical documentation writer for clear, comprehensive docs
 mode: subagent
-model: ollama/glm-5.2:cloud
+model: ollama/glm-5.3-flash:cloud
 temperature: 0.3
 tools:
   write: true

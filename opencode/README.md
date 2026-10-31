@@ -14,6 +14,18 @@ This directory contains the orchestration system for Advanced Context Engineerin
 
 Builder is the default (`default_agent: "builder"` in `opencode.json`). Pipeline is opt-in. The two share the same model and tool surface; they differ in workflow ceremony, not capability.
 
+## Instruction Sources
+
+- Shared policy comes from `~/.dotfiles/AGENTS.md`, explicitly loaded through
+  `opencode.json`. Edit that file for coding, security, Git, and Linear defaults.
+- `opencode/AGENTS.md` contains only OpenCode-specific guidance, not a second copy
+  of the shared rules.
+- Project rules use OpenCode's native discovery: `AGENTS.md`, with `CLAUDE.md` as
+  a fallback. They are not also listed as custom instructions. The custom
+  `.cursor/rules/*.md` glob remains enabled.
+
+Quit and restart OpenCode after changing configuration, agents, or commands.
+
 ## Quick Start
 
 Builder is the default — just describe what you want built:
@@ -197,7 +209,14 @@ After any workflow, or directly with Builder:
 /pr      # create a pull request (Builder)
 ```
 
-These are Builder commands. `/commit` waits for your approval before committing.
+These are Builder commands. `/commit` is itself authorization to review and commit
+the intended changes; it does not ask for a second message approval or authorize
+a push/PR. Unclear scope, secrets, and safety blockers still require resolution.
+
+`/test` diagnoses and fixes in-scope failures directly; `/doc` writes documentation
+directly. Both may use a specialist when helpful, but neither requires a handoff
+or pipeline artifacts. `/quick` forbids delegation, not verification. `/security`
+retains its explicitly specialised security-auditor workflow.
 
 ## Key Concepts
 

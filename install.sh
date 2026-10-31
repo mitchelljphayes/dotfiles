@@ -99,6 +99,7 @@ link tmux/tmux.conf ~/.tmux.conf
 
 # Tools
 link starship.toml  ~/.config/starship.toml
+link mise/config.toml ~/.config/mise/config.toml
 link switcheroo     ~/.config/switcheroo
 link opencode       ~/.config/opencode
 link 1Password      ~/.config/1Password
@@ -118,6 +119,7 @@ link cargo/config.toml ~/.cargo/config.toml
 link AGENTS.md              ~/.claude/CLAUDE.md
 link AGENTS.md              ~/.codex/AGENTS.md
 link codex/config.toml      ~/.codex/config.toml
+link codex/agents/adversarial-reviewer.toml ~/.codex/agents/adversarial-reviewer.toml
 link claude/settings.json  ~/.claude/settings.json
 link claude/commands        ~/.claude/commands
 link claude/agents          ~/.claude/agents
