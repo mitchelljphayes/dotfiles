@@ -128,6 +128,20 @@ When creating branches from a base branch (like `develop` or `main`):
 - Verify with `git branch -vv` that your branch is NOT tracking `origin/main` or `origin/develop` before pushing
 - When creating a new branch, use `git switch --no-track -c <branch-name> origin/develop`
 
+## Git Worktrees
+
+Create every worktree at `~/Developer/worktrees/<repo>/<name>`, where `<repo>` is the main checkout's folder name and `<name>` is the branch name with `/` replaced by `-`. Keeping all worktrees in one place lets any agent or person find, audit, and remove them.
+
+- Never create a worktree next to the repository (`../<name>`), inside it, in a session scratchpad, or under `/tmp`. Scratchpad and `/tmp` folders get cleared, which leaves broken worktree entries behind.
+- Create the branch without tracking the base branch, as in the branch creation rule above:
+  ```bash
+  git fetch origin
+  git worktree add --no-track -b <branch-name> ~/Developer/worktrees/<repo>/<name> origin/<default-branch>
+  git -C ~/Developer/worktrees/<repo>/<name> push -u origin <branch-name>
+  ```
+- Worktrees that Claude Code creates itself (desktop sessions, `claude --worktree`, subagent isolation) stay where Claude Code puts them.
+- Remove a worktree you created once its PR has merged and `git status` shows no uncommitted work. Use `git worktree remove` without `--force`. After `git fetch --prune`, a merged branch shows as `[gone]` in `git branch -vv` when the repository deletes head branches on merge.
+
 ## Linear Defaults
 
 ### Issue Creation
