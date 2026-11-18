@@ -8,7 +8,7 @@ Canonical global instructions for coding agents across all projects on this mach
 - **Follow conventions**: Always examine existing code patterns before making changes
 - **Security first**: Never expose secrets, use environment variables for sensitive data
 - **Evidence-driven**: Run tests and linting relevant to the change before completing tasks
-- **Clear code and documentation**: Express behaviour clearly in code; document contracts, reasoning, and non-obvious constraints
+- **Self-documenting code**: Express behaviour through names, types and structure; comment only what an experienced developer would otherwise misread
 
 ## Development Environment
 
@@ -39,6 +39,14 @@ Canonical global instructions for coding agents across all projects on this mach
 - Add type hints in Python code
 - Follow existing code style in each project
 - Handle errors gracefully with proper error messages
+
+### Comments and Docstrings
+
+- No comments unless an experienced developer would misread the code, or change it wrongly, without them. When in doubt, leave it out.
+- A docstring says what the function, class or module does, and what a caller needs to use it correctly: what None or an empty result means, the exceptions to handle, units, and anything the caller must do. Keep it to a few lines. It does not restate the signature, list callers, give history, or carry rationale or measurements. Cut a public docstring down to this rather than delete it.
+- Measurements, run results and dates that support a change go in the PR description, never in code or comments.
+- When code changes, delete comments that are no longer essential rather than rewording them.
+- When reviewing, delete comments that fail this bar and cut docstrings to it; never ask for comments or docstrings to be added, expanded or reworded. Ask for clearer code instead.
 
 ### Git Commits
 
@@ -167,7 +175,7 @@ Write correct code that minimises the knowledge required to understand, use, and
 
 ### P1. Optimise for understanding
 
-Use consistent domain language, precise names, and straightforward control flow. Make important behaviour visible where readers need it. Prefer clarity over cleverness or brevity.
+Use consistent domain language, precise names, and straightforward control flow. Make important behaviour visible in the code where readers need it. Prefer clarity over cleverness or brevity.
 
 ### P2. Make interfaces simpler than implementations
 
@@ -179,7 +187,7 @@ Place code that shares invariants or changes for the same reason together. Separ
 
 ### P4. Make contracts explicit
 
-Specify valid inputs, outputs, invariants, failure modes, and relevant side effects. Use types and construction rules to exclude invalid states where practical. Validate external data at system boundaries.
+Express valid inputs, outputs, invariants and failure modes in code: types and construction rules that exclude invalid states, validation of external data at system boundaries, and tests. A docstring tells callers the contract; only the code enforces it.
 
 ### P5. Give each rule an authoritative home
 
@@ -193,9 +201,9 @@ Keep mutation local, dependencies visible, and resource ownership clear. Separat
 
 Distinguish expected failures from broken assumptions. Recover only where a meaningful recovery is possible; otherwise propagate useful context. Preserve invariants and release resources on every path. Never disguise failure as success.
 
-### P8. Explain what the code cannot express
+### P8. Let the code explain itself
 
-Document intent, contracts, units, constraints, and consequential tradeoffs. Explain surprising algorithms or decisions. Keep documentation near the relevant code and update it with behavioural changes.
+Make intent, units and constraints readable from names, types, structure and tests. Write a comment only when an experienced developer would misread the code, or change it wrongly, without it. Prose that restates code goes stale, so when code changes, delete comments that are no longer essential rather than rewording them.
 
 ### P9. Build the simplest sufficient design
 
@@ -207,7 +215,7 @@ Test contracts, important boundaries, failure paths, and invariants. Reproduce b
 
 ### P11. Improve through evidence
 
-Work in reviewable increments. Address design friction encountered within scope. Automate repeatable checks. Measure suspected performance problems before adding complexity, then verify the improvement.
+Work in reviewable increments. Address design friction encountered within scope. Automate repeatable checks. Measure suspected performance problems before adding complexity, then verify the improvement. Evidence belongs in the pull request description, not in code or comments.
 
 ### Applying the principles
 
@@ -225,7 +233,7 @@ Apply the canonical principles using idiomatic Python.
 - **P2, P9:** Introduce protocols or abstract interfaces when they clarify a real substitution boundary. Avoid creating an interface for every concrete implementation.
 - **P6:** Pass dependencies explicitly. Avoid mutable defaults, hidden global state, and surprising import-time work. Use context managers for resource lifetimes.
 - **P7:** Catch specific exceptions where recovery or translation is meaningful. Preserve causes when translating exceptions. Use None for meaningful absence; do not silently convert errors into empty values.
-- **P8:** Document behaviour, constraints, side effects, and exceptions that callers need to understand. Avoid repeating obvious signatures.
+- **P8:** Docstrings say what the code does and what a caller needs to use it correctly. Enforce constraints and failure modes through names, types, validation and raised exceptions.
 - **P10–P11:** Follow the project's formatter, linter, type checker, and test conventions. Test behaviour through stable interfaces; substitute external dependencies where necessary.
 
 ### Rust specialisation
